@@ -9,6 +9,11 @@ public class Constants {
 
     public static final int DRIVETRAIN_PIGEON_ID = 6;
 
+    public static final int TURRET_MOTOR_CAN_ID = 30;
+
+    public static final int SERVO_PWM_PORT = 1;
+
+
     //hulk
     // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(216.299);
     // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(200.303);
