@@ -13,7 +13,7 @@ public class LimelightControlCommand extends InstantCommand {
 
     // Speed adjustment factor for drivetrain movement
     private static final double DRIVE_SPEED = 0.5;
-    private static final double ROTATION_SPEED = 0.02;
+    private static final double ROTATION_SPEED = 0.2;
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem, int pipeline) {
         this.limelightSubsystem = limelightSubsystem;
@@ -46,7 +46,7 @@ public class LimelightControlCommand extends InstantCommand {
             }
         } else {
             System.out.println("No valid target detected."); // Debug statement
-            drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, 0)); // Stop drivetrain if no valid target
+            //drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, 0)); // Stop drivetrain if no valid target
         }
     }
 
@@ -58,6 +58,6 @@ public class LimelightControlCommand extends InstantCommand {
 
     @Override
     public void end(boolean interrupted) {
-        drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, 0)); // Ensure drivetrain stops when command ends
+//        drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, 0)); // Ensure drivetrain stops when command ends
     }
 }
