@@ -1,11 +1,11 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
-public class LimelightControlCommand extends InstantCommand {
+public class LimelightControlCommand extends Command {
     private final LimelightSubsystem limelightSubsystem;
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final int pipeline; // New field for pipeline number
@@ -16,6 +16,7 @@ public class LimelightControlCommand extends InstantCommand {
     private static final double ROTATION_SPEED = 1.2;
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem, int pipeline) {
+        super();
         this.limelightSubsystem = limelightSubsystem;
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.pipeline = pipeline;
@@ -49,7 +50,7 @@ public class LimelightControlCommand extends InstantCommand {
 
                 // Move the drivetrain to adjust position based on Limelight offset
                 drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, -rotationAdjustment));
-                drivetrainSubsystem.periodic();
+                //drivetrainSubsystem.periodic();
                 lastHorizontalOffset = horizontalOffset; // Update the last known offset
             }
         } else {
