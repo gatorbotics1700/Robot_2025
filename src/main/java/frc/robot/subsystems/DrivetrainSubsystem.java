@@ -153,4 +153,24 @@ public class DrivetrainSubsystem extends SubsystemBase {
         backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
         backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
     }
+
+    public Pose2d getPose() {
+        return odometry.getEstimatedPosition();
+    }
+
+    public void stop() {
+        drive(new ChassisSpeeds(0, 0, 0));
+    }
+
+    public void driveToPose(Pose2d desiredPose) {
+        Pose2d currentPose = odometry.getEstimatedPosition();
+        double xError = desiredPose.getX() - currentPose.getX();
+        double yError = desiredPose.getY() - currentPose.getY();
+    
+        double xSpeed = xError * 1.0; // Adjust gain as needed
+        double ySpeed = yError * 1.0; // Adjust gain as needed
+    
+        drive(new ChassisSpeeds(xSpeed, ySpeed, 0));
+    }
+
 }
