@@ -20,8 +20,8 @@ public class LimelightControlCommand extends InstantCommand {
         this.pipeline = pipeline;
 
         // Create a PIDController with tuning parameters (kP, kI, kD)
-        pidController = new PIDController(0.02, 0, 0.001); // Adjust these values as needed
-        pidController.setTolerance(3.0); // Set a tolerance for the error
+        pidController = new PIDController(0.3, 0, 0.001); // Adjust these values as needed
+        pidController.setTolerance(0.2); // Set a tolerance for the error
 
         addRequirements(limelightSubsystem, drivetrainSubsystem);
     }
@@ -47,7 +47,7 @@ public class LimelightControlCommand extends InstantCommand {
             System.out.println("Rotating with adjustment: " + rotationAdjustment);
         } else {
             System.out.println("No valid target detected.");
-          //  drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, 0)); // Stop drivetrain if no valid target
+           // drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, 0)); // Stop drivetrain if no valid target
         }
     }
 
@@ -59,6 +59,6 @@ public class LimelightControlCommand extends InstantCommand {
 
     @Override
     public void end(boolean interrupted) {
-       //. drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, 0)); // Ensure drivetrain stops when command ends
+        //drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, 0)); // Ensure drivetrain stops when command ends
     }
 }
