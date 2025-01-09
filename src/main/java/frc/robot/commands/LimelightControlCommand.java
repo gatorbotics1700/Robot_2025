@@ -2,11 +2,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 
-public class LimelightControlCommand extends Command {
+public class LimelightControlCommand extends CommandBase {
     private final LimelightSubsystem limelightSubsystem;
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final int pipeline;
@@ -30,29 +30,34 @@ public class LimelightControlCommand extends Command {
         if (limelightSubsystem.hasValidTarget()) {
             double horizontalOffset = limelightSubsystem.getHorizontalOffset();
 
-            // Calculate the desired pose based on the horizontal offset
+            // Get the current pose
             Pose2d currentPose = drivetrainSubsystem.getPose();
-            double newX = currentPose.getX();
-            double newY = currentPose.getY() - horizontalOffset * 0.02; // Adjust the scaling factor as needed
-            Rotation2d newRotation = Rotation2d.fromDegrees(0); // Assuming you want to face forward
 
-            Pose2d desiredPose = new Pose2d(newX, newY, newRotation);
+            // Calculate the desired rotation to center the AprilTag
+            Rotation2d desiredRotation = currentPose.getRotation().plus(Rotation2d.fromDegrees(horizontalOffset));
 
+            // Create a new desired pose with the updated rotation
+            Pose2d desiredPose = new Pose2d(currentPose.getX(), currentPose.getY(), desiredRotation);
+
+            // Drive to the desired pose
             drivetrainSubsystem.driveToPose(desiredPose);
 
             System.out.println("Driving to pose: " + desiredPose);
         } else {
+            drivetrainSubsystem.stop();
+
             System.out.println("No valid target detected.");
         }
     }
 
     @Override
     public boolean isFinished() {
-        return false; 
+        // Command finishes when the robot is aligned within a small tolerance
+        return Math.abs(limelightSubsystem.getHorizontalOffset()) < 1.0;
     }
 
     @Override
     public void end(boolean interrupted) {
-        drivetrainSubsystem.stop(); 
+        drivetrainSubsystem.stop();
     }
 }
