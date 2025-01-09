@@ -40,6 +40,7 @@ public class LimelightControlCommand extends Command {
             if (horizontalOffset < 0){
                 direction =-1;
             }
+            
 
             System.out.println("Horizontal offset: " + horizontalOffset);
 
