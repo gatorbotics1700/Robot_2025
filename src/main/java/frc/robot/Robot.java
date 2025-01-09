@@ -27,12 +27,6 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
 
 
-        m_limelightCommand = container.getLimelightCommand();
-
-        if (m_limelightCommand != null) {
-             m_limelightCommand.schedule();
-        }
-
 
     }
 }

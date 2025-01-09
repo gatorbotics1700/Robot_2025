@@ -13,7 +13,7 @@ public class LimelightControlCommand extends InstantCommand {
 
     // Speed adjustment factor for drivetrain movement
     private static final double DRIVE_SPEED = 0.5;
-    private static final double ROTATION_SPEED = 0.2;
+    private static final double ROTATION_SPEED = 1.2;
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem, int pipeline) {
         this.limelightSubsystem = limelightSubsystem;
@@ -34,14 +34,22 @@ public class LimelightControlCommand extends InstantCommand {
         if (limelightSubsystem.hasValidTarget()) {
             System.out.println("Valid target detected."); // Debug statement
             double horizontalOffset = limelightSubsystem.getHorizontalOffset();
+            int direction =1;
+
+            if (horizontalOffset < 0){
+                direction =-1;
+            }
+
+            System.out.println("Horizontal offset: " + horizontalOffset);
 
             // Check if the horizontal offset has changed significantly
-            if (Math.abs(horizontalOffset - lastHorizontalOffset) > 3) {
-                double rotationAdjustment = horizontalOffset * ROTATION_SPEED;
+            if (Math.abs(horizontalOffset - lastHorizontalOffset) > 0.5) {
+                
+                double rotationAdjustment = direction * ROTATION_SPEED;
 
                 // Move the drivetrain to adjust position based on Limelight offset
                 drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, -rotationAdjustment));
-
+                drivetrainSubsystem.periodic();
                 lastHorizontalOffset = horizontalOffset; // Update the last known offset
             }
         } else {
@@ -53,7 +61,9 @@ public class LimelightControlCommand extends InstantCommand {
     @Override
     public boolean isFinished() {
         // Command finishes when there is no valid target
-        return !limelightSubsystem.hasValidTarget();
+        boolean finished = Math.abs(limelightSubsystem.getHorizontalOffset()) < 0.5;
+        System.out.println("FINISHED: " + finished);
+        return finished;
     }
 
     @Override
