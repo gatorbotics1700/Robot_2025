@@ -17,7 +17,6 @@ public class RobotContainer {
 
     public RobotContainer() {
         drivetrain.register();
-        m_limelightsub.register();
 
         drivetrain.setDefaultCommand(new DriveCommand(
                 drivetrain,

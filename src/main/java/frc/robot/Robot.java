@@ -23,29 +23,16 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
     }
 
-    // @Override
-    // public void teleopInit() {
+    @Override
+    public void teleopPeriodic() {
 
 
-    //     // m_limelightCommand = container.getLimelightCommand();
+        m_limelightCommand = container.getLimelightCommand();
 
-    //     // if (m_limelightCommand != null) {
-    //     //      m_limelightCommand.schedule();
-    //     // }
-
-
-    // }
-    
-    // @Override
-    // public void teleopPeriodic() {
+        if (m_limelightCommand != null) {
+             m_limelightCommand.schedule();
+        }
 
 
-    //     // m_limelightCommand = container.getLimelightCommand();
-
-    //     // if (m_limelightCommand != null) {
-    //     //      m_limelightCommand.schedule();
-    //     // }
-
-
-    // }
+    }
 }
