@@ -11,17 +11,22 @@ public class LimelightControlCommand extends InstantCommand {
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final int pipeline;
 
-    // PID controller for rotation
-    private final PIDController pidController;
+    // PID controllers for strafe (left/right) and rotation
+    private final PIDController strafePIDController;
+    private final PIDController rotationPIDController;
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem, int pipeline) {
         this.limelightSubsystem = limelightSubsystem;
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.pipeline = pipeline;
 
-        // Create a PIDController with tuning parameters (kP, kI, kD)
-        pidController = new PIDController(0.3, 0, 0.001); // Adjust these values as needed
-        pidController.setTolerance(0.2); // Set a tolerance for the error
+        // Strafe PID (horizontal alignment)
+        strafePIDController = new PIDController(0.2, 0, 0.01); // Adjust these values as needed
+        strafePIDController.setTolerance(0.5); // Set tolerance for horizontal alignment
+
+        // Rotation PID (rotational alignment)
+        rotationPIDController = new PIDController(0.2, 0, 0.01); // Adjust these values as needed
+        rotationPIDController.setTolerance(1.0); // Set tolerance for rotational alignment
 
         addRequirements(limelightSubsystem, drivetrainSubsystem);
     }
@@ -35,16 +40,18 @@ public class LimelightControlCommand extends InstantCommand {
     @Override
     public void execute() {
         if (limelightSubsystem.hasValidTarget()) {
-            System.out.println("Valid target detected.");
             double horizontalOffset = limelightSubsystem.getHorizontalOffset();
+            double skew = limelightSubsystem.getSkew(); // Or use rotation offset if applicable
 
-            // Calculate the rotation adjustment using the PID controller
-            double rotationAdjustment = pidController.calculate(horizontalOffset, 0);
+            // Calculate adjustments using PID controllers
+            double strafeAdjustment = strafePIDController.calculate(horizontalOffset, 0);
+            double rotationAdjustment = rotationPIDController.calculate(skew, 0);
 
-            // Apply the adjustment to the drivetrain
-            drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, -rotationAdjustment));
+            // Apply the adjustments to the drivetrain
+            drivetrainSubsystem.drive(new ChassisSpeeds(0, -strafeAdjustment, -rotationAdjustment));
 
-            System.out.println("Rotating with adjustment: " + rotationAdjustment);
+            System.out.println("Strafing adjustment: " + strafeAdjustment);
+            System.out.println("Rotating adjustment: " + rotationAdjustment);
         } else {
             System.out.println("No valid target detected.");
            // drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, 0)); // Stop drivetrain if no valid target
@@ -53,12 +60,12 @@ public class LimelightControlCommand extends InstantCommand {
 
     @Override
     public boolean isFinished() {
-        // Command finishes when the error is within the tolerance
-        return pidController.atSetpoint();
+        // Command finishes when both strafe and rotation errors are within tolerance
+        return strafePIDController.atSetpoint() && rotationPIDController.atSetpoint();
     }
 
     @Override
     public void end(boolean interrupted) {
-        //drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, 0)); // Ensure drivetrain stops when command ends
+       // drivetrainSubsystem.drive(new ChassisSpeeds(0, 0, 0)); // Ensure drivetrain stops when command ends
     }
 }
