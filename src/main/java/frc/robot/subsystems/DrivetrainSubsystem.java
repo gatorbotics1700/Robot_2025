@@ -164,13 +164,21 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void driveToPose(Pose2d desiredPose) {
         Pose2d currentPose = odometry.getEstimatedPosition();
+    
+        // Calculate position errors
         double xError = desiredPose.getX() - currentPose.getX();
         double yError = desiredPose.getY() - currentPose.getY();
     
+        // Calculate rotation error
+        double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
+    
+        // Use proportional control to calculate chassis speeds
         double xSpeed = xError * 1.0; // Adjust gain as needed
         double ySpeed = yError * 1.0; // Adjust gain as needed
+        double rotationSpeed = rotationError * 0.02; // Adjust gain as needed
     
-        drive(new ChassisSpeeds(xSpeed, ySpeed, 0));
+        // Drive the robot using the calculated speeds
+        drive(new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed));
     }
 
 }
