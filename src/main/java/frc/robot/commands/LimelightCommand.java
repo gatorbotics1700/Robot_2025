@@ -47,12 +47,14 @@ public class LimelightCommand extends Command {
             Pose2d currentPose = drivetrain.getPose();
             Translation2d newTranslation = currentPose.getTranslation().plus(new Translation2d(horizontalOffset, 0.0));
             targetPose = new Pose2d(newTranslation, currentPose.getRotation());
+            double forwardSpeed = -0.1 * horizontalOffset; // Scale forward speed based on offset
+
 
             // Calculate the desired rotation to face the tag (horizontal offset)
             double rotationCorrection = rotationController.calculate(horizontalOffset, 0.0);
 
             // Drive the robot towards the target pose and correct rotation
-            drivetrain.driveRobotRelative(new ChassisSpeeds(1.0, 0.0, rotationCorrection)); // Adjust speeds as needed
+            drivetrain.driveRobotRelative(new ChassisSpeeds(forwardSpeed, 0.0, rotationCorrection)); // Adjust speeds as needed
         }
     }
 
@@ -79,4 +81,3 @@ public class LimelightCommand extends Command {
         drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0)); // Stop the drivetrain
     }
 }
-
