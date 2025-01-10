@@ -20,5 +20,27 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
     }
 
-    
+    @Override
+    public void autonomousInit() {
+        // m_autonomousCommand = container.getAutonomousCommand();
+
+        // if (m_autonomousCommand != null) {
+        //     m_autonomousCommand.schedule();
+        // }
+
+    }
+
+    @Override
+    public void teleopInit() {
+        // This makes sure that the autonomous stops running when teleop starts
+        // if (m_autonomousCommand != null) {
+        //     m_autonomousCommand.cancel();
+        // }
+        container.setDefaultTeleopCommand();
+    }
+
+    @Override
+    public void teleopPeriodic() {
+        // Leave empty - default command will handle teleop
+    }
 }

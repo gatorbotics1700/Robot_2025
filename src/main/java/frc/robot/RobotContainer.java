@@ -1,8 +1,11 @@
 package frc.robot;
 
 import frc.robot.commands.TestDriveCommand;
+import frc.robot.commands.LimelightCommand;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -15,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class RobotContainer {
     private final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
     private final XboxController controller = new XboxController(0);
+    private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
@@ -27,6 +31,11 @@ public class RobotContainer {
 
         new Trigger(controller::getRightBumperPressed)
                 .onTrue(new InstantCommand(drivetrain::setSlowDrive));
+
+        new Trigger(controller::getAButtonPressed)
+                .onTrue(new LimelightCommand(drivetrain, m_limelightsub, 0)); //8
+        new Trigger(controller::getBButtonPressed)
+                .onTrue(new LimelightCommand(drivetrain, m_limelightsub, 1)); //2
 
         // Auto chooser setup
         autoChooser = AutoBuilder.buildAutoChooser();

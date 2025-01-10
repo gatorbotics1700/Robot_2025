@@ -11,17 +11,20 @@ import frc.robot.subsystems.LimelightSubsystem;
 public class LimelightCommand extends Command {
     private final DrivetrainSubsystem drivetrain;
     private final LimelightSubsystem limelight;
+    private final int pipelineID;
 
-    public LimelightCommand(DrivetrainSubsystem drivetrain, LimelightSubsystem limelight) {
+    public LimelightCommand(DrivetrainSubsystem drivetrain, LimelightSubsystem limelight, int pipelineID) {
         this.drivetrain = drivetrain;
         this.limelight = limelight;
+        this.pipelineID = pipelineID;
         addRequirements(drivetrain, limelight);
     }
 
     @Override
     public void initialize() {
+        limelight.setPipeline(pipelineID);
         limelight.turnOnLED();
-        System.out.println("DriveToAprilTagCommand initialized");
+        System.out.println("DriveToAprilTagCommand initialized with pipeline " + pipelineID);
     }
 
     @Override
@@ -29,12 +32,13 @@ public class LimelightCommand extends Command {
         if (limelight.hasValidTarget()) {
             double horizontalOffset = limelight.getHorizontalOffset();
 
+            
             Pose2d currentPose = drivetrain.getPose();
             Translation2d newTranslation = currentPose.getTranslation().plus(new Translation2d(horizontalOffset, 0.0));
             Pose2d targetPose = new Pose2d(newTranslation, currentPose.getRotation());
 
             drivetrain.resetPose(targetPose);
-            drivetrain.driveRobotRelative(new ChassisSpeeds(1.0, 0.0, 0.0));  // Adjust speeds as needed
+            drivetrain.driveRobotRelative(new ChassisSpeeds(1.0, 0.0, 0.0));  
         }
     }
 
