@@ -30,17 +30,17 @@ public class LimelightControlCommand extends Command {
         if (limelightSubsystem.hasValidTarget()) {
             double horizontalOffset = limelightSubsystem.getHorizontalOffset();
 
-            // Get the current pose
             Pose2d currentPose = drivetrainSubsystem.getPose();
 
-            // Calculate the desired rotation to center the AprilTag
             Rotation2d desiredRotation = currentPose.getRotation().plus(Rotation2d.fromDegrees(horizontalOffset));
 
-            // Create a new desired pose with the updated rotation
             Pose2d desiredPose = new Pose2d(currentPose.getX(), currentPose.getY(), desiredRotation);
 
-            // Drive to the desired pose
             drivetrainSubsystem.driveToPose(desiredPose);
+
+            System.out.println("Current Pose: " + currentPose);
+            System.out.println("Desired Pose: " + desiredPose);
+            System.out.println("Horizontal Offset: " + horizontalOffset);
 
             System.out.println("Driving to pose: " + desiredPose);
         } else {
