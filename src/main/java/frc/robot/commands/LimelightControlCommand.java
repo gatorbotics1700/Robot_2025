@@ -30,17 +30,17 @@ public class LimelightControlCommand extends Command {
         if (limelightSubsystem.hasValidTarget()) {
             double horizontalOffset = limelightSubsystem.getHorizontalOffset();
 
+            // Get the current pose
             Pose2d currentPose = drivetrainSubsystem.getPose();
 
+            // Calculate the desired rotation to center the AprilTag
             Rotation2d desiredRotation = currentPose.getRotation().plus(Rotation2d.fromDegrees(horizontalOffset));
 
+            // Create a new desired pose with the updated rotation
             Pose2d desiredPose = new Pose2d(currentPose.getX(), currentPose.getY(), desiredRotation);
 
+            // Drive to the desired pose
             drivetrainSubsystem.driveToPose(desiredPose);
-
-            System.out.println("Current Pose: " + currentPose);
-            System.out.println("Desired Pose: " + desiredPose);
-            System.out.println("Horizontal Offset: " + horizontalOffset);
 
             System.out.println("Driving to pose: " + desiredPose);
         } else {
@@ -52,13 +52,8 @@ public class LimelightControlCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        Pose2d currentPose = drivetrainSubsystem.getPose();
-        Pose2d desiredPose = new Pose2d(currentPose.getX(), currentPose.getY(), currentPose.getRotation());
-    
-        double positionError = currentPose.getTranslation().getDistance(desiredPose.getTranslation());
-        double rotationError = Math.abs(currentPose.getRotation().getDegrees() - desiredPose.getRotation().getDegrees());
-    
-        return positionError < 1.0 && rotationError < 0.5;
+        // Command finishes when the robot is aligned within a small tolerance
+        return Math.abs(limelightSubsystem.getHorizontalOffset()) < 0.5;
     }
 
     @Override
