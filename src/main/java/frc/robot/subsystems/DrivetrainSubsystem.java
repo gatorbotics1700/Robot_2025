@@ -172,10 +172,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // Calculate rotation error
         double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
     
-        // Use proportional control to calculate chassis speeds
-        double xSpeed = xError * 2.0; // Adjust gain as needed
-        double ySpeed = yError * 2.0; // Adjust gain as needed
-        double rotationSpeed = rotationError * 0.7; // Adjust gain as needed
+        double xSpeed = Math.max(0.7, xError * 2.0); // Apply minimum speed threshold
+        double ySpeed = Math.max(0.7, yError * 2.0); // Apply minimum speed threshold
+        double rotationSpeed = Math.max(0.5, rotationError * 1.0); // Apply minimum rotation speed
     
         // Drive the robot using the calculated speeds
         drive(new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed));

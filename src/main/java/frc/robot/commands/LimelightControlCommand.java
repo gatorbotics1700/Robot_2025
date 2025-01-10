@@ -52,8 +52,13 @@ public class LimelightControlCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        // Command finishes when the robot is aligned within a small tolerance
-        return Math.abs(limelightSubsystem.getHorizontalOffset()) < 0.5;
+        Pose2d currentPose = drivetrainSubsystem.getPose();
+        Pose2d desiredPose = new Pose2d(currentPose.getX(), currentPose.getY(), currentPose.getRotation());
+    
+        double positionError = currentPose.getTranslation().getDistance(desiredPose.getTranslation());
+        double rotationError = Math.abs(currentPose.getRotation().getDegrees() - desiredPose.getRotation().getDegrees());
+    
+        return positionError < 1.0 && rotationError < 0.5;
     }
 
     @Override
