@@ -175,7 +175,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // Use proportional control to calculate chassis speeds
         double xSpeed = xError * 2.0; // Adjust gain as needed
         double ySpeed = yError * 2.0; // Adjust gain as needed
-        double rotationSpeed = rotationError * 1; // Adjust gain as needed
+        double rotationSpeed = rotationError * 0.7; // Adjust gain as needed
     
         // Drive the robot using the calculated speeds
         drive(new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed));
