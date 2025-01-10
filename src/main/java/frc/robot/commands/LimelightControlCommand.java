@@ -2,11 +2,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 
-public class LimelightControlCommand extends CommandBase {
+public class LimelightControlCommand extends Command {
     private final LimelightSubsystem limelightSubsystem;
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final int pipeline;
@@ -53,11 +53,11 @@ public class LimelightControlCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         // Command finishes when the robot is aligned within a small tolerance
-        return Math.abs(limelightSubsystem.getHorizontalOffset()) < 1.0;
+        return Math.abs(limelightSubsystem.getHorizontalOffset()) < 0.5;
     }
 
     @Override
     public void end(boolean interrupted) {
-        drivetrainSubsystem.stop();
+      //  drivetrainSubsystem.stop();
     }
 }
