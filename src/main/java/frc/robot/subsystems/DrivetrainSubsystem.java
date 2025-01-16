@@ -284,7 +284,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
         double xSpeed = xError * 1.0; 
         double ySpeed = yError * 1.0;
-        double rotationSpeed = rotationError * 0.2; 
+        double rotationSpeed = rotationError * 0.1;
 
         drive(new ChassisSpeeds(xSpeed, ySpeed, -rotationSpeed));
     }
