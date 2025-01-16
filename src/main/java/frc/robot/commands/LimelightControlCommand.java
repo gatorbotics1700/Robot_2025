@@ -47,8 +47,8 @@ public class LimelightControlCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        System.out.println("Finished: " + (Math.abs(limelightSubsystem.getHorizontalOffset()) < 1.0));
-        return Math.abs(limelightSubsystem.getHorizontalOffset()) < 1.0;
+        System.out.println("Finished: " + (Math.abs(limelightSubsystem.getHorizontalOffset()) < 0.3));
+        return Math.abs(limelightSubsystem.getHorizontalOffset()) < 0.3;
     }
 
     @Override
