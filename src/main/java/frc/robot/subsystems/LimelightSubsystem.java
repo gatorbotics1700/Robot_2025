@@ -24,11 +24,11 @@ public class LimelightSubsystem extends SubsystemBase {
         return limelightTable.getEntry("tv").getDouble(0.0) == 1.0;
     }
 
-    public double getHorizontalOffset() {
+    public double getHorizontalOffsetAngle() {
         return limelightTable.getEntry("tx").getDouble(0.0);
     }
 
-    public double getVerticalOffset() {
+    public double getVerticalOffsetAngle() {
         return limelightTable.getEntry("ty").getDouble(0.0);
     }
 

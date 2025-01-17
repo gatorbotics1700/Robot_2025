@@ -28,13 +28,14 @@ public class LimelightControlCommand extends Command {
     @Override
     public void execute() {
         if (limelightSubsystem.hasValidTarget()) {
-            double horizontalOffset = limelightSubsystem.getHorizontalOffset();
+            double horizontalOffset = limelightSubsystem.getHorizontalOffsetAngle();
 
             Pose2d currentPose = drivetrainSubsystem.getPose();
 
             Rotation2d desiredRotation = currentPose.getRotation().plus(Rotation2d.fromDegrees(horizontalOffset));
 
-            Pose2d desiredPose = new Pose2d(currentPose.getX() + limelightSubsystem.getHorizontalOffset() - 1, currentPose.getY() + limelightSubsystem.getVerticalOffset() - 1, desiredRotation);
+            Pose2d desiredPose = new Pose2d(currentPose.getX() + limelightSubsystem.getHorizontalOffsetAngle(), currentPose.getY() + limelightSubsystem.getVerticalOffsetAngle() - 3, desiredRotation); //fix this 
+           // Pose2d desiredPose = new Pose2d(currentPose.getX(), currentPose.getY(), desiredRotation); 
 
             drivetrainSubsystem.driveToPose(desiredPose);
 
@@ -47,12 +48,8 @@ public class LimelightControlCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        System.out.println("Finished: " + (Math.abs(limelightSubsystem.getHorizontalOffset()) < 2));
-        return Math.abs(limelightSubsystem.getHorizontalOffset()) < 2;
+        System.out.println("Finished: " + (Math.abs(limelightSubsystem.getHorizontalOffsetAngle()) < 2));
+        return Math.abs(limelightSubsystem.getHorizontalOffsetAngle()) < 2;
     }
 
-
-    @Override
-    public void end(boolean interrupted) {
-         }
 }
