@@ -27,11 +27,11 @@ public class LimelightSubsystem extends SubsystemBase {
         return limelightTable.getEntry("tv").getDouble(0.0) == 1.0;
     }
 
-    public double getHorizontalOffset() {
+    public double getHorizontalOffsetAngle() {
         return limelightTable.getEntry("tx").getDouble(0.0);
     }
 
-    public double getVerticalOffset() {
+    public double getVerticalOffsetAngle() {
         return limelightTable.getEntry("ty").getDouble(0.0);
     }
 
@@ -56,7 +56,7 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public double distanceToTag() {
-        double d = (0.33/*APRILTAG_HEIGHT-LIMELIGHT_HEIGHT*/)/Math.tan(getVerticalOffset());
+        double d = (0.33/*APRILTAG_HEIGHT-LIMELIGHT_HEIGHT*/)/Math.tan(getVerticalOffsetAngle());
        return d;//(0.33/*APRILTAG_HEIGHT-LIMELIGHT_HEIGHT*/)/0.31/*Math.tan(getVerticalOffset())*/; //returns 2D distance to apriltag (so like distance from base of robot to the point on the floor directly below the apriltag) - Elise
 
     }
