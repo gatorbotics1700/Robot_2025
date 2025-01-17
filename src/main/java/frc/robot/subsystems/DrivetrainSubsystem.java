@@ -282,8 +282,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
         double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
     
-        double xSpeed = xError * 1.0; 
-        double ySpeed = yError * 1.0;
+        double xSpeed = xError * 0.7;
+        double ySpeed = yError * 0.7;
         double rotationSpeed = rotationError * 0.1;
 
         drive(new ChassisSpeeds(xSpeed, ySpeed, -rotationSpeed));

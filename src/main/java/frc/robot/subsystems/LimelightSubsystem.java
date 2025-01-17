@@ -3,10 +3,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+//import edu.wpi.first.math.*;
 
 public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
+    private final double LIMELIGHT_HEIGHT = 0.37; // in meters
+    private final double APRILTAG_HEIGHT = 0.7; //also in meters
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -52,7 +55,11 @@ public class LimelightSubsystem extends SubsystemBase {
         limelightTable.getEntry("pipeline").setNumber(pipelineID); // Set the pipeline ID
     }
 
-    
+    public double distanceToTag() {
+        double d = (0.33/*APRILTAG_HEIGHT-LIMELIGHT_HEIGHT*/)/Math.tan(getVerticalOffset());
+       return d;//(0.33/*APRILTAG_HEIGHT-LIMELIGHT_HEIGHT*/)/0.31/*Math.tan(getVerticalOffset())*/; //returns 2D distance to apriltag (so like distance from base of robot to the point on the floor directly below the apriltag) - Elise
+
+    }
 
     @Override
     public void periodic() {

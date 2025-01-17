@@ -28,17 +28,18 @@ public class LimelightControlCommand extends Command {
     @Override
     public void execute() {
         if (limelightSubsystem.hasValidTarget()) {
-            double horizontalOffset = limelightSubsystem.getHorizontalOffset();
+            // double horizontalOffset = limelightSubsystem.getHorizontalOffset();
 
-            Pose2d currentPose = drivetrainSubsystem.getPose();
+            // Pose2d currentPose = drivetrainSubsystem.getPose();
 
-            Rotation2d desiredRotation = currentPose.getRotation().plus(Rotation2d.fromDegrees(horizontalOffset));
+            // Rotation2d desiredRotation = currentPose.getRotation().plus(Rotation2d.fromDegrees(horizontalOffset));
 
-            Pose2d desiredPose = new Pose2d(currentPose.getX() + limelightSubsystem.getHorizontalOffset() - 1, currentPose.getY() + limelightSubsystem.getVerticalOffset() - 1, desiredRotation);
+            // Pose2d desiredPose = new Pose2d(currentPose.getX() + limelightSubsystem.getHorizontalOffset() - 1, currentPose.getY() + limelightSubsystem.getVerticalOffset() - 1, desiredRotation);
 
-            drivetrainSubsystem.driveToPose(desiredPose);
+            // drivetrainSubsystem.driveToPose(desiredPose);
 
-            System.out.println("Driving to pose: " + desiredPose);
+            // System.out.println("Driving to pose: " + desiredPose);
+            System.out.println("*******************"+limelightSubsystem.distanceToTag()+ "-----" + limelightSubsystem.getVerticalOffset());
         } else {
 
             System.out.println("No valid target detected.");
