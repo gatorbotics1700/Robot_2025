@@ -34,7 +34,7 @@ public class LimelightControlCommand extends Command {
 
             Rotation2d desiredRotation = currentPose.getRotation().plus(Rotation2d.fromDegrees(horizontalOffset));
 
-            Pose2d desiredPose = new Pose2d(currentPose.getX(), currentPose.getY(), desiredRotation);
+            Pose2d desiredPose = new Pose2d(currentPose.getX() + limelightSubsystem.getHorizontalOffset() - 1, currentPose.getY() + limelightSubsystem.getVerticalOffset() - 1, desiredRotation);
 
             drivetrainSubsystem.driveToPose(desiredPose);
 
@@ -50,6 +50,7 @@ public class LimelightControlCommand extends Command {
         System.out.println("Finished: " + (Math.abs(limelightSubsystem.getHorizontalOffset()) < 2));
         return Math.abs(limelightSubsystem.getHorizontalOffset()) < 2;
     }
+
 
     @Override
     public void end(boolean interrupted) {
