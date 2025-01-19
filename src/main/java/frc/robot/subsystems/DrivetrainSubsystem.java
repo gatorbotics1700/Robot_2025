@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
+    private static final double DRIVE_DEADBAND = 0.05;
     private static final double MAX_VOLTAGE = 12.0;
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380 / 60 * SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
@@ -41,6 +42,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule frontRightModule;
     private final SwerveModule backLeftModule;
     private final SwerveModule backRightModule;
+    
 
     public static final Pigeon2 pigeon  = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);;
 
@@ -54,7 +56,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private ChassisSpeeds chassisSpeeds;
     
     private ShuffleboardTab shuffleboardTab;
-
+    private double xError;
+    private double yError;
+    private double rotationError;
+    private double xSpeed;
+    private double ySpeed;
+    private double rotationSpeed;
+    private boolean driving;
     private boolean slowDrive;
 
     public DrivetrainSubsystem() {
@@ -276,27 +284,28 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 backRightModule.getPosition() 
             }
         );
+        if(driving && xError > DRIVE_DEADBAND || yError > DRIVE_DEADBAND/*|| rotationError > 2*/){
+            System.out.println("DRIVING");
+            drive(new ChassisSpeeds(xSpeed, ySpeed, 0/*-rotationSpeed*/));
+        }else{
+            driving = false;
+            System.out.println("STOPPING");
+            drive(new ChassisSpeeds(0,0,0));
+        }
     }
 
     public void driveToPose(Pose2d desiredPose) {
         Pose2d currentPose = odometry.getEstimatedPosition();
     
-        double xError = desiredPose.getX() - currentPose.getX();
-        double yError = desiredPose.getY() - currentPose.getY();
-    
-        double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
-    
-        double xSpeed = xError * 0.7;
-        double ySpeed = yError * 0.7;
-        double rotationSpeed = rotationError * 0.1;
+        xError = desiredPose.getX() - currentPose.getX();
+        yError = desiredPose.getY() - currentPose.getY();
+        rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
         System.out.println("xerror: "+xError + " yerror: "+yError + " rerror: " +rotationError);
-        if(xError > 0.05 || yError > 0.05 /*|| rotationError > 2*/){
-            System.out.println("DRIVING");
-            drive(new ChassisSpeeds(xSpeed, ySpeed, 0/*-rotationSpeed*/));
-        }else{
-            drive(new ChassisSpeeds(0,0,0));
-        }
-
         
+        xSpeed = xError * 0.7;
+        ySpeed = yError * 0.7;
+        rotationSpeed = rotationError * 0.1;
+        
+        driving = true;
     }
 }
