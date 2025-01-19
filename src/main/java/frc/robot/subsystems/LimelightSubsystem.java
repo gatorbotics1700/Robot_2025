@@ -9,7 +9,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
     private final double LIMELIGHT_HEIGHT = 0.37; // in meters
-    private final double APRILTAG_HEIGHT = 0.7; //also in meters
+    private final double APRILTAG_HEIGHT = 0.675; //also in meters
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -56,10 +56,33 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public double distanceToTag() {
-        double d = (APRILTAG_HEIGHT-LIMELIGHT_HEIGHT)/Math.tan(getVerticalOffsetAngle());
+        double d = (APRILTAG_HEIGHT-LIMELIGHT_HEIGHT)/Math.tan(Math.toRadians(getVerticalOffsetAngle()));
+        // System.out.println("v distance: " + (APRILTAG_HEIGHT-LIMELIGHT_HEIGHT));
+        // System.out.println("TY: "+getVerticalOffsetAngle());
+        // System.out.println("tan: "+ Math.tan(Math.toRadians(getVerticalOffsetAngle())));
        return d;//(0.33/*APRILTAG_HEIGHT-LIMELIGHT_HEIGHT*/)/0.31/*Math.tan(getVerticalOffset())*/; //returns 2D distance to apriltag (so like distance from base of robot to the point on the floor directly below the apriltag) - Elise
 
     }
+
+    public double fieldYDistanceToTag(){
+        // System.out.println("distance to tag: " + distanceToTag());
+        // System.out.println("ROBOT ANGLE: " + DrivetrainSubsystem.getRobotAngle());
+        // System.out.println("Robot Angle + 90: " + (DrivetrainSubsystem.getRobotAngle()+90.0));
+
+        double d = distanceToTag()*Math.sin(Math.toRadians((DrivetrainSubsystem.getRobotAngle()+90.0)-Math.abs(getHorizontalOffsetAngle())));
+        return d;
+    }
+
+    public double fieldXDistanceToTag(){
+        System.out.println("distance to tag: " + distanceToTag());
+        System.out.println("ROBOT ANGLE: " + DrivetrainSubsystem.getRobotAngle());
+        System.out.println("Robot Angle + 90: " + (DrivetrainSubsystem.getRobotAngle()+90.0));
+
+        double d = distanceToTag()*Math.cos(Math.toRadians((DrivetrainSubsystem.getRobotAngle()+90.0)-Math.abs(getHorizontalOffsetAngle())));
+        return d;
+    }
+
+    //public double 
 
     @Override
     public void periodic() {

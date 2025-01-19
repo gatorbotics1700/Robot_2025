@@ -10,6 +10,9 @@ public class LimelightControlCommand extends Command {
     private final LimelightSubsystem limelightSubsystem;
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final int pipeline;
+    private boolean atDesiredPose = false;
+    private Pose2d desiredPose;
+    private Pose2d currentPose;
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem, int pipeline) {
         this.limelightSubsystem = limelightSubsystem;
@@ -27,31 +30,42 @@ public class LimelightControlCommand extends Command {
 
     @Override
     public void execute() {
+        System.out.println("currentpose: " + drivetrainSubsystem.getPose());
+        
         if (limelightSubsystem.hasValidTarget()) {
-            double horizontalOffset = limelightSubsystem.getHorizontalOffsetAngle();
-            double verticalOffset = limelightSubsystem.getVerticalOffsetAngle();
+             double horizontalOffset = limelightSubsystem.getHorizontalOffsetAngle();
+        //     double verticalOffset = limelightSubsystem.getVerticalOffsetAngle();
 
-             Pose2d currentPose = drivetrainSubsystem.getPose();
+             currentPose = drivetrainSubsystem.getPose();
 
-             Rotation2d desiredRotation = currentPose.getRotation().plus(Rotation2d.fromDegrees(horizontalOffset));
+              Rotation2d desiredRotation = currentPose.getRotation().plus(Rotation2d.fromDegrees(horizontalOffset));
 
-            Pose2d desiredPose = new Pose2d(currentPose.getX() +horizontalOffset, currentPose.getY() + verticalOffset, desiredRotation); //fix this 
-        // Pose2d desiredPose = new Pose2d(currentPose.getX(), currentPose.getY(), desiredRotation); 
+              desiredPose = new Pose2d(currentPose.getX() + limelightSubsystem.fieldXDistanceToTag(), currentPose.getY() + limelightSubsystem.fieldYDistanceToTag(), desiredRotation); //fix this 
+        // // Pose2d desiredPose = new Pose2d(currentPose.getX(), currentPose.getY(), desiredRotation); 
 
-             drivetrainSubsystem.driveToPose(desiredPose);
+              
+              if(Math.abs(currentPose.getX()-desiredPose.getX()) < 0.05 && Math.abs(currentPose.getY()-desiredPose.getY()) < 0.05){
+                System.out.println("*******************at desired pose");
+                atDesiredPose = true;
+              }
 
              System.out.println("Driving to pose: " + desiredPose);
-            System.out.println("*******************"+limelightSubsystem.distanceToTag()+ "-----" + limelightSubsystem.getVerticalOffsetAngle());
+            
+            //System.out.println("*******************"+limelightSubsystem.distanceToTag());
+            System.out.println("dx " + limelightSubsystem.fieldXDistanceToTag());
         } else {
 
             System.out.println("No valid target detected.");
+        }
+        if(desiredPose != null && Math.abs(currentPose.getX()-desiredPose.getX()) > 0.1 || Math.abs(currentPose.getY()-desiredPose.getY()) > 0.1 /*|| Math.abs(limelightSubsystem.getHorizontalOffsetAngle()) > 10*/){
+            drivetrainSubsystem.driveToPose(desiredPose);
         }
     }
 
     @Override
     public boolean isFinished() {
-        System.out.println("Finished: " + (Math.abs(limelightSubsystem.getHorizontalOffsetAngle()) < 2));
-        return Math.abs(limelightSubsystem.getHorizontalOffsetAngle()) < 2;
+        System.out.println("Finished: " + (Math.abs(limelightSubsystem.getHorizontalOffsetAngle()) < 2 && atDesiredPose));
+        return Math.abs(limelightSubsystem.getHorizontalOffsetAngle()) < 2 && atDesiredPose;
     }
 
 }

@@ -42,7 +42,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule backLeftModule;
     private final SwerveModule backRightModule;
 
-    private final Pigeon2 pigeon;
+    public static final Pigeon2 pigeon  = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);;
 
     private final SwerveDriveKinematics kinematics;
     
@@ -62,7 +62,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         shuffleboardTab = Shuffleboard.getTab("Drivetrain");
 
-        pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);
+       //  pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);
 
         kinematics = new SwerveDriveKinematics(
             new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
@@ -206,6 +206,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return states;
     }
 
+    public static double getRobotAngle(){
+        return pigeon.getYaw().getValueAsDouble(); //in degrees?
+    }
+
 
 
     public void setStates(SwerveModuleState[] targetStates) {
@@ -224,7 +228,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         //   " BL: " + bl_voltage + 
                         //   " BR: " + br_voltage);
 
-      //  System.out.println("pose: " + getPose());
+       //System.out.println("pose: " + getPose());
 
         // Set modules with calculated voltages
         frontLeftModule.set(fl_voltage, targetStates[0].angle.getRadians());
@@ -285,7 +289,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
         double xSpeed = xError * 0.7;
         double ySpeed = yError * 0.7;
         double rotationSpeed = rotationError * 0.1;
+        System.out.println("xerror: "+xError + " yerror: "+yError + " rerror: " +rotationError);
+        if(xError > 0.05 || yError > 0.05 /*|| rotationError > 2*/){
+            System.out.println("DRIVING");
+            drive(new ChassisSpeeds(xSpeed, ySpeed, 0/*-rotationSpeed*/));
+        }else{
+            drive(new ChassisSpeeds(0,0,0));
+        }
 
-        drive(new ChassisSpeeds(xSpeed, ySpeed, -rotationSpeed));
+        
     }
 }
