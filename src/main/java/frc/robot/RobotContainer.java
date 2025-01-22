@@ -5,10 +5,12 @@ import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.commands.ClimbingCommand;
 import frc.robot.commands.CoralShooterCommand;
+import frc.robot.commands.MotorCommand;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CoralShooterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.MotorSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -27,6 +29,7 @@ public class RobotContainer {
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
     private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
     private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
+    private static final MotorSubsystem m_motorSub = new MotorSubsystem();
 
 
     public RobotContainer() {
@@ -65,6 +68,12 @@ public class RobotContainer {
         // Auto chooser setup
         // autoChooser = AutoBuilder.buildAutoChooser();
         // SmartDashboard.putData("Auto Chooser", autoChooser);
+
+        new Trigger(controller::getAButtonPressed)
+                .onTrue(new MotorCommand(m_motorSub, 0.2));
+
+        new Trigger(controller::getBButtonPressed)
+                .onTrue(new MotorCommand(m_motorSub, 0));
     }
 
     // public Command getAutonomousCommand() {
