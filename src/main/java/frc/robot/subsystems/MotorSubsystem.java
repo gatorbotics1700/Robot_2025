@@ -8,12 +8,13 @@ public class MotorSubsystem extends SubsystemBase {
     private final TalonFX motor; 
 
     public MotorSubsystem() {
-        motor = new TalonFX(30);
+        motor = new TalonFX(30, "CANivore Bus 1");
     }
 
     public void setSpeed(double speed) {
         DutyCycleOut dutyCycleOut = new DutyCycleOut(speed);
         motor.setControl(dutyCycleOut.withOutput(speed));
+        System.out.println("*****spinning????");
     }
 
 }
