@@ -4,6 +4,7 @@ import frc.com.swervedrivespecialties.swervelib.MechanicalConfiguration;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
 public class Constants {
+    public static final String CANIVORE_BUS_NAME = "CANivore Bus 1";
     public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.2794;
     public static final double DRIVETRAIN_WHEELBASE_METERS = 0.2794;
 
