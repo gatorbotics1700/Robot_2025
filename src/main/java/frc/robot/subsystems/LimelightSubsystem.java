@@ -67,18 +67,27 @@ public class LimelightSubsystem extends SubsystemBase {
     public double fieldYDistanceToTag(){
         // System.out.println("distance to tag: " + distanceToTag());
         // System.out.println("ROBOT ANGLE: " + DrivetrainSubsystem.getRobotAngle());
-        // System.out.println("Robot Angle + 90: " + (DrivetrainSubsystem.getRobotAngle()+90.0));
+        // System.out.println("Robot Angle: " + (DrivetrainSubsystem.getRobotAngle()));
 
-        double d = distanceToTag()*Math.sin(Math.toRadians((DrivetrainSubsystem.getRobotAngle()+90.0)-Math.abs(getHorizontalOffsetAngle())));
+        double d = distanceToTag()*Math.sin(Math.toRadians((DrivetrainSubsystem.getRobotAngle())-getHorizontalOffsetAngle()));
+        //if the direction we are driving in is negative, flip the variable d so d reflects this
+        if((DrivetrainSubsystem.getRobotAngle()+getHorizontalOffsetAngle())%360>180){
+	        d=-d;
+        }
+
         return d;
     }
 
     public double fieldXDistanceToTag(){
         System.out.println("distance to tag: " + distanceToTag());
         System.out.println("ROBOT ANGLE: " + DrivetrainSubsystem.getRobotAngle());
-        System.out.println("Robot Angle + 90: " + (DrivetrainSubsystem.getRobotAngle()+90.0));
+        System.out.println("Robot Angle: " + (DrivetrainSubsystem.getRobotAngle()));
 
-        double d = distanceToTag()*Math.cos(Math.toRadians((DrivetrainSubsystem.getRobotAngle()+90.0)-Math.abs(getHorizontalOffsetAngle())));
+        double d = distanceToTag()*Math.cos(Math.toRadians((DrivetrainSubsystem.getRobotAngle())-getHorizontalOffsetAngle()));
+        //if the direction we are driving in is negative, flip the variable d so d reflects this
+        if((DrivetrainSubsystem.getRobotAngle()+getHorizontalOffsetAngle())%360>180){
+	        d=-d;
+        }
         return d;
     }
 
