@@ -66,16 +66,23 @@ public class LimelightControlCommand extends Command {
         currentPose = drivetrainSubsystem.getPose();
         Pose2d oldDesiredPose = desiredPose;
 
-        desiredPose = new Pose2d(
-                currentPose.getX() + limelightSubsystem.fieldXDistanceToTag(),
-                currentPose.getY() + limelightSubsystem.fieldYDistanceToTag(),
-                currentPose.getRotation().plus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle())));
-        return oldDesiredPose != desiredPose;
+        double deltaX = oldDesiredPose.getX() - limelightSubsystem.fieldXDistanceToTag();
+
+        if (Math.abs(deltaX) > DEADBAND_DISTANCE) {
+            desiredPose = new Pose2d(
+                    currentPose.getX() + limelightSubsystem.fieldXDistanceToTag(),
+                    currentPose.getY(), // + limelightSubsystem.fieldYDistanceToTag(),
+                    currentPose.getRotation()); //.plus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle())));
+            return true; 
+        }
+
+        return false;
+    
     }
 
     private boolean atDesiredPose(Pose2d current, Pose2d desired) {
-        return Math.abs(current.getX() - desired.getX()) < DEADBAND_DISTANCE
-                && Math.abs(current.getY() - desired.getY()) < DEADBAND_DISTANCE;
+        return Math.abs(current.getX() - desired.getX()) < DEADBAND_DISTANCE;
+                //&& Math.abs(current.getY() - desired.getY()) < DEADBAND_DISTANCE;
     }
 
 }
