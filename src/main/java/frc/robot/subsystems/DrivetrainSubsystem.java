@@ -132,7 +132,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))) //TODO: fix, bandaid setting it to not be 0 for further testing 12/2/24
         );
         states=kinematics.toSwerveModuleStates(chassisSpeeds);
-        DCMotor krakenMotor = DCMotor.getKrakenX60(8);
+        DCMotor krakenMotor = DCMotor.getKrakenX60(1);
 
         ModuleConfig moduleConfig = new ModuleConfig(
             0.0508, // wheel radius in meters (example: 3 inches converted to meters)
@@ -140,7 +140,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             1.3,    // coefficient of friction
             krakenMotor,  // DCMotor object
             55.0,   // current limit in Amps
-            8       // number of motors (e.g., 1 for swerve module)
+            1       // number of motors (e.g., 1 for swerve module)
 );
         AutoBuilder.configure(
             this::getPose,
