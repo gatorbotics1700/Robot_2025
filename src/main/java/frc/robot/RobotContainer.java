@@ -1,69 +1,61 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot;
 
-import frc.robot.commands.TeleopDriveCommand;
-import frc.robot.subsystems.DrivetrainSubsystem;
-
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.BlinkinLEDController.BlinkinPattern;
+import frc.robot.subsystems.BlinkinLEDController;
+import frc.robot.commands.LEDsControlCommand;;
+
+
 
 public class RobotContainer {
-    private final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
-    private final XboxController controller = new XboxController(0);
+  // The robot's subsystems and commands are defined here...
+  public static final Joystick m_joystick = new Joystick(0);
+
+  private static final BlinkinLEDController m_blinkinledcontrol = BlinkinLEDController.getInstance();
+
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {
+    // Configure the button bindings
+    // m_drive.setDefaultCommand(new DrivewithJoysticks(m_drive, m_joystick.getRawAxis(0), m_joystick.getRawAxis(1)));
+    
+    // SendableRegistry.add(m_drive, "drive");
+    // configureButtonBindings();
+  }
+
+  private void configureButtonBindings() {
+    JoystickButton slower = new JoystickButton(m_joystick, 1);
+    JoystickButton faster = new JoystickButton(m_joystick, 2);
 
 
-    public RobotContainer() {
-        // Print initial joystick values
-        System.out.println("RobotContainer initializing");
+    // slower.whileHeld(new SpinSlower(m_spinner));
+    // faster.whileHeld(new SpinFaster(m_spinner));
 
-        // Zero gyroscope button binding
-        new Trigger(controller::getBackButtonPressed)
-                .onTrue(new InstantCommand(drivetrain::zeroGyroscope));
+  }
 
-        new Trigger(controller::getRightBumperPressed)
-                .onTrue(new InstantCommand(drivetrain::setSlowDrive));
+  public Command getTeleopColor() {
+    System.out.println("calling teleopcolor");
+    return new LEDsControlCommand(m_blinkinledcontrol, BlinkinPattern.LIME);
 
-    }
+    // return new TurretControlCommand(m_turretsub, 0.05, 90);
+    // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
+    // andThen(new TurretControlCommand(m_turretsub, 0.05, 60)).
+    // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
+    // andThen(new TurretControlCommand(m_turretsub, 0.05, 90));
+   // return new ServoControlCommand(m_servosub, 20);
+  }
 
+  public Command getAutoColor(){
+    return new LEDsControlCommand(m_blinkinledcontrol, BlinkinPattern.RED_ORANGE);
+  }
 
-    public void setDefaultTeleopCommand(){
-        System.out.println("SETTING DEFAULT TELEOP COMMAND");
-        drivetrain.setDefaultCommand(
-            new TeleopDriveCommand(
-                drivetrain,
-                () -> -modifyAxis(controller.getRightY()),    // Changed to raw values
-                () -> -modifyAxis(controller.getRightX()),     // Changed to raw values
-                () -> -modifyAxis(controller.getLeftX())    // Changed to raw values
-            )
-        );
-    }
-
-    public DrivetrainSubsystem getDrivetrain(){
-        return drivetrain;
-    }
-
-    private double deadband(double value, double deadband) {
-        if (Math.abs(value) > deadband) {
-            if (value > 0.0) {
-                return (value - deadband) / (1.0 - deadband);
-            } else {
-                return (value + deadband) / (1.0 - deadband);
-            }
-        } else {
-            return 0.0;
-        }
-    }
-
-    private double modifyAxis(double value) {
-        value = deadband(value, 0.05);
-
-        // Square the axis
-        value = Math.copySign(value * value, value);
-
-        if(drivetrain.getSlowDrive()){
-            return (0.5 * value);
-        }
-
-        return value;
-    }
+  
 }
