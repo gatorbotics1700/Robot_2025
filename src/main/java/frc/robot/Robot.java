@@ -22,7 +22,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        //ledController.lightsGreen();
+        ledController.setPattern(0.73);
+        System.out.println("AUTO**** LEDs set to green (LIME)");
+    }
+
+    @Override
+    public void autonomousPeriodic() {
+        ledController.setPattern(0.73);
         System.out.println("AUTO**** LEDs set to green (LIME)");
     }
 
