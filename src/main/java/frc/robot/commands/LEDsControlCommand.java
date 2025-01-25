@@ -9,12 +9,10 @@ import frc.robot.subsystems.BlinkinLEDController.BlinkinPattern;
 public class LEDsControlCommand extends InstantCommand{
     private final BlinkinLEDController blinkinLEDController;
     private final BlinkinPattern blinkinPattern;
-    private final BlinkinPattern errorPattern;
     
     public LEDsControlCommand(BlinkinLEDController blinkinLEDController, BlinkinPattern blinkinPattern)  {
         this.blinkinLEDController = blinkinLEDController.getInstance();
         this.blinkinPattern = blinkinPattern;
-        this.errorPattern = null;
         addRequirements(blinkinLEDController.getInstance());
     }
 
@@ -22,9 +20,6 @@ public class LEDsControlCommand extends InstantCommand{
     public void execute() {
         blinkinLEDController.getInstance().setPattern(blinkinPattern);
         System.out.println("EXECUTE");
-        if (blinkinLEDController.getErrorCount()>0){
-            blinkinLEDController.setPattern(errorPattern);
-        }
     }
 
 }

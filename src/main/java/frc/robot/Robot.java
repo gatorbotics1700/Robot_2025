@@ -38,15 +38,23 @@ public class Robot extends TimedRobot {
         // // Schedule the command to run during teleop
         if (m_teleopColor != null) {
             m_teleopColor.schedule();
+            System.out.println("Scheduled teleopColor command to set LEDs to green.");
+
         }
 
 
     }
 
+    
+
     @Override
     public void teleopPeriodic() {
     
+        if (m_teleopColor != null) {
+            m_teleopColor.schedule();
+            System.out.println("Scheduled teleopColor command to set LEDs to green.");
 
+        }
     }
 
 

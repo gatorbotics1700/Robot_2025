@@ -28,7 +28,7 @@ public class RobotContainer {
     // m_drive.setDefaultCommand(new DrivewithJoysticks(m_drive, m_joystick.getRawAxis(0), m_joystick.getRawAxis(1)));
     
     // SendableRegistry.add(m_drive, "drive");
-    // configureButtonBindings();
+    configureButtonBindings();
   }
 
   private void configureButtonBindings() {
