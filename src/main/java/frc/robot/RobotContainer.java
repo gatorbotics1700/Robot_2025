@@ -20,7 +20,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final Joystick m_joystick = new Joystick(0);
 
-  private static final BlinkinLEDController m_blinkinledcontrol = BlinkinLEDController.getInstance();
+  //private static final BlinkinLEDController m_blinkinledcontrol = BlinkinLEDController.getInstance();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -41,9 +41,9 @@ public class RobotContainer {
 
   }
 
-  public Command getTeleopColor() {
-    System.out.println("calling teleopcolor");
-    return new LEDsControlCommand(m_blinkinledcontrol, BlinkinPattern.LIME);
+  // public Command getTeleopColor() {
+  //   System.out.println("calling teleopcolor");
+  // //  return new LEDsControlCommand(m_blinkinledcontrol, BlinkinPattern.LIME);
 
     // return new TurretControlCommand(m_turretsub, 0.05, 90);
     // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
@@ -53,9 +53,8 @@ public class RobotContainer {
    // return new ServoControlCommand(m_servosub, 20);
   }
 
-  public Command getAutoColor(){
-    return new LEDsControlCommand(m_blinkinledcontrol, BlinkinPattern.RED_ORANGE);
-  }
+  // public Command getAutoColor(){
+  //   return new LEDsControlCommand(m_blinkinledcontrol, BlinkinPattern.RED_ORANGE);
+  // }
 
   
-}

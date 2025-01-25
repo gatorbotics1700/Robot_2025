@@ -59,11 +59,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit(){
-        m_autoColor = m_robotContainer.getAutoColor();
-
-        if (m_autoColor != null) {
-            m_autoColor.schedule();
-        }
+      
     } 
        
     
