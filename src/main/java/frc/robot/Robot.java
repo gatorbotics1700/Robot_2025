@@ -14,7 +14,20 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        System.out.println("Setting LEDs to LIME...");
-        ledController.setPattern(BlinkinLEDController.BlinkinPattern.LIME);
+        System.out.println("TELEOP**** Setting LEDs to LIME...");
+        ledController.setPattern(0.73);
     }
+    @Override
+    public void autonomousInit() {
+        ledController.lightsGreen();
+        System.out.println("AUTO**** LEDs set to green (LIME)");
+    }
+
+    @Override
+    public void disabledInit() {
+        // Set LEDs to white when disabled
+        ledController.setPattern(0.87);
+        System.out.println("LEDs set to blue (normal)");
+    }
+
 }
