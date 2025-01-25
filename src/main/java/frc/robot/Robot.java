@@ -9,7 +9,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         // Initialize the LED controller on PWM port 0
-        ledController = new BlinkinLEDController(0);
+        ledController = new BlinkinLEDController();
     }
 
     @Override
@@ -17,9 +17,12 @@ public class Robot extends TimedRobot {
         System.out.println("TELEOP**** Setting LEDs to LIME...");
         ledController.setPattern(0.73);
     }
+
+    
+
     @Override
     public void autonomousInit() {
-        ledController.lightsGreen();
+        //ledController.lightsGreen();
         System.out.println("AUTO**** LEDs set to green (LIME)");
     }
 
@@ -28,6 +31,11 @@ public class Robot extends TimedRobot {
         // Set LEDs to white when disabled
         ledController.setPattern(0.87);
         System.out.println("LEDs set to blue (normal)");
+    }
+
+    @Override
+    public void testPeriodic() {
+        ledController.setPattern(0.93);
     }
 
 }
