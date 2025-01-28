@@ -14,7 +14,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        System.out.println("TELEOP**** Setting LEDs to LIME...");
+      //  System.out.println("TELEOP**** Setting LEDs to LIME...");
         ledController.setPattern(0.73);
     }
 
@@ -22,21 +22,21 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        ledController.setPattern(0.73);
-        System.out.println("AUTO**** LEDs set to green (LIME)");
+        ledController.setPattern(0.87);
+     //   System.out.println("AUTO**** LEDs set to green (lime)");
     }
 
     @Override
     public void autonomousPeriodic() {
-        ledController.setPattern(0.73);
-        System.out.println("AUTO**** LEDs set to green (LIME)");
+        ledController.setPattern(0.3);
+      //  System.out.println("AUTO**** LEDs set to green (lime)");
     }
 
     @Override
     public void disabledInit() {
         // Set LEDs to white when disabled
         ledController.setPattern(0.87);
-        System.out.println("LEDs set to blue (normal)");
+     //   System.out.println("LEDs set to blue (normal)");
     }
 
     @Override
