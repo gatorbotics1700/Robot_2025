@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 //import com.ctre.phoenix6.hardware.TalonFX;
-//import com.autodesk.synthesis.revrobotics;
+//import com.autodesk.synthesis.revrobotics.TalonFX;
 
 import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
