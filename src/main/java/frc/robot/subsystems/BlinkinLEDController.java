@@ -12,7 +12,7 @@ import frc.robot.Constants;
 
 public class BlinkinLEDController {
 
-  private BlinkinLEDController m_controller = null;
+  private static BlinkinLEDController m_controller = null;
   private Spark m_blinkin;
   private GenericEntry patternEntry;
 
@@ -28,13 +28,22 @@ public class BlinkinLEDController {
   public void setPattern(double pattern) {
     m_blinkin.set(pattern);
    patternEntry.setDouble(pattern);
-   patternEntry.
+   //patternEntry.
    System.out.println(pattern);
   }
 
-  public BlinkinLEDController getInstance() {
-    if (m_controller == null) m_controller = new BlinkinLEDController();
-    return m_controller;
+  public void setIntakeActiveColor() {
+    setPattern(0.57); 
   }
-     
+
+  public void setIntakeIdleColor() {
+    setPattern(-0.57); 
+  }
+
+  public static BlinkinLEDController getInstance() {
+   if (m_controller == null) {
+    m_controller = new BlinkinLEDController();
+   }
+   return m_controller;
+  }
 }

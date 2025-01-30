@@ -5,6 +5,8 @@ import frc.robot.subsystems.BlinkinLEDController;
 
 public class Robot extends TimedRobot {
     private BlinkinLEDController ledController;
+    private long lastToggleTime = 0;
+    private boolean isActiveColor = true;
 
     @Override
     public void robotInit() {
@@ -12,10 +14,28 @@ public class Robot extends TimedRobot {
         ledController = new BlinkinLEDController();
     }
 
-    @Override
+  /*   @Override
     public void teleopInit() {
       //  System.out.println("TELEOP**** Setting LEDs to LIME...");
-        ledController.setPattern(0.73);
+        ledController.setPattern(0.57);
+    } */
+
+    @Override
+    public void teleopPeriodic() {
+
+        long currentTime = System.currentTimeMillis();
+
+        if (currentTime - lastToggleTime >= 1000) {
+
+            if (isActiveColor) {
+                ledController.setPattern(0.57);
+            } else {
+                ledController.setPattern(0.87);
+            }
+            isActiveColor = !isActiveColor;
+            lastToggleTime = currentTime;
+        }
+    
     }
 
     
