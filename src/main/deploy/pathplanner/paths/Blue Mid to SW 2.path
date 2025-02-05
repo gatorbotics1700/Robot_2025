@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.606,
+        "x": 8.605999999999767,
         "y": 4.026
       },
       "isLocked": false,
@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 4.056,
-        "y": 2.86
+        "x": 4.037,
+        "y": 2.827
       },
       "prevControl": {
-        "x": 4.863761247907366,
-        "y": 1.363354056222098
+        "x": 4.347611781529018,
+        "y": 1.6065089634486605
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,11 +41,11 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0.0,
+    "velocity": 0,
     "rotation": 59.99999999999999
   },
   "reversed": false,
-  "folder": "Blue Start to Reef",
+  "folder": "Blue Folder",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
