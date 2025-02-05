@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 14.26,
+        "x": 14.298,
         "y": 4.19
       },
       "prevControl": {
-        "x": 13.387904139927455,
-        "y": 7.4137642996651785
+        "x": 14.039071655273437,
+        "y": 7.988725934709821
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Red Start to Reef",
+  "folder": "Red Folder",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0
