@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.CANBus;
-import com.ctre.phoenix6.CANBus.CANBusStatus;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
 import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
@@ -18,7 +17,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -186,9 +184,21 @@ public class DrivetrainSubsystem extends SubsystemBase {
         setStates(targetStates);
     }
 
-    public void updateOdometryWithVision(Pose2d visionPose){
-        odometry.addVisionMeasurement(visionPose, Timer.getTimestamp() - 0.3);
+    public void updateOdometryWithVision(){
+        LimelightHelpers.SetRobotOrientation("limelight", odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+        //if we're turning a lot, we won't have an accurate reading so don't trust the limelight
+        if(Math.abs(pigeon.getAngularVelocityZWorld().getValueAsDouble()) > 720){
+            return;
+        }
+        //if we see no april tags we don't want to trust the limelight
+        if(mt2.tagCount == 0){
+            return;
+        }
+        odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999)); //TODO: how to tune?
+        odometry.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
     }
+
 
     @Override
     public void periodic() {
@@ -201,21 +211,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 backRightModule.getPosition() 
             }
         );
-        
-        boolean doRejectUpdate = false;
 
-        LimelightHelpers.SetRobotOrientation("limelight", odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
-        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-        if(Math.abs(pigeon.getAngularVelocityZWorld().getValueAsDouble()) > 720){
-            doRejectUpdate = true;
-        }
-        if(mt2.tagCount == 0){
-            doRejectUpdate = true;
-        }
-        if(!doRejectUpdate){
-            odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
-            odometry.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
-        }
+        updateOdometryWithVision();
 
         SmartDashboard.putNumber("Gyroscope Angle", getRotation().getDegrees());
         SmartDashboard.putNumber("Pose X", odometry.getEstimatedPosition().getX());
