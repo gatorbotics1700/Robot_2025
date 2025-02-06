@@ -16,6 +16,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
+        SmartDashboard.putNumber("testNum", 1090909);
+        System.out.println("1029102839812");
     }
 
     @Override
