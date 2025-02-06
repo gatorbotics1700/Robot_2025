@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.056,
-        "y": 2.86
+        "x": 1.137,
+        "y": 1.017
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.461297607421875,
-        "y": 2.338422066824777
+        "x": 0.5422976074218748,
+        "y": 0.49542206682477685
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.113,
-        "y": 0.986
+        "x": 4.037,
+        "y": 2.827
       },
       "prevControl": {
-        "x": 0.8534140450613839,
-        "y": 0.9317247663225442
+        "x": 3.777414045061384,
+        "y": 2.7727247663225443
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -126.0
+    "rotation": 59.99999999999999
   },
   "reversed": false,
   "folder": "Blue Reef to Coral Station",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": -126.0
   },
   "useDefaultConstraints": true
 }
