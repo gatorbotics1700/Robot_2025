@@ -11,57 +11,24 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         // Initialize the LED controller on PWM port 0
-        ledController = new BlinkinLEDController();
+        ledController = BlinkinLEDController.getInstance();
     }
-
-  /*   @Override
-    public void teleopInit() {
-      //  System.out.println("TELEOP**** Setting LEDs to LIME...");
-        ledController.setPattern(0.57);
-    } */
 
     @Override
     public void teleopPeriodic() {
 
         long currentTime = System.currentTimeMillis();
 
-        if (currentTime - lastToggleTime >= 1000) {
+        if (currentTime - lastToggleTime >= 2000) {
 
             if (isActiveColor) {
-                ledController.setPattern(0.57);
+                ledController.setPink();
             } else {
-                ledController.setPattern(0.87);
+                ledController.setBlue();
             }
             isActiveColor = !isActiveColor;
             lastToggleTime = currentTime;
         }
-    
-    }
-
-    
-
-    @Override
-    public void autonomousInit() {
-        ledController.setPattern(0.87);
-     //   System.out.println("AUTO**** LEDs set to green (lime)");
-    }
-
-    @Override
-    public void autonomousPeriodic() {
-        ledController.setPattern(0.3);
-      //  System.out.println("AUTO**** LEDs set to green (lime)");
-    }
-
-    @Override
-    public void disabledInit() {
-        // Set LEDs to white when disabled
-        ledController.setPattern(0.87);
-     //   System.out.println("LEDs set to blue (normal)");
-    }
-
-    @Override
-    public void testPeriodic() {
-        ledController.setPattern(0.93);
     }
 
 }
