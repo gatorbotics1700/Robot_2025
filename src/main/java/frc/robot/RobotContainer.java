@@ -31,6 +31,8 @@ public class RobotContainer {
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 0, controller)); // id 8
         new Trigger(controller::getBButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller)); // id 2 
+            new Trigger(controller::getXButtonPressed)
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller)); // id 1 
     }
 
 

@@ -16,6 +16,7 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         container = new RobotContainer();
         SmartDashboard.putData(CommandScheduler.getInstance());
+        SmartDashboard.putNumber("Distance to tag", -1);
         visionTesting = Shuffleboard.getTab("Vision Testing");
         //SmartDashboard.putBoolean("Is FD?", DrivetrainSubsystem.isFD);
         

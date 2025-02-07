@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LimelightSubsystem extends SubsystemBase {
 
@@ -61,6 +62,9 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public double distanceToTag() {
+        if(limelightTable == null){
+            return -1;
+        }
         double[] targetPose = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
         // returns Z offset to apriltag, but in the camera relative coordinate system
         double TZ = targetPose[2]; 
@@ -84,6 +88,12 @@ public class LimelightSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-
+        if(limelightTable!=null){
+            SmartDashboard.putNumber("Distance to tag", distanceToTag());
+        }else{
+            SmartDashboard.putNumber("Distance to tag", -1);
+        }
+        
+        System.out.println("Limelight subsystem periodic running: " + distanceToTag());
     }
 }

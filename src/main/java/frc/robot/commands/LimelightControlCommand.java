@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LimelightControlCommand extends Command {
     private final LimelightSubsystem limelightSubsystem;
@@ -35,14 +36,15 @@ public class LimelightControlCommand extends Command {
     public void execute() {
         // makes sure we are looking at the correct id
         if (limelightSubsystem.hasValidTarget() && targetMatchesPipeline()) { 
-            updateDesiredPose();
+          //  updateDesiredPose();
         } else {
             System.out.println("\tNo valid target detected.");
         }
 
         if (desiredPose != null) {
-            drivetrainSubsystem.driveToPoseWithInitialAngle(desiredPose, pointingToTagAngle);
+          //  drivetrainSubsystem.driveToPoseWithInitialAngle(desiredPose, pointingToTagAngle);
         }
+        System.out.println("Distance to tag: " + limelightSubsystem.distanceToTag());
     }
 
     @Override
@@ -77,6 +79,8 @@ public class LimelightControlCommand extends Command {
             return limelightSubsystem.getTargetID() == 8;
         } else if (pipeline == 1) {
             return limelightSubsystem.getTargetID() == 2;
+        } else if (pipeline == 2) {
+            return limelightSubsystem.getTargetID() == 1;
         }
         return false;
     }
