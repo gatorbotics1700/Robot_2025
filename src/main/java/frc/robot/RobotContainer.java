@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import frc.robot.subsystems.BlinkinLEDController.BlinkinPattern;
 import frc.robot.subsystems.BlinkinLEDController;
 //import frc.robot.commands.LEDsControlCommand;;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 
 
@@ -29,6 +31,7 @@ public class RobotContainer {
     
     // SendableRegistry.add(m_drive, "drive");
     configureButtonBindings();
+
   }
 
   private void configureButtonBindings() {
@@ -39,6 +42,14 @@ public class RobotContainer {
     // slower.whileHeld(new SpinSlower(m_spinner));
     // faster.whileHeld(new SpinFaster(m_spinner));
 
+  }
+
+
+
+  
+  private void XColorPress(boolean getXButtonPressed){
+      BlinkinLEDController.setPattern(2.0);
+      
   }
 
   // public Command getTeleopColor() {
