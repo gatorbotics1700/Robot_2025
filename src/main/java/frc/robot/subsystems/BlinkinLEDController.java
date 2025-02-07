@@ -19,9 +19,9 @@ public class BlinkinLEDController {
   public BlinkinLEDController() {
     m_blinkin = new Spark(0);
     patternEntry = Shuffleboard.getTab("LEDs")
-    .add("LED pattern", 0)
+    .add("LED pattern", 0.0)
     .withWidget(BuiltInWidgets.kNumberBar)
-    .withProperties(Map.of("min", 0, "max", 1))
+    .withProperties(Map.of("min", -1.0, "max", 1.0))
     .getEntry();
   }
 
@@ -29,15 +29,15 @@ public class BlinkinLEDController {
     m_blinkin.set(pattern);
    patternEntry.setDouble(pattern);
    //patternEntry.
-   System.out.println(pattern);
+   System.out.println("Pattern set to: " + pattern);
   }
 
-  public void setIntakeActiveColor() {
+  public void setBlue() {
     setPattern(0.57); 
   }
 
-  public void setIntakeIdleColor() {
-    setPattern(-0.57); 
+  public void setPink() {
+    setPattern(0.87); 
   }
 
   public static BlinkinLEDController getInstance() {
