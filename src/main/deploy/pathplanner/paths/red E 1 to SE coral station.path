@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 14.26,
+        "x": 14.298,
         "y": 3.862
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.26,
-        "y": 3.862
+        "x": 14.844895281110489,
+        "y": 3.675646536690848
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 16.434,
-        "y": 0.986
+        "x": 16.411,
+        "y": 1.017
       },
       "prevControl": {
-        "x": 15.434000000000001,
-        "y": 0.9859999999999998
+        "x": 15.411000000000001,
+        "y": 1.017
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,7 +47,7 @@
   "reversed": false,
   "folder": "Red Reef to Coral Station",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": 180.0
   },
   "useDefaultConstraints": true
