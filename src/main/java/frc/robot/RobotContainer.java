@@ -10,10 +10,10 @@ import frc.robot.commands.CoralPivotCommand;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.subsystems.AlgaePivotSubsystem;
 import frc.robot.subsystems.AlgaeSubsystem;
-//import frc.robot.commands.CoralShooterCommand;
+import frc.robot.commands.CoralShooterCommand;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CoralPivotSubsystem;
-// import frc.robot.subsystems.CoralShooterSubsystem;
+import frc.robot.subsystems.CoralShooterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -41,7 +41,7 @@ public class RobotContainer {
     private static final AlgaePivotSubsystem m_algaePivotSub = new AlgaePivotSubsystem();
     private static final CoralSubsystem m_coralSubsystem = new CoralSubsystem();
     private static final AlgaeSubsystem m_algaeSub = new AlgaeSubsystem();
-
+    private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
 
 
     public RobotContainer() {
@@ -49,11 +49,11 @@ public class RobotContainer {
         System.out.println("RobotContainer initializing");
 
         // Zero gyroscope button binding
-        // new Trigger(controller::getBackButtonPressed)
-        //      .onTrue(new InstantCommand(drivetrain::zeroGyroscope));
+        new Trigger(controller_two::getBackButtonPressed)
+              .onTrue(new InstantCommand(drivetrain::zeroGyroscope));
 
-        // new Trigger(controller::getRightBumperPressed)
-        //      .onTrue(new InstantCommand(drivetrain::setSlowDrive));
+        new Trigger(controller_two::getRightBumperPressed)
+              .onTrue(new InstantCommand(drivetrain::setSlowDrive));
 
         //pipeline buttons
         // new Trigger(controller::getAButtonPressed)
@@ -72,9 +72,9 @@ public class RobotContainer {
         // new Trigger(controller_two::getAButtonPressed)
         //     .onTrue(new CoralCommand(m_coralSubsystem, 0));
 
-        // //coral intaking
+        //coral intaking
         // new Trigger(controller_two::getXButtonPressed)
-        // .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_INTAKING_SPEED));
+        //  .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_INTAKING_SPEED));
 
         // coral pivot propped up
     //    new Trigger(controller_two::getXButtonPressed)
@@ -86,26 +86,34 @@ public class RobotContainer {
             // .onTrue(new AlgaeCommand(m_algaeSub, -0.5));
 
         // algae intaking
-        new Trigger(controller_two::getXButtonPressed)
-            .onTrue(new AlgaeCommand(m_algaeSub, Constants.CORAL_INTAKING_SPEED));
+        //new Trigger(controller_two::getXButtonPressed)
+        //    .onTrue(new AlgaeCommand(m_algaeSub, Constants.CORAL_INTAKING_SPEED));
 
         //algae stop
-        new Trigger(controller_two::getYButtonPressed)
-            .onTrue(new AlgaeCommand(m_algaeSub, 0));
+        //new Trigger(controller_two::getYButtonPressed)
+        //    .onTrue(new AlgaeCommand(m_algaeSub, 0));
 
         // new Trigger(controller_two::getYButtonPressed)
         //     .onTrue(new AlgaePivotCommand(m_algaePivotSub, 30));
         // 
 
 
+        // Coral shooter intake / outtake
+        new Trigger(controller_two::getAButtonPressed)
+        .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
+        new Trigger(controller_two::getXButtonPressed)
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_OUTTAKING_SPEED));
+
+
+
         //button to stop intake & outtake or climbing
-        //new Trigger(controller_two::getBButtonPressed)
-            //.onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
+        new Trigger(controller_two::getBButtonPressed)
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
             // .onTrue(new ClimbingCommand(m_climbingSub, 0)); //off
 
 
-        new Trigger(controller_two::getBButtonPressed)
-            .onTrue(new ElevatorCommand(m_elevatorSub, 27, 0));
+        //new Trigger(controller_two::getBButtonPressed)
+           // .onTrue(new ElevatorCommand(m_elevatorSub, 27, 0));
         
         new Trigger(controller_two::getAButtonPressed)
             .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
@@ -146,9 +154,9 @@ public class RobotContainer {
        drivetrain.setDefaultCommand(
            new TeleopDriveCommand(
                 drivetrain,
-               () -> -modifyAxis(controller.getRightY()),    // Changed to raw values
-               () -> -modifyAxis(controller.getRightX()),     // Changed to raw values
-               () -> -modifyAxis(controller.getLeftX())    // Changed to raw values
+               () -> -modifyAxis(controller_two.getRightY()),    // Changed to raw values
+               () -> -modifyAxis(controller_two.getRightX()),     // Changed to raw values
+               () -> -modifyAxis(controller_two.getLeftX())    // Changed to raw values
            )
        );
     }
