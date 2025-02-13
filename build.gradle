@@ -99,3 +99,25 @@ wpi.java.configureTestTasks(test)
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
+
+tasks.register('modifyPaths') {
+    description = 'Modifies all PathPlanner paths by moving final waypoints along their rotation'
+    group = 'pathplanner'
+
+    // Make sure we have the compiled classes available
+    dependsOn 'classes'
+
+    doLast {
+        // Get magnitude from command line or use default
+        def magnitude = project.hasProperty('magnitude') ? project.property('magnitude') as Double : 0.5
+
+        // Get folder from command line (optional)
+        def folder = project.hasProperty('folder') ? project.property('folder') : ''
+
+        javaexec {
+            classpath = sourceSets.main.runtimeClasspath
+            mainClass = 'frc.robot.PathModifierUtil'
+            args = folder.isEmpty() ? ['--all', magnitude] : ['--folder', folder, magnitude]
+        }
+    }
+}
