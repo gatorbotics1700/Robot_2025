@@ -1,5 +1,0 @@
-package frc.robot.telemetry;
-
-public interface TelemetryPublisher {
-    public void publishTelemetry()
-}

@@ -100,11 +100,24 @@ tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
 
-task run(type: JavaExec) {
-  group = 'PathModifier' // <-- change the name as per your need
-  description = 'Modify paths by a magnitude'
+tasks.register('modifyPaths') {
+    description = 'Modifies all PathPlanner paths by moving final waypoints along their rotation'
+    group = 'pathplanner'
 
-  classpath sourceSets.main.runtimeClasspath // <-- Don't change this
-  main = "frc.robot.PathModifierUtil"
-  args "blue mid to ne 1", "1"
+    // Make sure we have the compiled classes available
+    dependsOn 'classes'
+
+    doLast {
+        // Get magnitude from command line or use default
+        def magnitude = project.hasProperty('magnitude') ? project.property('magnitude') as Double : 0.5
+
+        // Get folder from command line (optional)
+        def folder = project.hasProperty('folder') ? project.property('folder') : ''
+
+        javaexec {
+            classpath = sourceSets.main.runtimeClasspath
+            mainClass = 'frc.robot.PathModifierUtil'
+            args = folder.isEmpty() ? ['--all', magnitude] : ['--folder', folder, magnitude]
+        }
+    }
 }

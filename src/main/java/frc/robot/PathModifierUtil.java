@@ -78,52 +78,105 @@ public class PathModifierUtil {
     }
 
     /**
-     * Modifies a PathPlanner path file by moving the final waypoint along its rotation direction
-     * @param pathName The name of the path file (without .path extension)
+     * Modifies a single PathPlanner path file
+     * @param pathFile The File object representing the path file
      * @param magnitude The distance to move the final waypoint
      * @return true if successful, false if an error occurred
      */
-    public static boolean modifyPathFile(String pathName, double magnitude) {
+    private static boolean modifyPathFile(File pathFile, double magnitude) {
         try {
-            String deployDir = Paths.get(System.getProperty("user.dir"), "src", "main", "deploy").toString();
-            String pathFile = Paths.get(deployDir, "pathplanner", "paths", pathName + ".path").toString();
-
             ObjectMapper mapper = new ObjectMapper();
 
             // Read the path file
-            PathPlannerPath path = mapper.readValue(new File(pathFile), PathPlannerPath.class);
+            PathPlannerPath path = mapper.readValue(pathFile, PathPlannerPath.class);
 
             // Modify the path
             modifyPath(path, magnitude);
 
             // Write back to the same file
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(pathFile), path);
+            mapper.writerWithDefaultPrettyPrinter().writeValue(pathFile, path);
 
             System.out.printf("Successfully modified path '%s'. Final waypoint moved %.3f units along rotation angle %.1f°%n", 
-                            pathName, magnitude, path.goalEndState.rotation);
+                            pathFile.getName(), magnitude, path.goalEndState.rotation);
             return true;
-
         } catch (Exception e) {
-            System.err.println("Error modifying path: " + e.getMessage());
+            System.err.println("Error modifying path " + pathFile.getName() + ": " + e.getMessage());
             e.printStackTrace();
             return false;
         }
     }
 
+    /**
+     * Modifies all PathPlanner path files in a directory
+     * @param folderName The name of the folder within pathplanner/paths (or null/empty for all paths)
+     * @param magnitude The distance to move the final waypoint
+     * @return The number of successfully modified files
+     */
+    public static int modifyAllPathFiles(String folderName, double magnitude) {
+        String deployDir = Paths.get(System.getProperty("user.dir"), "src", "main", "deploy").toString();
+        File pathsDir = new File(Paths.get(deployDir, "pathplanner", "paths").toString());
+
+        if (!pathsDir.exists() || !pathsDir.isDirectory()) {
+            System.err.println("Error: PathPlanner paths directory not found");
+            return 0;
+        }
+
+        File[] pathFiles = pathsDir.listFiles((dir, name) -> {
+            if (!name.endsWith(".path")) {
+                return false;
+            }
+            if (folderName == null || folderName.isEmpty()) {
+                return true;
+            }
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                PathPlannerPath path = mapper.readValue(new File(dir, name), PathPlannerPath.class);
+                return folderName.equals(path.folder);
+            } catch (Exception e) {
+                return false;
+            }
+        });
+
+        if (pathFiles == null || pathFiles.length == 0) {
+            System.out.println("No path files found" + 
+                (folderName != null && !folderName.isEmpty() ? " in folder '" + folderName + "'" : ""));
+            return 0;
+        }
+
+        int successCount = 0;
+        for (File pathFile : pathFiles) {
+            if (modifyPathFile(pathFile, magnitude)) {
+                successCount++;
+            }
+        }
+
+        System.out.printf("Modified %d out of %d path files%n", successCount, pathFiles.length);
+        return successCount;
+    }
+
     public static void main(String[] args) {
-        if (args.length != 2) {
-            System.out.println("Usage: java PathModifierUtil <pathName> <magnitude>");
-            System.out.println("Note: Don't include the .path extension in the path name");
+        if (args.length < 2 || args.length > 3) {
+            System.out.println("Usage:");
+            System.out.println("  For single file: java PathModifierUtil <pathName> <magnitude>");
+            System.out.println("  For all files: java PathModifierUtil --all <magnitude>");
+            System.out.println("  For files in folder: java PathModifierUtil --folder <folderName> <magnitude>");
             System.exit(1);
         }
 
         try {
-            String pathName = args[0];
-            double magnitude = Double.parseDouble(args[1]);
-
-            boolean success = modifyPathFile(pathName, magnitude);
-            if (!success) {
-                System.exit(1);
+            if (args[0].equals("--all")) {
+                double magnitude = Double.parseDouble(args[1]);
+                modifyAllPathFiles(null, magnitude);
+            } else if (args[0].equals("--folder")) {
+                String folderName = args[1];
+                double magnitude = Double.parseDouble(args[2]);
+                modifyAllPathFiles(folderName, magnitude);
+            } else {
+                String pathName = args[0];
+                double magnitude = Double.parseDouble(args[1]);
+                File pathFile = new File(Paths.get(System.getProperty("user.dir"), "src", "main", "deploy",
+                    "pathplanner", "paths", pathName + ".path").toString());
+                modifyPathFile(pathFile, magnitude);
             }
 
         } catch (NumberFormatException e) {
