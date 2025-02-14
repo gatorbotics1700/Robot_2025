@@ -20,11 +20,16 @@ public class CoralShooterCommand extends Command {
     @Override
     public void execute() {
         //set speed to given value 
-        coralShooterSubsystem.setSpeed(speed);
+        coralShooterSubsystem.setHighMotorSpeed(speed);
         if (speed > 0) {
+            coralShooterSubsystem.setLowMotorSpeed(0);
             System.out.println("INTAKING");
         } else if (speed < 0) {
+            coralShooterSubsystem.setLowMotorSpeed(speed);
             System.out.println ("OUTTAKING");
+        } else {
+            System.out.println("SPEED: " + speed);
+            coralShooterSubsystem.setLowMotorSpeed(0);
         }
         System.out.println("SPEED: " + speed);    
         // if (speed < 0) { // if outtaking
@@ -58,7 +63,7 @@ public class CoralShooterCommand extends Command {
         
         if(speed > 0){ // if intaking
             if(System.currentTimeMillis() - startTime > 10000){
-                coralShooterSubsystem.setSpeed(0);
+                coralShooterSubsystem.setHighMotorSpeed(0);
                 System.out.println ("Finished intaking");
                 return true;
             }
@@ -66,7 +71,7 @@ public class CoralShooterCommand extends Command {
             return true;
         } else if(speed < 0){ // if outtaking
             if(System.currentTimeMillis() - startTime > 5000){
-                coralShooterSubsystem.setSpeed(0);
+                coralShooterSubsystem.setHighMotorSpeed(0);
                 System.out.println("Finished outtaking");
                 return true;
             } 
