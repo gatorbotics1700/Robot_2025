@@ -9,6 +9,7 @@ import frc.robot.commands.StickPivotCommand;
 import frc.robot.commands.StickCommand;
 import frc.robot.commands.ClimbingCommand;
 import frc.robot.commands.ElevatorCommand;
+import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.StickPivotSubsystem;
 import frc.robot.subsystems.StickSubsystem;
 import frc.robot.commands.CoralShooterCommand;
@@ -67,7 +68,7 @@ public class RobotContainer {
 
         //pipeline buttons
         new Trigger(button_board.button(1))
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller));
+            .onTrue(new ExampleCommand());
         // new Trigger(controller::getAButtonPressed)
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller)); // id 6,19 A
         // new Trigger(controller::getBButtonPressed)
