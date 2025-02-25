@@ -20,9 +20,12 @@ import frc.robot.subsystems.LimelightSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -31,8 +34,8 @@ import com.pathplanner.lib.auto.NamedCommands;
 public class RobotContainer {
     private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
     private final XboxController controller = new XboxController(0);
-
     private final XboxController controller_two = new XboxController(1);
+    private final CommandGenericHID button_board = new CommandGenericHID(2);
     private final SendableChooser<Command> autoChooser;
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
     private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
@@ -63,6 +66,8 @@ public class RobotContainer {
         //     .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.74));
 
         //pipeline buttons
+        new Trigger(button_board.button(1))
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller));
         // new Trigger(controller::getAButtonPressed)
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller)); // id 6,19 A
         // new Trigger(controller::getBButtonPressed)
