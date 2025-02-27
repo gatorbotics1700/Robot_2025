@@ -71,6 +71,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     //     return colorSensor.get();
     // }
 
+    // not sure if these should be inverted or not
     public boolean atTopLimitSwitch(){
         return topLimitSwitch.get();
     }
