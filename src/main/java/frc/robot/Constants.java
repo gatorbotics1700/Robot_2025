@@ -90,10 +90,10 @@ public class Constants {
     public static final double ELEVATOR_SPROCKET_DIAMETER = 1.762; // inches
     public static final double ELEVATOR_GEAR_RATIO = 125.0;
     public static final double ELEVATOR_TICKS_PER_INCH = ((KRAKEN_TICKS_PER_REV * ELEVATOR_GEAR_RATIO) / ELEVATOR_SPROCKET_DIAMETER / Math.PI)/2;
-    public static final double ELEVATOR_LEVEL_ONE = 0.0; //TODO: fill in
-    public static final double ELEVATOR_LEVEL_TWO = 0.0; //TODO: fill in
-    public static final double ELEVATOR_LEVEL_THREE = 0.0; //TODO: fill in
-    public static final double ELEVATOR_LEVEL_FOUR = 30.0; //TODO: fill in this value is a temp value for testing
+    public static final double ELEVATOR_LEVEL_ONE = 0.0; //TODO: check -- all these values assume our mechanism is 18 inches up from the ground -- its probably higher but guesstimated
+    public static final double ELEVATOR_LEVEL_TWO = 13.875; //TODO: check
+    public static final double ELEVATOR_LEVEL_THREE = 29.625; //TODO: check
+    public static final double ELEVATOR_LEVEL_FOUR = 54.0; //TODO: check
     public static final int TOP_LIMIT_SWITCH_PORT = 9;
     public static final int BOTTOM_LIMIT_SWITCH_PORT = 0;
 
