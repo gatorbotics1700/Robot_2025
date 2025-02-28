@@ -43,7 +43,7 @@ public class StickPivotSubsystem extends SubsystemBase {
         if(Math.abs(error) > DEADBAND){
             double output = pidController.calculate(currentTicks, desiredTicks);
             System.out.println("OUTPUT: " + output/100);
-            motor.setControl(dutyCycleOut.withOutput(output/100));
+            motor.setControl(dutyCycleOut.withOutput(output/100)); //TODO: figure out if we're calculating this incorrectly and why we're dividing by 100
             //algaePivotMotor.setControl(positionVoltage.withPosition(desiredTicks));
         } else {
             motor.setControl(dutyCycleOut.withOutput(0));

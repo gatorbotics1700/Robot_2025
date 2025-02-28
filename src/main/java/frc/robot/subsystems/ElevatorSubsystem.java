@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class ElevatorSubsystem extends SubsystemBase {
-    public TalonFX motor;
+    private TalonFX motor;
     private static DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
     //private static PositionVoltage positionVoltage = new PositionVoltage(0);
     
