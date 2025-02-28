@@ -53,11 +53,11 @@ public class RobotContainer {
         System.out.println("RobotContainer initializing");
 
         // Zero gyroscope button binding
-        new Trigger(controller::getBackButtonPressed)
-                .onTrue(new InstantCommand(drivetrainSubsystem::zeroGyroscope));
+        // new Trigger(controller::getBackButtonPressed)
+        //         .onTrue(new InstantCommand(drivetrainSubsystem::zeroGyroscope));
 
-        new Trigger(controller::getRightBumperPressed)
-                .onTrue(new InstantCommand(drivetrainSubsystem::setSlowDrive));
+        // new Trigger(controller::getRightBumperPressed)
+        //         .onTrue(new InstantCommand(drivetrainSubsystem::setSlowDrive));
 
         // new Trigger(controller::getAButtonPressed)
         //     .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.74));
@@ -71,14 +71,14 @@ public class RobotContainer {
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller)); // id 8,17 X
         // new Trigger(controller::getYButtonPressed)
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller)); // id 9,22 Y
-        new Trigger(controller_two::getBButtonPressed)
-            .onTrue(new ElevatorCommand(m_elevatorSub, 36, 0));
-        new Trigger(controller_two::getAButtonPressed)
-            .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
-        new Trigger(controller_two::getRightBumperPressed)
-            .whileTrue(new ElevatorCommand(m_elevatorSub, 45, 0)); // replace the height with the MAXIMUM height of the elevator
-        new Trigger(controller_two::getLeftBumperPressed)
-            .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
+        // new Trigger(controller_two::getBButtonPressed)
+        //     .onTrue(new ElevatorCommand(m_elevatorSub, 36, 0));
+        // new Trigger(controller_two::getAButtonPressed)
+        //     .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
+        // new Trigger(controller_two::getRightBumperPressed)
+        //     .whileTrue(new ElevatorCommand(m_elevatorSub, 45, 0)); // replace the height with the MAXIMUM height of the elevator
+        // new Trigger(controller_two::getLeftBumperPressed)
+        //     .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
         
         // new Trigger(controller::getBButtonPressed)
         //     .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
@@ -105,16 +105,16 @@ public class RobotContainer {
 
     
         // coral outtaking
-        // new Trigger(controller_two::getYButtonPressed)
-            // .onTrue(new StickCommand(m_stickSub, -0.5));
+        new Trigger(controller_two::getAButtonPressed)
+            .onTrue(new StickCommand(m_stickSub, -0.1));
 
         // coral intaking
-        // new Trigger(controller_two::getXButtonPressed)
-        //     .onTrue(new StickCommand(m_stickSub, Constants.CORAL_INTAKING_SPEED));
+        new Trigger(controller_two::getBButtonPressed)
+            .onTrue(new StickCommand(m_stickSub, 0.1));
 
         //algae stop
-        // new Trigger(controller_two::getYButtonPressed)
-        //     .onTrue(new StickCommand(m_stickSub, 0));
+        new Trigger(controller_two::getXButtonPressed)
+            .onTrue(new StickCommand(m_stickSub, 0));
 
         // new Trigger(controller_two::getYButtonPressed)
         //     .onTrue(new StickPivotCommand(m_stickPivotSub, 30));
