@@ -17,10 +17,13 @@ import frc.robot.Constants;
 public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
+    private final NetworkTable limelightTable2;
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
         LimelightHelpers.setCameraPose_RobotSpace("limelight", Constants.LIMELIGHT_FORWARD_OFFSET , Constants.LIMELIGHT_SIDE_OFFSET, Constants.LIMELIGHT_UP_OFFSET, Constants.LIMELIGHT_ROLL_OFFSET, Constants.LIMELIGHT_PITCH_OFFSET, Constants.LIMELIGHT_YAW_OFFSET);
+        limelightTable2 = NetworkTableInstance.getDefault().getTable("limelight-2");
+        LimelightHelpers.setCameraPose_RobotSpace("limelight", Constants.LIMELIGHT_2_FORWARD_OFFSET , Constants.LIMELIGHT_2_SIDE_OFFSET, Constants.LIMELIGHT_2_UP_OFFSET, Constants.LIMELIGHT_2_ROLL_OFFSET, Constants.LIMELIGHT_2_PITCH_OFFSET, Constants.LIMELIGHT_2_YAW_OFFSET);
     }
 
     public void turnOnLED() {
@@ -35,9 +38,17 @@ public class LimelightSubsystem extends SubsystemBase {
         return limelightTable.getEntry("tv").getDouble(0.0) == 1.0;
     }
 
+    public boolean LL2HasValidTarget(){
+        return limelightTable2.getEntry("tv").getDouble(0.0) == 1.0;
+    }
+
     //angle between center of camera and center of apriltag (degrees) -- doesn't account for apriltag angle
     public double getHorizontalOffsetAngle() {
         return limelightTable.getEntry("tx").getDouble(0.0);
+    }
+
+    public double getLL2HorizontalOffsetAngle(){
+        return limelightTable2.getEntry("tx").getDouble(0.0);
     }
 
     public double getVerticalOffsetAngle() { //we don't trust this method for distance calculations -- don't use for that
@@ -80,16 +91,36 @@ public class LimelightSubsystem extends SubsystemBase {
      *         - Rotation aligned parallel to the detected tag
      *         Returns null if no AprilTag is detected or vision data is invalid.
      */
-    public Pose2d aprilTagPoseInFieldSpace(Pose2d robotPoseInFieldSpace, Pose2d lineUpOffset) {
+    public Pose2d aprilTagPoseInFieldSpace(Pose2d robotPoseInFieldSpace, Pose2d lineUpOffset, String limelightName) {
         // distance to the camera from the tag (in camera's coordinate space)
-        double[] aprilTagArrayInCameraSpace = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
-       
+        double[] aprilTagArrayInCameraSpace = null;
+        Pose3d cameraPoseFromRobotCenter = null;
+        if(limelightName.equals("limelight-2")){
+            aprilTagArrayInCameraSpace = limelightTable2.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
+            cameraPoseFromRobotCenter = new Pose3d(
+            Constants.LIMELIGHT_2_FORWARD_OFFSET,
+            -Constants.LIMELIGHT_2_SIDE_OFFSET,
+            Constants.LIMELIGHT_2_UP_OFFSET,
+            new Rotation3d(
+                Math.toRadians(Constants.LIMELIGHT_2_ROLL_OFFSET),
+                Math.toRadians(Constants.LIMELIGHT_2_PITCH_OFFSET),
+                Math.toRadians(Constants.LIMELIGHT_2_YAW_OFFSET)
+            )
+        );
+        }else if(limelightName.equals("limelight")){
+            aprilTagArrayInCameraSpace = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
+        }else{
+            System.out.println("INVALID LIMEILGHT NAME");
+            return null;
+        }
+        
+        
         if(aprilTagArrayInCameraSpace == null){ // idk if this is really necessary but better safe than sorry?
             return null;
         }
         
         Pose3d aprilTagPoseInCameraSpace = arrayToPose3d(aprilTagArrayInCameraSpace);
-        Pose2d aprilTagPoseInRobotSpace = convertCameraSpaceToRobotSpace(aprilTagPoseInCameraSpace);
+        Pose2d aprilTagPoseInRobotSpace = convertCameraSpaceToRobotSpace(aprilTagPoseInCameraSpace, cameraPoseFromRobotCenter);
         Pose2d aprilTagPoseFieldSpace = convertToFieldSpace(aprilTagPoseInRobotSpace, robotPoseInFieldSpace);
         Pose2d aprilTagPoseOffsetFrontCenter = offsetToLineUpPoint(aprilTagPoseFieldSpace, lineUpOffset);
          return aprilTagPoseOffsetFrontCenter;
@@ -113,19 +144,7 @@ public class LimelightSubsystem extends SubsystemBase {
         return new Pose3d(array[2], -array[0], -array[1], new Rotation3d(Math.toRadians(-array[3]), Math.toRadians(-array[5]), Math.toRadians(-array[4]))); // there's no way the angles on this are right and frankly we might not even need the tag pose to be a pose3d???
     }
 
-    public Pose2d convertCameraSpaceToRobotSpace(Pose3d poseInCameraSpace){ 
-        // Create the 3D pose of camera relative to robot center
-        Pose3d cameraPoseFromRobotCenter = new Pose3d(
-            Constants.LIMELIGHT_FORWARD_OFFSET,
-            -Constants.LIMELIGHT_SIDE_OFFSET,
-            Constants.LIMELIGHT_UP_OFFSET,
-            new Rotation3d(
-                Math.toRadians(Constants.LIMELIGHT_ROLL_OFFSET),
-                Math.toRadians(Constants.LIMELIGHT_PITCH_OFFSET),
-                Math.toRadians(Constants.LIMELIGHT_YAW_OFFSET)
-            )
-        );
-        
+    public Pose2d convertCameraSpaceToRobotSpace(Pose3d poseInCameraSpace, Pose3d cameraPoseFromRobotCenter){ 
         // Transform the camera pose by the input pose
         Transform3d transform = new Transform3d(poseInCameraSpace.getTranslation(), poseInCameraSpace.getRotation());
         Pose3d robotSpacePose3d = cameraPoseFromRobotCenter.transformBy(transform);

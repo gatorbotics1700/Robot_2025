@@ -7,7 +7,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 
-public class LimelightControlCommand extends Command {
+public class Limelight2ControlCommand extends Command {
     private final LimelightSubsystem limelightSubsystem;
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final XboxController controller;
@@ -16,7 +16,7 @@ public class LimelightControlCommand extends Command {
     private Pose2d lineUpOffset;
     private Rotation2d pointingToTagAngle; //field relative angle to point the robot at the apriltag
 
-    public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem,
+    public Limelight2ControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem,
             int pipeline, XboxController controller, Pose2d lineUpOffset) {
         this.limelightSubsystem = limelightSubsystem;
         this.drivetrainSubsystem = drivetrainSubsystem;
@@ -35,12 +35,12 @@ public class LimelightControlCommand extends Command {
     @Override
     public void execute() {
         // makes sure we are looking at the correct id 
-        if (limelightSubsystem.hasValidTarget() && targetMatchesPipeline()) { 
+
+        if (limelightSubsystem.LL2HasValidTarget() && targetMatchesPipeline()){
             updateDesiredPose();
-        } else {
+        }else {
             System.out.println("\tNo valid target detected.");
         }
-
         if (desiredPose != null) {
             drivetrainSubsystem.driveToPoseWithInitialAngle(desiredPose, pointingToTagAngle);
 
@@ -65,33 +65,18 @@ public class LimelightControlCommand extends Command {
     }
 
     private void updateDesiredPose() { 
-        desiredPose = limelightSubsystem.aprilTagPoseInFieldSpace(drivetrainSubsystem.getPose(), lineUpOffset, "limelight");
+        desiredPose = limelightSubsystem.aprilTagPoseInFieldSpace(drivetrainSubsystem.getPose(), lineUpOffset, "limelight-2");
         //the angle we need to be at to be pointing directly at the apriltag, rather than parallel to it
-        
-        pointingToTagAngle = drivetrainSubsystem.getPose().getRotation().minus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle()));
+        pointingToTagAngle = drivetrainSubsystem.getPose().getRotation().minus(Rotation2d.fromDegrees(limelightSubsystem.getLL2HorizontalOffsetAngle()));
     }
 
     private boolean targetMatchesPipeline() {
         if (pipeline == 1) {
             return limelightSubsystem.getTargetID() == 6 || limelightSubsystem.getTargetID() == 19;
-        } else if (pipeline == 2) {
-            return limelightSubsystem.getTargetID() == 7 || limelightSubsystem.getTargetID() == 10 ||limelightSubsystem.getTargetID() == 18 || limelightSubsystem.getTargetID() == 21; 
-        } else if (pipeline == 3){
-            return limelightSubsystem.getTargetID() == 8 || limelightSubsystem.getTargetID() == 17; 
-        } else if (pipeline == 4){ 
-            return limelightSubsystem.getTargetID() == 9 || limelightSubsystem.getTargetID() == 12;
-        } else if (pipeline == 5){ 
-            return limelightSubsystem.getTargetID() == 11 || limelightSubsystem.getTargetID() == 20;
-        } else if (pipeline == 6){ 
-            return limelightSubsystem.getTargetID() == 3 || limelightSubsystem.getTargetID() == 16;
-        } else if (pipeline == 7){ 
-            return limelightSubsystem.getTargetID() == 1 || limelightSubsystem.getTargetID() == 2 || limelightSubsystem.getTargetID() == 12 || limelightSubsystem.getTargetID() == 13;
-        }  else if (pipeline == 8){ 
-            return limelightSubsystem.getTargetID() == 4 || limelightSubsystem.getTargetID() == 14;
-        } else if (pipeline == 9){ 
-            return limelightSubsystem.getTargetID() == 5 || limelightSubsystem.getTargetID() == 15;
-        } else{
+        }else{
             return false;
         }
     }
+
 }
+

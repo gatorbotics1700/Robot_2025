@@ -52,6 +52,14 @@ public class Constants {
     public static final double LIMELIGHT_YAW_OFFSET = -4.0;
     public static final double LIMELIGHT_PITCH_OFFSET = -32.0;
     public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
+    
+    public static final double LIMELIGHT_2_FORWARD_OFFSET = 0.26035;
+    public static final double LIMELIGHT_2_SIDE_OFFSET = -0.00635;
+    public static final double LIMELIGHT_2_UP_OFFSET = 1.143;
+    public static final double LIMELIGHT_2_YAW_OFFSET = -4.0;
+    public static final double LIMELIGHT_2_PITCH_OFFSET = -32.0;
+    public static final double LIMELIGHT_2_ROLL_OFFSET = 0.0;
+
     public static final double CENTER_TO_BUMPER_OFFSET = 0.4572; 
 
     //the line up offsets are the point (in robot relative coordinates) that needs to align with the apriltag in order for us to score left/right post 
