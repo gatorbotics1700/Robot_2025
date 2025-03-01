@@ -13,10 +13,13 @@ import frc.robot.Constants;
 public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
+    private final NetworkTable limelightTable2;
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
         LimelightHelpers.setCameraPose_RobotSpace("limelight", Constants.LIMELIGHT_FORWARD_OFFSET , Constants.LIMELIGHT_SIDE_OFFSET, Constants.LIMELIGHT_UP_OFFSET, Constants.LIMELIGHT_ROLL_OFFSET, Constants.LIMELIGHT_PITCH_OFFSET, Constants.LIMELIGHT_YAW_OFFSET);
+        limelightTable2 = NetworkTableInstance.getDefault().getTable("limelight2");
+        LimelightHelpers.setCameraPose_RobotSpace("limelight2", Constants.LIMELIGHT_2_FORWARD_OFFSET , Constants.LIMELIGHT_2_SIDE_OFFSET, Constants.LIMELIGHT_2_UP_OFFSET, Constants.LIMELIGHT_2_ROLL_OFFSET, Constants.LIMELIGHT_2_PITCH_OFFSET, Constants.LIMELIGHT_2_YAW_OFFSET);
     }
 
     public void turnOnLED() {
@@ -76,10 +79,17 @@ public class LimelightSubsystem extends SubsystemBase {
      *         - Rotation aligned parallel to the detected tag
      *         Returns null if no AprilTag is detected or vision data is invalid.
      */
-    public Pose2d aprilTagPoseInFieldSpace(Pose2d robotPoseInFieldSpace, Pose2d lineUpOffset) {
+    public Pose2d aprilTagPoseInFieldSpace(Pose2d robotPoseInFieldSpace, Pose2d lineUpOffset, String limelightName) {
         // distance to the camera from the tag (in camera's coordinate space)
-        double[] aprilTagArrayInCameraSpace = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
-       
+        double[] aprilTagArrayInCameraSpace;
+        if(limelightName.equals("limelight")){
+            aprilTagArrayInCameraSpace = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
+        }else if(limelightName.equals("limelight2")){
+            aprilTagArrayInCameraSpace = limelightTable2.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
+        }else{
+            return null;
+        }
+        
         if(aprilTagArrayInCameraSpace == null){ // idk if this is really necessary but better safe than sorry?
             return null;
         }
