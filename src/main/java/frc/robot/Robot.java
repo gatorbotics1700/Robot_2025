@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.util.PixelFormat;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -18,11 +19,13 @@ public class Robot extends TimedRobot {
     private RobotContainer container;
     private ShuffleboardTab visionTesting;
 
+    // private ShuffleboardTab shuffleboardTest;
+    // private GenericEntry shuffleboardTester;
+
     public Robot() {
         CameraServer.startAutomaticCapture();
         CvSink cvSink = CameraServer.getVideo();
         CvSource outputStream = new CvSource ("Blur", PixelFormat.kMJPEG, 640, 480, 90);
-
     }
 
     @Override
@@ -32,12 +35,16 @@ public class Robot extends TimedRobot {
         visionTesting = Shuffleboard.getTab("Vision Testing");
         //SmartDashboard.putBoolean("Is FD?", DrivetrainSubsystem.isFD);
         
-
+        // shuffleboardTest = Shuffleboard.getTab("Shuffleboard Test");
+        // shuffleboardTester = shuffleboardTest.add("shuffleboard tester", 0).getEntry();
     }
 
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
+
+    //     double tester = shuffleboardTester.getDouble(0);
+    //     System.out.println("TESTER VALUE: " + tester);
     }
 
     @Override
