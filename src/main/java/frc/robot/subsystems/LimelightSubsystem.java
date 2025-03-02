@@ -17,10 +17,16 @@ import frc.robot.Constants;
 public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
+    private final Pose3d limelightOffsets;
 
-    public LimelightSubsystem() {
+    public LimelightSubsystem(Pose3d limelightOffsets) {
+        this.limelightOffsets = limelightOffsets;
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
-        LimelightHelpers.setCameraPose_RobotSpace("limelight", Constants.LIMELIGHT_FORWARD_OFFSET , Constants.LIMELIGHT_SIDE_OFFSET, Constants.LIMELIGHT_UP_OFFSET, Constants.LIMELIGHT_ROLL_OFFSET, Constants.LIMELIGHT_PITCH_OFFSET, Constants.LIMELIGHT_YAW_OFFSET);
+        
+        LimelightHelpers.setCameraPose_RobotSpace("limelight", 
+        limelightOffsets.getX() , -limelightOffsets.getY(), limelightOffsets.getZ(), //now flipping Y here instead of in constants.java
+        Math.toDegrees(limelightOffsets.getRotation().getX()), Math.toDegrees(limelightOffsets.getRotation().getY()), 
+        Math.toDegrees(limelightOffsets.getRotation().getZ()));
     }
 
     public void turnOnLED() {
@@ -116,17 +122,8 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public Pose2d convertCameraSpaceToRobotSpace(Pose3d poseInCameraSpace){ 
-        // Create the 3D pose of camera relative to robot center
-        Pose3d cameraPoseFromRobotCenter = new Pose3d(
-            Constants.LIMELIGHT_FORWARD_OFFSET,
-            -Constants.LIMELIGHT_SIDE_OFFSET,
-            Constants.LIMELIGHT_UP_OFFSET,
-            new Rotation3d(
-                Math.toRadians(Constants.LIMELIGHT_ROLL_OFFSET),
-                Math.toRadians(Constants.LIMELIGHT_PITCH_OFFSET),
-                Math.toRadians(Constants.LIMELIGHT_YAW_OFFSET)
-            )
-        );
+        // Create the 3D pose of camera relative to robot center (it's just the limelightOffsets but it makes more sense if you name it cameraPose lol)
+        Pose3d cameraPoseFromRobotCenter = limelightOffsets;
         
         // Transform the camera pose by the input pose
         Transform3d transform = new Transform3d(poseInCameraSpace.getTranslation(), poseInCameraSpace.getRotation());
