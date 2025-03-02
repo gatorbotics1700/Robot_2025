@@ -19,11 +19,11 @@ public class LimelightSubsystem extends SubsystemBase {
     private final NetworkTable limelightTable;
     private final Pose3d limelightOffsets;
 
-    public LimelightSubsystem(Pose3d limelightOffsets) {
+    public LimelightSubsystem(String limelightName, Pose3d limelightOffsets) {
         this.limelightOffsets = limelightOffsets;
-        limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+        limelightTable = NetworkTableInstance.getDefault().getTable(limelightName);
         
-        LimelightHelpers.setCameraPose_RobotSpace("limelight", 
+        LimelightHelpers.setCameraPose_RobotSpace(limelightName, 
         limelightOffsets.getX() , -limelightOffsets.getY(), limelightOffsets.getZ(), //now flipping Y here instead of in constants.java
         Math.toDegrees(limelightOffsets.getRotation().getX()), Math.toDegrees(limelightOffsets.getRotation().getY()), 
         Math.toDegrees(limelightOffsets.getRotation().getZ()));

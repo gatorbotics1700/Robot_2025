@@ -21,7 +21,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 public class RobotContainer {
     private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
     private final XboxController controller = new XboxController(0);
-    private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem(Constants.LIMELIGHT_OFFSETS);
+    private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem("limelight", Constants.LIMELIGHT_OFFSETS);
+    private static final LimelightSubsystem m_limelightsub2 = new LimelightSubsystem("limelight-2", Constants.LIMELIGHT_OFFSETS);
     private final SendableChooser<Command> autoChooser;
     private final GenericHID buttonBoard = new GenericHID(3);
     
@@ -67,8 +68,12 @@ public class RobotContainer {
         // new Trigger(()->buttonBoard.getRawButtonPressed(12))
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.RIGHT_POST_LINE_UP_OFFSET)); // id 11, 20 right side
 
+        //limelight 2
         new Trigger(controller::getAButtonPressed) 
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 6,19 A
+            .onTrue(new LimelightControlCommand(m_limelightsub2, drivetrainSubsystem, 2, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 7,18,10,21 A (limelight 2)
+
+        // new Trigger(controller::getAButtonPressed) 
+        //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 6,19 A
         new Trigger(controller::getBButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // 7,18,10,21 B
         new Trigger(controller::getXButtonPressed)
