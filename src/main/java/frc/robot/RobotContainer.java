@@ -22,7 +22,7 @@ public class RobotContainer {
     private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
     private final XboxController controller = new XboxController(0);
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem("limelight", Constants.LIMELIGHT_OFFSETS);
-    private static final LimelightSubsystem m_limelightsub2 = new LimelightSubsystem("limelight-2", Constants.LIMELIGHT_OFFSETS);
+    private static final LimelightSubsystem m_limelightsub2 = new LimelightSubsystem("limelight-two", Constants.LIMELIGHT_2_OFFSETS);
     private final SendableChooser<Command> autoChooser;
     private final GenericHID buttonBoard = new GenericHID(3);
     
@@ -70,7 +70,7 @@ public class RobotContainer {
 
         //limelight 2
         new Trigger(controller::getAButtonPressed) 
-            .onTrue(new LimelightControlCommand(m_limelightsub2, drivetrainSubsystem, 2, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 7,18,10,21 A (limelight 2)
+            .onTrue(new LimelightControlCommand(m_limelightsub2, drivetrainSubsystem, 2, controller, Constants.BACK_CENTER_ALIGN_OFFSET)); // id 7,18,10,21 A (limelight 2)
 
         // new Trigger(controller::getAButtonPressed) 
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 6,19 A
