@@ -104,7 +104,7 @@ public class LimelightSubsystem extends SubsystemBase {
         Pose2d aprilTagPoseInRobotSpace = convertCameraSpaceToRobotSpace(aprilTagPoseInCameraSpace);
         Pose2d aprilTagPoseFieldSpace = convertToFieldSpace(aprilTagPoseInRobotSpace, robotPoseInFieldSpace);
         Pose2d aprilTagPoseOffsetFrontCenter = offsetToLineUpPoint(aprilTagPoseFieldSpace, lineUpOffset);
-         return aprilTagPoseOffsetFrontCenter;
+        return aprilTagPoseOffsetFrontCenter;
     }
 
     //converts targetpose_cameraspace array into FRC coordinates. for a diagram of the coordinate system search for "targetpose_cameraspace coordinate system vs robot/pigeon coordinate system" in #progthoughts (2025 slack)

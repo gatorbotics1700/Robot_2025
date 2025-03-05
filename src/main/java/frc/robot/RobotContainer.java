@@ -70,7 +70,7 @@ public class RobotContainer {
 
         //limelight 2
         new Trigger(controller::getAButtonPressed) 
-            .onTrue(new LimelightControlCommand(m_limelightsub2, drivetrainSubsystem, 2, controller, Constants.BACK_CENTER_ALIGN_OFFSET)); // id 7,18,10,21 A (limelight 2)
+            .onTrue(new LimelightControlCommand(m_limelightsub2, drivetrainSubsystem, 2, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 7,18,10,21 A (limelight 2)
 
         // new Trigger(controller::getAButtonPressed) 
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 6,19 A
@@ -79,7 +79,7 @@ public class RobotContainer {
         new Trigger(controller::getXButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 8,17 X
         new Trigger(controller::getYButtonPressed)
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 9,22 Y
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 9, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 9,22 Y
 
     autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);
