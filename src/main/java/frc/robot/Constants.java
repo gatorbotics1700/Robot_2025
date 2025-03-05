@@ -34,7 +34,7 @@ public class Constants {
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     public static final String CANIVORE_BUS_NAME = "CANivore Bus 1";
     //position of robot in regular robot coordinates. NOTE: left used to be negative, but not it isn't since we're following the pigeon axes!
-    public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.172, 0.325, 0.197, new Rotation3d(Math.toRadians(10.0), Math.toRadians(-25.0), Math.toRadians(-46.0)));
+    public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.172, 0.325, 0.197, new Rotation3d(Math.toRadians(21.0), Math.toRadians(-20.0), Math.toRadians(-61.0)));
     public static final Pose3d LIMELIGHT_2_OFFSETS = new Pose3d(-0.175, 0.439, 0.309, new Rotation3d(Math.toRadians(0), Math.toRadians(0), Math.toRadians(180)));
     public static final double CENTER_TO_BUMPER_OFFSET = 0.3937;
 
