@@ -36,7 +36,9 @@ public class RobotContainer {
     private final XboxController controller_two = new XboxController(1); // TODO eventually delete this
     
     private final GenericHID buttonBoard1 = new GenericHID(2);
-    private final GenericHID buttonBoard2 = new GenericHID(3);
+    private final GenericHID buttonBoard2A = new GenericHID(3);
+    private final GenericHID buttonBoard2B = new GenericHID(4);
+
     
     private final SendableChooser<Command> autoChooser;
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
@@ -142,42 +144,43 @@ public class RobotContainer {
         /* CO-DRIVER BUTTON BOARD 2 BUTTONS */
 
         // climb
-        new Trigger(()->buttonBoard2.getRawButtonPressed(1))
+        new Trigger(()->buttonBoard2A.getRawButtonPressed(1))
             .whileTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
             
+            
         // detach
-        new Trigger(()->buttonBoard2.getRawButtonPressed(2))
-            .whileTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
+        new Trigger(()->buttonBoard2A.getRawButtonPressed(2))
+           .whileTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
 
         // extra
-        new Trigger(()->buttonBoard2.getRawButtonPressed(3));
+        new Trigger(()->buttonBoard2A.getRawButtonPressed(3));
 
         // lining up to with reef to score trough
-        new Trigger(()->buttonBoard2.getRawButtonPressed(4))
+        new Trigger(()->buttonBoard2A.getRawButtonPressed(4))
             //.onTrue(new LimeLightControlCommand(m_limelightsub, drivetrainSubsystem, , )) 
             // add xbox controller - should this be changed to button board in command? 
             ;
-        new Trigger(()->buttonBoard2.getRawButtonPressed(5));
-        new Trigger(()->buttonBoard2.getRawButtonPressed(6));
-        new Trigger(()->buttonBoard2.getRawButtonPressed(7));
-        new Trigger(()->buttonBoard2.getRawButtonPressed(8));
-        new Trigger(()->buttonBoard2.getRawButtonPressed(9));
+        new Trigger(()->buttonBoard2A.getRawButtonPressed(5));
+        new Trigger(()->buttonBoard2A.getRawButtonPressed(6));
+        new Trigger(()->buttonBoard2A.getRawButtonPressed(7));
+        new Trigger(()->buttonBoard2A.getRawButtonPressed(8));
+        new Trigger(()->buttonBoard2A.getRawButtonPressed(9));
 
         // vomit
-        new Trigger(()->buttonBoard2.getRawButtonPressed(10))
+        new Trigger(()->buttonBoard2A.getRawButtonPressed(10))
             .onTrue(VomitAndIntake(m_coralShooterSub)); 
         // note that this is not a NEW command as it is created within this class - could change how variables are saved within the command
 
         // score trough
-        new Trigger(()->buttonBoard2.getRawButtonPressed(11))
+        new Trigger(()->buttonBoard2A.getRawButtonPressed(11))
             .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_SPEED));
 
         // score L4
-        new Trigger(()->buttonBoard2.getRawButtonPressed(12))
+        new Trigger(()->buttonBoard2A.getRawButtonPressed(12))
             .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_SPEED));
 
         // intake
-        new Trigger(()->buttonBoard2.getRawButtonPressed(13))
+        new Trigger(()->buttonBoard2A.getRawButtonPressed(13))
             .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
         
 
