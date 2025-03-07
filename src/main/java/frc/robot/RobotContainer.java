@@ -27,8 +27,13 @@ public class RobotContainer {
     private final XboxController controller = new XboxController(0);
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem(Constants.LIMELIGHT_OFFSETS);
     private final SendableChooser<Command> autoChooser;
-    private final GenericHID buttonBoard = new GenericHID(3);
-    
+
+    private final GenericHID buttonBoard1A = new GenericHID(1);
+    private final GenericHID buttonBoard1B = new GenericHID(2);
+
+    private final GenericHID buttonBoard2A = new GenericHID(3);
+    private final GenericHID buttonBoard2B = new GenericHID(4);    
+
     public RobotContainer() {
         NamedCommands.registerCommand("Score Trough", ScoreCommands.Level(1));
         NamedCommands.registerCommand("Score L2", ScoreCommands.Level(2));
@@ -44,7 +49,69 @@ public class RobotContainer {
         new Trigger(controller::getRightBumperPressed)
                 .onTrue(new InstantCommand(drivetrainSubsystem::setSlowDrive));
 
-        // //pipeline button board for reef shooting
+                new Trigger(()->buttonBoard1A.getRawButtonPressed(1))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+    
+            new Trigger(()->buttonBoard1A.getRawButtonPressed(2))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+    
+            new Trigger(()->buttonBoard1A.getRawButtonPressed(3))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+    
+            new Trigger(()->buttonBoard1A.getRawButtonPressed(4))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+    
+            new Trigger(()->buttonBoard1A.getRawButtonPressed(5))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+    
+            new Trigger(()->buttonBoard1A.getRawButtonPressed(6))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+    
+            new Trigger(()->buttonBoard1B.getRawButtonPressed(1))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller,Constants.SHOOTING_L4_RIGHT_OFFSET ));
+    
+            new Trigger(()->buttonBoard1B.getRawButtonPressed(2))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+    
+            new Trigger(()->buttonBoard1B.getRawButtonPressed(3))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+    
+            new Trigger(()->buttonBoard1B.getRawButtonPressed(4))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+    
+            new Trigger(()->buttonBoard1B.getRawButtonPressed(5))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+    
+            new Trigger(()->buttonBoard1B.getRawButtonPressed(6))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+    
+    
+    
+            /* */
+    
+            
+            /* CO-DRIVER BUTTON BOARD 2 BUTTONS */
+    
+            // lining up to with reef to score trough
+            new Trigger(()->buttonBoard2B.getRawButtonPressed(3))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
+            
+            new Trigger(()->buttonBoard2B.getRawButtonPressed(4))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
+    
+            new Trigger(()->buttonBoard2B.getRawButtonPressed(5))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
+    
+            new Trigger(()->buttonBoard2B.getRawButtonPressed(6))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
+    
+            new Trigger(()->buttonBoard2A.getRawButtonPressed(3))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
+    
+            new Trigger(()->buttonBoard2A.getRawButtonPressed(2))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
+        
+                // //pipeline button board for reef shooting
         // new Trigger(()->buttonBoard.getRawButtonPressed(1))
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.LEFT_POST_LINE_UP_OFFSET)); //id 6, 19 left side
         // new Trigger(()->buttonBoard.getRawButtonPressed(2))
@@ -73,7 +140,7 @@ public class RobotContainer {
         new Trigger(controller::getAButtonPressed) 
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 6,19 A
         new Trigger(controller::getBButtonPressed)
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_OFFSET)); // 7,18,10,21 B
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET)); // 7,18,10,21 B
         new Trigger(controller::getXButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 8,17 X
         new Trigger(controller::getYButtonPressed)
