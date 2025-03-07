@@ -10,14 +10,22 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import frc.robot.Constants;
 
 public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
     private final Pose3d limelightOffsets;
+     private ShuffleboardTab shuffleboardTab;
+    private SimpleWidget testDynamic;
+    private GenericEntry testDynamicGenericEntry;
 
     public LimelightSubsystem(Pose3d limelightOffsets) {
         this.limelightOffsets = limelightOffsets;
@@ -27,6 +35,9 @@ public class LimelightSubsystem extends SubsystemBase {
         limelightOffsets.getX() , -limelightOffsets.getY(), limelightOffsets.getZ(), //now flipping Y here instead of in constants.java
         Math.toDegrees(limelightOffsets.getRotation().getX()), Math.toDegrees(limelightOffsets.getRotation().getY()), 
         Math.toDegrees(limelightOffsets.getRotation().getZ()));
+
+        shuffleboardTab = Shuffleboard.getTab("Limelight");
+        testDynamic = shuffleboardTab.add("test dynamic", 0).withWidget(BuiltInWidgets.kNumberSlider);
     }
 
     public void turnOnLED() {
@@ -173,6 +184,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-
+        testDynamicGenericEntry = testDynamic.getEntry();
+        System.out.println(testDynamicGenericEntry.getDouble(0));
     }
 }

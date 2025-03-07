@@ -40,7 +40,7 @@ public class Constants {
 
     public static final Pose2d FRONT_CENTER_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
     public static final Pose2d SHOOTING_L4_LEFT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.1905, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
-    public static final Pose2d SHOOTING_L4_RIGHT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.1905, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
+    public static final Pose2d SHOOTING_L4_RIGHT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.1905, 0.3555, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
 
 
     // dory
