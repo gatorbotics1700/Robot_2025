@@ -73,7 +73,7 @@ public class RobotContainer {
         new Trigger(controller::getAButtonPressed) 
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 6,19 A
         new Trigger(controller::getBButtonPressed)
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // 7,18,10,21 B
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_OFFSET)); // 7,18,10,21 B
         new Trigger(controller::getXButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 8,17 X
         new Trigger(controller::getYButtonPressed)
