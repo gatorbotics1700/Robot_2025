@@ -16,7 +16,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
-    private RobotContainer container;
+    private static RobotContainer container;
     private ShuffleboardTab visionTesting;
 
     // private ShuffleboardTab shuffleboardTest;
@@ -65,5 +65,9 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         // Leave empty - default command will handle teleop
+    }
+
+    public static RobotContainer getRobotContainer(){
+        return container;
     }
 }

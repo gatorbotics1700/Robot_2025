@@ -4,6 +4,7 @@ import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.ScoreCommands;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.commands.TestDriveCommand;
+import frc.robot.commands.TestingCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 
@@ -34,6 +35,10 @@ public class RobotContainer {
     private final GenericHID buttonBoard2A = new GenericHID(3);
     private final GenericHID buttonBoard2B = new GenericHID(4);    
 
+    private ShuffleboardTab tab = Shuffleboard.getTab("testing");
+    private GenericEntry variable = tab.add("variable", 1).getEntry();
+
+
     public RobotContainer() {
         NamedCommands.registerCommand("Score Trough", ScoreCommands.Level(1));
         NamedCommands.registerCommand("Score L2", ScoreCommands.Level(2));
@@ -49,7 +54,10 @@ public class RobotContainer {
         new Trigger(controller::getRightBumperPressed)
                 .onTrue(new InstantCommand(drivetrainSubsystem::setSlowDrive));
 
-                new Trigger(()->buttonBoard1A.getRawButtonPressed(1))
+        new Trigger(controller::getAButtonPressed)
+            .onTrue(new TestingCommand());
+
+            new Trigger(()->buttonBoard1A.getRawButtonPressed(1))
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
     
             new Trigger(()->buttonBoard1A.getRawButtonPressed(2))
@@ -179,6 +187,10 @@ public class RobotContainer {
         return drivetrainSubsystem;
     }
 
+    public double getVariable(){
+        return variable.getDouble(1.0);
+    }
+
     private double deadband(double value, double deadband) {
         if (Math.abs(value) > deadband) {
             if (value > 0.0) {
@@ -203,4 +215,5 @@ public class RobotContainer {
 
         return value;
     }
+
 }
