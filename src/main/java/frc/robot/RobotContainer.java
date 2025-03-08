@@ -146,7 +146,15 @@ public class RobotContainer {
         new Trigger(controller::getYButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 9,22 Y
 
-    autoChooser = AutoBuilder.buildAutoChooser();
+    
+        
+        boolean isCompetition = true;
+        autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
+        (stream) -> isCompetition
+            ? stream.filter(auto -> (auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
+            :stream
+    );
+
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
