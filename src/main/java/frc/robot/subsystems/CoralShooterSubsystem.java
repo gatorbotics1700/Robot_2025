@@ -16,7 +16,6 @@ public class CoralShooterSubsystem extends SubsystemBase{
     public final TalonFX topMotorLeft;
     public final TalonFX topMotorRight;
     public final TalonFX bottomMotor;
-    public final TalonFX testMotor;
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
     //private final DigitalInput beamBreakSensor;
@@ -25,7 +24,6 @@ public class CoralShooterSubsystem extends SubsystemBase{
         topMotorLeft = new TalonFX(Constants.SHOOTER_MOTOR_TOP_LEFT_CAN_ID, Constants.CANIVORE_BUS_NAME);
         topMotorRight = new TalonFX(Constants.SHOOTER_MOTOR_TOP_RIGHT_CAN_ID, Constants.CANIVORE_BUS_NAME);
         bottomMotor = new TalonFX(Constants.SHOOTER_MOTOR_BOTTOM_ID, Constants.CANIVORE_BUS_NAME);
-        testMotor = new TalonFX(36, Constants.CANIVORE_BUS_NAME);
 
         // topMotorRight.setInverted(true);
         topMotorRight.getConfigurator().apply(new TalonFXConfiguration()
