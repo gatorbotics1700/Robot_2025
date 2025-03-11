@@ -11,7 +11,6 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.Servo;
 
 public class CoralShooterSubsystem extends SubsystemBase{
     public final TalonFX topMotorLeft;
@@ -28,10 +27,13 @@ public class CoralShooterSubsystem extends SubsystemBase{
         bottomMotor = new TalonFX(Constants.SHOOTER_MOTOR_BOTTOM_ID, Constants.CANIVORE_BUS_NAME);
         testMotor = new TalonFX(36, Constants.CANIVORE_BUS_NAME);
 
-        topMotorRight.setInverted(true);
+        // topMotorRight.setInverted(true);
+        topMotorRight.getConfigurator().apply(new TalonFXConfiguration()
+            .withMotorOutput(new MotorOutputConfigs()
+                .withInverted(InvertedValue.Clockwise_Positive)));
         bottomMotor.getConfigurator().apply(new TalonFXConfiguration()
             .withMotorOutput(new MotorOutputConfigs()
-                .withInverted(InvertedValue.Clockwise_Positive))); // TODO: test if this works by deleting ELEVATOR_MOTOR_INVERT
+                .withInverted(InvertedValue.Clockwise_Positive)));
     }
 
     @Override

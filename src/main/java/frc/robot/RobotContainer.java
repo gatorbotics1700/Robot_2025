@@ -1,21 +1,15 @@
 package frc.robot;
 
-// import frc.robot.commands.TestDriveCommand;
+import frc.robot.commands.TestDriveCommand;
 import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.ScoreCommands;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.commands.TestDriveCommand;
-import frc.robot.commands.StickPivotCommand;
-import frc.robot.commands.StickCommand;
 import frc.robot.commands.ClimbingCommand;
-import frc.robot.commands.ElevatorCommand;
-import frc.robot.subsystems.StickPivotSubsystem;
-import frc.robot.subsystems.StickSubsystem;
 import frc.robot.commands.CoralShooterCommand;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CoralShooterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -33,7 +27,6 @@ public class RobotContainer {
     private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
     
     private final XboxController controller = new XboxController(0);
-    private final XboxController controller_two = new XboxController(1); // TODO eventually delete this
     
     private final GenericHID buttonBoard1A = new GenericHID(1);
     private final GenericHID buttonBoard1B = new GenericHID(2);
@@ -44,18 +37,10 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
     private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
-    // private static final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
-    // private static final StickPivotSubsystem m_stickPivotSub = new StickPivotSubsystem();
-    // private static final StickSubsystem m_stickSub = new StickSubsystem();
     private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
     private static final ScoreCommands m_scoreCommands = new ScoreCommands();
 
     public RobotContainer() {
-        // NamedCommands.registerCommand("Score Trough", ScoreCommands.Level(1, m_elevatorSub, m_stickSub, m_stickPivotSub));
-        // NamedCommands.registerCommand("Score L2", ScoreCommands.Level(2, m_elevatorSub, m_stickSub, m_stickPivotSub));
-        // NamedCommands.registerCommand("Score L3", ScoreCommands.Level(3, m_elevatorSub, m_stickSub, m_stickPivotSub));
-        // NamedCommands.registerCommand("Score L4", ScoreCommands.Level(4, m_elevatorSub, m_stickSub, m_stickPivotSub));
-
         // NamedCommands.registerCommand("Score Coral Shooter", ScoreCommands.Shoot(m_coralShooterSub));
         // NamedCommands.registerCommand("Intake Coral Shooter", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
 
@@ -78,63 +63,6 @@ public class RobotContainer {
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller)); // id 8,17 X
         // new Trigger(controller::getYButtonPressed)
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller)); // id 9,22 Y
-    
-        // coral outtaking
-        // new Trigger(controller_two::getYButtonPressed)
-            // .onTrue(new StickCommand(m_stickSub, -0.5));
-
-        // coral intaking
-        // new Trigger(controller_two::getXButtonPressed)
-        //     .onTrue(new StickCommand(m_stickSub, Constants.CORAL_INTAKING_SPEED));
-
-        //algae stop
-        // new Trigger(controller_two::getYButtonPressed)
-        //     .onTrue(new StickCommand(m_stickSub, 0));
-
-        // new Trigger(controller_two::getYButtonPressed)
-        //     .onTrue(new StickPivotCommand(m_stickPivotSub, 30));
-        // 
-
-        // coral shooter intaking
-        // new Trigger(controller_two::getAButtonPressed)
-        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, 0, 7.0));
-
-        // // coral shooting L4
-        // new Trigger(controller_two::getBButtonPressed)
-        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, 0, -7.0));
-
-        // // coral shooter vomit and intake
-        // // new Trigger(controller_two::getYButtonPressed)
-        // //     .onTrue(VomitAndIntake(m_coralShooterSub));
-
-        // // coral shooter stop
-        // new Trigger(controller_two::getXButtonPressed)
-        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, 0, 0));
-
-        // // coral shooting trough
-        // new Trigger(controller_two::getRightBumperButtonPressed)
-        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_SPEED));
-
-        // new Trigger(controller_two::getXButtonPressed)
-        //     .onTrue(new ElevatorCommand(m_elevatorSub, 16, 0));
-        
-        // new Trigger(controller_two::getYButtonPressed)
-        //     .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
-
-        // TODO figure out how to use joystick to control elevator
-
-
-        // climbing mechanism 
-        // new Trigger(controller_two::getAButtonPressed)
-        //     .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
-
-        // // reverse climbing
-        // new Trigger(controller_two::getBButtonPressed)//outake
-        //     .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
-        
-        // new Trigger(controller_two::getXButtonPressed)
-        //     .onTrue(new ClimbingCommand(m_climbingSub, 0));
-
 
         /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
 
@@ -217,7 +145,7 @@ public class RobotContainer {
         new Trigger(()->buttonBoard2B.getRawButtonPressed(7))
             .onTrue(VomitAndIntake(m_coralShooterSub)); 
 
-        new Trigger(()->buttonBoard2B.getRawButtonPressed(9))
+        new Trigger(()->buttonBoard2A.getRawButtonPressed(8))
             .onTrue(new CoralShooterCommand(m_coralShooterSub, 0)
             .alongWith(new ClimbingCommand(m_climbingSub, 0)));
 
