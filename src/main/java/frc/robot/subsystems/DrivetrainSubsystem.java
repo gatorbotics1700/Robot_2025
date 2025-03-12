@@ -7,7 +7,6 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import edu.wpi.first.wpilibj.DriverStation;
 import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import frc.com.swervedrivespecialties.swervelib.SwerveModule;
@@ -24,7 +23,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -64,7 +62,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private double robotRotation;
 
     private boolean slowDrive;
-   
+    private static CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
+    public static double busUtil = CANivore.getStatus().BusUtilization*100; //bus utilization percentage
+    public static boolean isFD = CANivore.isNetworkFD(); //checks if we're running CAN FD protocol
+    public static double transmitErrors = CANivore.getStatus().TEC;
+    public static double receiveErrors = CANivore.getStatus().REC;
+
 
     public DrivetrainSubsystem() {
         slowDrive = false;
@@ -162,18 +165,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 new PPHolonomicDriveController(
                         new PIDConstants(5, 0, 0.05),
                         new PIDConstants(10, 0, 0.01)
-                // MAX_VELOCITY_METERS_PER_SECOND, -> WHAT IS THIS ???
-                // 0.449072
-
                 ),
                 config, // The robot configuration
-                // new RobotConfig(18, 1.45, moduleConfig, 0.449072),
                 () -> {
-                    //I believe this section mirrors our paths if we're on red, but we don't want to do that bc we have two sets of paths... commenting this out fixed our issue of hurtling across the field
-                    // var alliance = DriverStation.getAlliance();
-                    // if (alliance.isPresent()) {
-                    //     return alliance.get() == DriverStation.Alliance.Red;
-                    // }
                     return false;
 
                 },
@@ -182,6 +176,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
         shuffleboardTab.addNumber("Pose Y", () -> odometry.getEstimatedPosition().getY());
+
     }
 
     public void setSlowDrive() {
@@ -241,13 +236,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void setStates(SwerveModuleState[] targetStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(targetStates, MAX_VELOCITY_METERS_PER_SECOND);
 
-        states = targetStates;
-
         // Calculate voltages (using a higher minimum voltage to ensure movement)
-        double fl_voltage = targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double fr_voltage = targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double bl_voltage = targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double br_voltage = targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        double fl_voltage = (targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
+        double fr_voltage = (targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
+        double bl_voltage = (targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
+        double br_voltage = (targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
 
         // Set modules with calculated voltages
         frontLeftModule.set(fl_voltage, targetStates[0].angle.getRadians());
@@ -260,7 +253,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         this.chassisSpeeds = chassisSpeeds;
 
         // Convert chassis speeds to module states and apply them
-        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, Constants.LOOPTIME_SECONDS);
         SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
         setStates(targetStates);
     }
@@ -274,6 +267,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         updateShuffleboardVariables();
+        SmartDashboard.putNumber("robot x", getPose().getX());
+        SmartDashboard.putNumber("robot y", getPose().getY());
+        SmartDashboard.putNumber("robot rotat", getPose().getRotation().getDegrees());
         odometry.update(
             new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
             new SwerveModulePosition[]{ 
@@ -283,22 +279,25 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 backRightModule.getPosition() 
             }
         );
+
+        boolean doRejectUpdate = false;
         
-        // boolean doRejectUpdate = false;
-
-        // LimelightHelpers.SetRobotOrientation("limelight", odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
-        // LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-        // if(Math.abs(pigeon.getAngularVelocityZWorld().getValueAsDouble()) > 720){
-        //     doRejectUpdate = true;
-        // }
-        // if(mt2.tagCount == 0){
-        //     doRejectUpdate = true;
-        // }
-        // if(!doRejectUpdate){
-        //     odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.05, .05, 30));
-        //     odometry.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
-        // }
-
+        LimelightHelpers.SetRobotOrientation("limelight", odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+        if(mt2 != null){
+            if(Math.abs(pigeon.getAngularVelocityZWorld().getValueAsDouble()) > 720){
+                doRejectUpdate = true;
+            }
+            if(mt2.tagCount == 0){
+                doRejectUpdate = true;
+            }
+            if(!doRejectUpdate){
+                //this line sets the amount the pigeon odometry can be off by in each axis before vision odometry takes over. we trust the pigeon for heading, hence the reaaaaally big number
+                odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.05, .05, 999999)); 
+                odometry.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
+            }
+        }
+        
         SmartDashboard.putNumber("Gyroscope Angle", getRotation().getDegrees());
         SmartDashboard.putNumber("Pose X", odometry.getEstimatedPosition().getX());
         SmartDashboard.putNumber("Pose Y", odometry.getEstimatedPosition().getY());
@@ -367,7 +366,5 @@ public class DrivetrainSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Transmit errors", transmitErrors);
         SmartDashboard.putNumber("Receive errors", receiveErrors);
         SmartDashboard.putNumber("Robot Angle", getRobotRotationDegrees());
-
     }
-
 }
