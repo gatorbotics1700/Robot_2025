@@ -1,12 +1,11 @@
 package frc.robot;
 
 import frc.robot.commands.TestDriveCommand;
+import frc.robot.commands.ClimbingCommand;
+import frc.robot.commands.CoralShooterCommand;
 import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.ScoreCommands;
 import frc.robot.commands.TeleopDriveCommand;
-import frc.robot.commands.TestDriveCommand;
-import frc.robot.commands.ClimbingCommand;
-import frc.robot.commands.CoralShooterCommand;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CoralShooterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -16,12 +15,17 @@ import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import com.pathplanner.lib.auto.NamedCommands;
+
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.GenericHID;
 
 public class RobotContainer {
     private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
@@ -33,11 +37,11 @@ public class RobotContainer {
 
     private final GenericHID buttonBoard2A = new GenericHID(3);
     private final GenericHID buttonBoard2B = new GenericHID(4);
+    private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem(Constants.LIMELIGHT_OFFSETS);
+    private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
+    private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
 
     private final SendableChooser<Command> autoChooser;
-    private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
-    private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
-    private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
     private static final ScoreCommands m_scoreCommands = new ScoreCommands();
 
     private final Trigger Q1LeftLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(1));
@@ -84,49 +88,51 @@ public class RobotContainer {
         new Trigger(controller::getBackButtonPressed)
                 .onTrue(new InstantCommand(drivetrainSubsystem::zeroGyroscope));
 
+        //slow drive
         new Trigger(controller::getRightBumperPressed)
                 .onTrue(new InstantCommand(drivetrainSubsystem::setSlowDrive));
 
-        /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
+ /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
 
-        Q1LeftLineup //q1 id 10 or 21 left
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller));
+            new Trigger(()->buttonBoard1A.getRawButtonPressed(1))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+    
+            new Trigger(()->buttonBoard1A.getRawButtonPressed(2))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+    
+            new Trigger(()->buttonBoard1A.getRawButtonPressed(3))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+    
+            new Trigger(()->buttonBoard1A.getRawButtonPressed(4))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+    
+            new Trigger(()->buttonBoard1A.getRawButtonPressed(5))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+    
+            new Trigger(()->buttonBoard1A.getRawButtonPressed(6))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+    
+            new Trigger(()->buttonBoard1B.getRawButtonPressed(1))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller,Constants.SHOOTING_L4_RIGHT_OFFSET ));
+    
+            new Trigger(()->buttonBoard1B.getRawButtonPressed(2))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+    
+            new Trigger(()->buttonBoard1B.getRawButtonPressed(3))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+    
+            new Trigger(()->buttonBoard1B.getRawButtonPressed(4))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+    
+            new Trigger(()->buttonBoard1B.getRawButtonPressed(5))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+    
+            new Trigger(()->buttonBoard1B.getRawButtonPressed(6))
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+    
 
-        Q1RightLineup //q1 id 10 or 21 right
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller));
-        
-        Q2LeftLineup //q2 9 or 22 left
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller));
-        
-        Q2RightLineup //q2 9 or 22 right
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller));
-        
-        Q3LeftLineup //q3 8 or 17 left
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller));
-        
-        Q3RightLineup //q3 8 or 17 right
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller));
-
-        Q4LeftLineup //q4 7 or 18 left
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller));
-
-        Q4RightLineup //q4 7 or 18 right
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller));
-        
-        Q5LeftLineup //q5 6 or 19 left
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller));
-
-        Q5RightLineup //q5 6 or 19 right
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller));
-        
-        Q6LeftLineup //q6 id 11 or 20 left
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller));
-
-        Q6RightLineup //q6 id 11 or 20 right
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller));
-
-        
-            /* CO-DRIVER BUTTON BOARD 2 BUTTONS */
+            
+    /* CO-DRIVER BUTTON BOARD 2 BUTTONS */
 
         // climb
         climb
@@ -138,26 +144,26 @@ public class RobotContainer {
 
         // lining up to intake
         intakeLineup
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 8, controller));
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 8, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
 
         // lining up to with reef to score trough
         Q1TroughLineup //q1
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller));
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
         
         Q2TroughLineup //q2
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller));
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
 
         Q3TroughLineup //q3
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller));
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
 
         Q4TroughLineup //q4
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller));
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
 
         Q5TroughLineup //q5
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller));
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
 
         Q6TroughLineup //q6
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller));
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
 
         //vomit
         vomit
@@ -178,10 +184,16 @@ public class RobotContainer {
 
         // intake
         intake
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));   
+    
         
+        boolean isCompetition = true;
+        autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
+        (stream) -> isCompetition
+            ? stream.filter(auto -> (auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
+            :stream
+    );
 
-    autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
@@ -241,7 +253,8 @@ public class RobotContainer {
         return value;
     }
 
-    public static Command VomitAndIntake(CoralShooterSubsystem coralShooterSubsystem){
+    //vomit command
+     public static Command VomitAndIntake(CoralShooterSubsystem coralShooterSubsystem){
         System.out.println("VOMITING CORAL AND INTAKING");
         return new CoralShooterCommand(coralShooterSubsystem, 0)
         .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_VOMIT_SPEED))
