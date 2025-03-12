@@ -27,9 +27,9 @@ public class ClimbingCommand extends Command {
     public void execute() {
         climbingSubsystem.setSpeed(speed);
         if (speed > 0) {
-            System.out.println("REVERSE CLIMBING");
-        } else if (speed < 0) {
             System.out.println("CLIMBING");
+        } else if (speed < 0) {
+            System.out.println("DETACHING");
         }
     }
 

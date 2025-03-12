@@ -49,6 +49,7 @@ public class CoralShooterCommand extends Command {
         System.out.println("SPEED: " + speed);
         System.out.println("battery voltage: " + RobotController.getBatteryVoltage());   
     }
+    
     @Override
     public boolean isFinished() {  
         double timePassed = System.currentTimeMillis() - startTime;
