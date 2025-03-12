@@ -29,10 +29,13 @@ public class Constants {
     public static final String CANIVORE_BUS_NAME = "TRex";
     public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.36195, 0.003175, 0.15875, new Rotation3d(Math.toRadians(0.0), Math.toRadians(-38.0), Math.toRadians(0.0)));
     public static final double CENTER_TO_BUMPER_OFFSET = 0.45164;
+    public static final double L4_SHOOTING_DISTANCE = 0.110066582;
+    public static final double REEF_RADIUS = 0.8232394; //not actually the radius, but distance from center to apriltag
+    public static final double POST_DISTANCE = 0.1778; //distance from center of robot to center of reef to line up with post (in robot y)
     public static final Pose2d FRONT_CENTER_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
-    public static final Pose2d SHOOTING_L4_LEFT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.110066582, 0.1778, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
-    public static final Pose2d SHOOTING_L4_RIGHT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.110066582, -0.1778, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
-
+    public static final Pose2d SHOOTING_L4_LEFT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + L4_SHOOTING_DISTANCE, POST_DISTANCE, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
+    public static final Pose2d SHOOTING_L4_RIGHT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + L4_SHOOTING_DISTANCE, -POST_DISTANCE, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
+    
   
 
     // hulk
