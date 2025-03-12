@@ -33,6 +33,8 @@ public class Constants {
     // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(204.256);
     // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     // public static final String CANIVORE_BUS_NAME = "CANivore Bus 1";
+    // public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.172, 0.325, 0.197, new Rotation3d(Math.toRadians(10.0), Math.toRadians(-23.0), Math.toRadians(-46.0)));
+    // public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.138, 0.439, 0.309, new Rotation3d(Math.toRadians(0), Math.toRadians(0), Math.toRadians(0)));
 
     // dory
     // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(98.173828125);
@@ -41,6 +43,7 @@ public class Constants {
     // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(102.8320312500);
     // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     // public static final String CANIVORE_BUS_NAME = "";
+    // public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.26035, 0.00635, 1.143, new Rotation3d(Math.toRadians(0.0), Math.toRadians(-32.0), Math.toRadians(-4.0)));
     // public static final double LIMELIGHT_FORWARD_OFFSET = 0.26035;
     // public static final double LIMELIGHT_SIDE_OFFSET = -0.00635;
     // public static final double LIMELIGHT_UP_OFFSET = 1.143;
@@ -64,9 +67,7 @@ public class Constants {
 
     // //the line up offsets are the point (in robot relative coordinates) that needs to align with the apriltag in order for us to score left/right post 
     // //(we flip the values in our offset method so that we can find the pose the center of the robot needs to be at, but they should not be flipped here!)
-    // public static final Pose2d LEFT_POST_LINE_UP_OFFSET = new Pose2d(Constants.CENTER_TO_BUMPER_OFFSET,0, new Rotation2d(0)); //TODO: measure y value
-    // public static final Pose2d RIGHT_POST_LINE_UP_OFFSET = new Pose2d(Constants.CENTER_TO_BUMPER_OFFSET, LEFT_POST_LINE_UP_OFFSET.getY() - 0.3302 , new Rotation2d(0)); //0.3302 is the distance between posts!
-
+    
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; 
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 2;

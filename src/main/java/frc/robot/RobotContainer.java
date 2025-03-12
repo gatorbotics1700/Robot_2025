@@ -94,40 +94,40 @@ public class RobotContainer {
 
  /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
 
-            new Trigger(()->buttonBoard1A.getRawButtonPressed(1))
+            Q1LeftLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
     
-            new Trigger(()->buttonBoard1A.getRawButtonPressed(2))
+            Q1RightLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
     
-            new Trigger(()->buttonBoard1A.getRawButtonPressed(3))
+            Q2LeftLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
     
-            new Trigger(()->buttonBoard1A.getRawButtonPressed(4))
+            Q2RightLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
     
-            new Trigger(()->buttonBoard1A.getRawButtonPressed(5))
+            Q3LeftLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
     
-            new Trigger(()->buttonBoard1A.getRawButtonPressed(6))
+            Q3RightLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
     
-            new Trigger(()->buttonBoard1B.getRawButtonPressed(1))
+            Q4LeftLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller,Constants.SHOOTING_L4_RIGHT_OFFSET ));
     
-            new Trigger(()->buttonBoard1B.getRawButtonPressed(2))
+            Q4RightLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
     
-            new Trigger(()->buttonBoard1B.getRawButtonPressed(3))
+            Q5LeftLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
     
-            new Trigger(()->buttonBoard1B.getRawButtonPressed(4))
+            Q5RightLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
     
-            new Trigger(()->buttonBoard1B.getRawButtonPressed(5))
+            Q6LeftLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
     
-            new Trigger(()->buttonBoard1B.getRawButtonPressed(6))
+            Q6RightLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
     
 
