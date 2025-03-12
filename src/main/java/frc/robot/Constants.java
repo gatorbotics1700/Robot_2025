@@ -8,11 +8,16 @@ import frc.com.swervedrivespecialties.swervelib.MechanicalConfiguration;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
 public class Constants {
+    //for a 25x25 drivetrain
+    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.508;
+    public static final double DRIVETRAIN_WHEELBASE_METERS = 0.508;
+
     //for a 30x30 drivetrain
-    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.508 + 0.127;
-    public static final double DRIVETRAIN_WHEELBASE_METERS = 0.508 + 0.127;
+    // public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.508 + 0.127;
+    // public static final double DRIVETRAIN_WHEELBASE_METERS = 0.508 + 0.127;
 
     public static final int DRIVETRAIN_PIGEON_ID = 6;
+
 
     // comp bot
 
@@ -28,6 +33,7 @@ public class Constants {
     public static final Pose2d SHOOTING_L4_LEFT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.110066582, 0.1778, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
     public static final Pose2d SHOOTING_L4_RIGHT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.110066582, -0.1778, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
 
+  
 
     // hulk
     // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(118.6253437499); //116.806640625
@@ -89,27 +95,6 @@ public class Constants {
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 25; 
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 4;
-
-    // CORAL SHOOTER MECHANISM
-    public static final int SHOOTER_MOTOR_TOP_LEFT_CAN_ID = 30;
-    public static final int SHOOTER_MOTOR_TOP_RIGHT_CAN_ID = 32; 
-    public static final int SHOOTER_MOTOR_BOTTOM_ID = 34; 
-    public static final double CORAL_INTAKING_SPEED = 0.5;
-    public static final double CORAL_L4_SHOOTING_SPEED = -0.78; 
-    public static final double CORAL_TROUGH_SHOOTING_SPEED = -0.42;
-    public static final double CORAL_VOMIT_SPEED = -0.4; // slow outtake for when coral gets stuck
-    public static final double CORAL_INTAKING_CURRENT_LIMIT = 35;
-    public static final double CORAL_SHOOTING_MAX_CURRENT = 10;
-    public static final double CORAL_SHOOTING_MIN_CURRENT = 2.5;
-    // public static final double CORAL_INTAKING_VOLTAGE = 4.0;
-    // public static final double CORAL_L4_SHOOTING_VOLTAGE = -8.4;
-    // public static final double CORAL_TROUGH_SHOOTING_VOLTAGE = -4;
-    // public static final double CORAL_VOMIT_VOLTAGE = -0.3;
-
-    // CLIMBING MECHANISM
-    public static final double CLIMBING_SPEED = 0.2; 
-    public static final int CLIMBING_MOTOR_CAN_ID = 35; 
-
 
     public static final double LOOPTIME_SECONDS = 0.02;
 }
