@@ -13,8 +13,8 @@ public class Constants {
     // public static final double DRIVETRAIN_WHEELBASE_METERS = 0.508;
 
     //for a 30x30 drivetrain
-    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.508 + 0.127;
-    public static final double DRIVETRAIN_WHEELBASE_METERS = 0.508 + 0.127;
+    // public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.508 + 0.127;
+    // public static final double DRIVETRAIN_WHEELBASE_METERS = 0.508 + 0.127;
 
     public static final int DRIVETRAIN_PIGEON_ID = 6;
 
