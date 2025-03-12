@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.TestCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import edu.wpi.first.cscore.MjpegServer;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
@@ -58,11 +60,16 @@ public class Robot extends TimedRobot {
             m_autonomousCommand.schedule();
         }
 
-    }
+    }   
 
     @Override
     public void teleopInit() {
         container.setDefaultTeleopCommand();
+        // This makes sure that the autonomous stops running when teleop starts
+        // if (m_autonomousCommand != null) {
+        //     m_autonomousCommand.cancel();
+        // }
+        // container.setDefaultTeleopCommand();
     }
 
     @Override
