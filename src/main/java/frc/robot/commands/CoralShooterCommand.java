@@ -12,9 +12,8 @@ public class CoralShooterCommand extends Command {
     private double startTime;
     private boolean shootingCurrentPeaked; 
     
-    public CoralShooterCommand(CoralShooterSubsystem coralShooterSubsystem, double speed){ //double voltage) {
+    public CoralShooterCommand(CoralShooterSubsystem coralShooterSubsystem, double speed){
         this.coralShooterSubsystem = coralShooterSubsystem; 
-        // this.voltage = voltage;
         this.speed = speed;
         addRequirements(coralShooterSubsystem);
     }
@@ -26,18 +25,9 @@ public class CoralShooterCommand extends Command {
     
     @Override
     public void execute() {
-        // if (speed < 0){
-        //     coralShooterSubsystem.setSpeedMotor1(speed);   
-        //     if ((System.currentTimeMillis()- startTime)>1000){
-        //         coralShooterSubsystem.setSpeedMotor2(speed);
-        //     }
-
-        // } else{
             coralShooterSubsystem.setSpeed(speed);
             SmartDashboard.putNumber("shooter speed", coralShooterSubsystem.getTopMotorLeftSpeed());
             SmartDashboard.putNumber("velocity delta", speed - coralShooterSubsystem.getBottomMotorSpeed());
-
-       // }
        
         
         if(speed > 0) {
@@ -59,7 +49,6 @@ public class CoralShooterCommand extends Command {
         
         if(speed > 0){ // if intaking
             if(timePassed > 3500){
-                //coralShooterSubsystem.setVoltage(0);
                 coralShooterSubsystem.setSpeed(0);
                 System.out.println ("Finished intaking");
                 return true;
@@ -75,7 +64,6 @@ public class CoralShooterCommand extends Command {
             return true;
         } else if(speed < 0){ // if shooting
             if(timePassed > 1500){
-                //coralShooterSubsystem.setVoltage(0);
                 coralShooterSubsystem.setSpeed(0);
                 System.out.println("Finished shooting");
                 return true;
