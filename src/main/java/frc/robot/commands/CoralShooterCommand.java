@@ -11,6 +11,7 @@ public class CoralShooterCommand extends Command {
     private final double speed;
     private double startTime;
     private boolean shootingCurrentPeaked; 
+    private boolean intakeCurrentPeaked; 
     
     public CoralShooterCommand(CoralShooterSubsystem coralShooterSubsystem, double speed){
         this.coralShooterSubsystem = coralShooterSubsystem; 
@@ -48,14 +49,20 @@ public class CoralShooterCommand extends Command {
         System.out.println("MOTOR2 CURRENT: " + coralShooterSubsystem.getBottomMotorStatorCurrent());
         
         if(speed > 0){ // if intaking
-            if(timePassed > 3500){
+            if(timePassed > 5500){
                 coralShooterSubsystem.setSpeed(0);
                 System.out.println ("Finished intaking");
                 return true;
             } 
-            // else if(coralShooterSubsystem.getMotor2StatorCurrent() > Constants.CORAL_INTAKING_CURRENT_LIMIT){ // checks current limit of bottom motor to prevent stalling
-            //     coralShooterSubsystem.setVoltage(0); // stops motor when we fully intake - might be helpful to also add a sensor to intake
-            //     System.out.println("INTAKING CURRENT PEAKED: " + coralShooterSubsystem.getMotor2StatorCurrent());
+             else if(coralShooterSubsystem.getBottomMotorStatorCurrent() < 0){ 
+                //intakeCurrentPeaked = true; // notifies us that the coral in the shooter, still outtaking
+                System.out.println("SHOOTING CURRENT PEAKED: " + coralShooterSubsystem.getBottomMotorStatorCurrent());
+                coralShooterSubsystem.setSpeed(0);
+                return true;
+            } 
+            //else if(intakeCurrentPeaked && coralShooterSubsystem.getTopMotorLeftStatorCurrent() < Constants.CORAL_INTAKE_MIN_CURRENT){ // if the coral has left the shooter
+            //     coralShooterSubsystem.setSpeed(0); // stop because we have finished outtaking
+            //     shootingCurrentPeaked = false;
             //     return true;
             // }
         } else if(speed == 0){ // if stopped, end command

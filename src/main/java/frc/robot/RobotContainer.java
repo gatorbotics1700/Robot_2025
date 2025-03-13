@@ -78,8 +78,9 @@ public class RobotContainer {
     private final Trigger intake = new Trigger(()->buttonBoard2A.getRawButtonPressed(5));
 
     public RobotContainer() {
-        // NamedCommands.registerCommand("Score Coral Shooter", ScoreCommands.Shoot(m_coralShooterSub));
-        // NamedCommands.registerCommand("Intake Coral Shooter", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
+        NamedCommands.registerCommand("Score L4", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_SPEED));
+
+        NamedCommands.registerCommand("Score Trough", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_SPEED));
 
         // Print initial joystick values
         System.out.println("RobotContainer initializing");
@@ -100,34 +101,34 @@ public class RobotContainer {
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
     
             Q2LeftLineup
-                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
-    
-            Q2RightLineup
-                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
-    
-            Q3LeftLineup
-                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
-    
-            Q3RightLineup
-                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
-    
-            Q4LeftLineup
-                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller,Constants.SHOOTING_L4_RIGHT_OFFSET ));
-    
-            Q4RightLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
     
-            Q5LeftLineup
-                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+            Q2RightLineup
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem,4, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
     
-            Q5RightLineup
+            Q3LeftLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
     
+            Q3RightLineup
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+    
+            Q4LeftLineup
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller,Constants.SHOOTING_L4_RIGHT_OFFSET ));
+    
+            Q4RightLineup
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+    
+            Q5LeftLineup
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+    
+            Q5RightLineup
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+    
             Q6LeftLineup
-                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
     
             Q6RightLineup
-                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
     
     
     
@@ -146,7 +147,7 @@ public class RobotContainer {
 
         // lining up to intake
         intakeLineup
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 8, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
 
         // lining up to with reef to score trough
         Q1TroughLineup //q1
