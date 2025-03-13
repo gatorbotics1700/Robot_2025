@@ -31,6 +31,7 @@ public class LimelightControlCommand extends Command {
     @Override
     public void initialize() {
         limelightSubsystem.setPipeline(pipeline);
+        System.out.println(limelightSubsystem.getLimelightName());
     }
 
     @Override

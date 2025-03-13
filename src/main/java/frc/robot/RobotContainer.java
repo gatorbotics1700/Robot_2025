@@ -37,7 +37,7 @@ public class RobotContainer {
 
     private final GenericHID buttonBoard2A = new GenericHID(3);
     private final GenericHID buttonBoard2B = new GenericHID(4);
-    private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem(Constants.LIMELIGHT_OFFSETS);
+    private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem("limelight", Constants.LIMELIGHT_OFFSETS);
     private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
     private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
 

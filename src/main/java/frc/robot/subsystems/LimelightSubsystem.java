@@ -18,15 +18,21 @@ public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
     private final Pose3d limelightOffsets;
+    private final String limelightName;
 
-    public LimelightSubsystem(Pose3d limelightOffsets) {
+    public LimelightSubsystem(String limelightName, Pose3d limelightOffsets) {
         this.limelightOffsets = limelightOffsets;
-        limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+        this.limelightName = limelightName;
+        limelightTable = NetworkTableInstance.getDefault().getTable(limelightName);
         
-        LimelightHelpers.setCameraPose_RobotSpace("limelight", 
+        LimelightHelpers.setCameraPose_RobotSpace(limelightName, 
         limelightOffsets.getX() , -limelightOffsets.getY(), limelightOffsets.getZ(), //now flipping Y here instead of in constants.java
         Math.toDegrees(limelightOffsets.getRotation().getX()), Math.toDegrees(limelightOffsets.getRotation().getY()), 
         Math.toDegrees(limelightOffsets.getRotation().getZ()));
+    }
+
+    public String getLimelightName(){
+        return limelightName;
     }
 
     public void turnOnLED() {
@@ -98,7 +104,7 @@ public class LimelightSubsystem extends SubsystemBase {
         Pose2d aprilTagPoseInRobotSpace = convertCameraSpaceToRobotSpace(aprilTagPoseInCameraSpace);
         Pose2d aprilTagPoseFieldSpace = convertToFieldSpace(aprilTagPoseInRobotSpace, robotPoseInFieldSpace);
         Pose2d aprilTagPoseOffsetFrontCenter = offsetToLineUpPoint(aprilTagPoseFieldSpace, lineUpOffset);
-         return aprilTagPoseOffsetFrontCenter;
+        return aprilTagPoseOffsetFrontCenter;
     }
 
     //converts targetpose_cameraspace array into FRC coordinates. for a diagram of the coordinate system search for "targetpose_cameraspace coordinate system vs robot/pigeon coordinate system" in #progthoughts (2025 slack)
