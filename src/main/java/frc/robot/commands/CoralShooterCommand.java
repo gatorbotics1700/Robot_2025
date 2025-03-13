@@ -1,0 +1,89 @@
+package frc.robot.commands;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
+import frc.robot.subsystems.CoralShooterSubsystem;
+
+public class CoralShooterCommand extends Command {
+    private CoralShooterSubsystem coralShooterSubsystem;
+    // private final double voltage;
+    private final double speed;
+    private double startTime;
+    private boolean shootingCurrentPeaked; 
+    private boolean intakeCurrentPeaked; 
+    
+    public CoralShooterCommand(CoralShooterSubsystem coralShooterSubsystem, double speed){
+        this.coralShooterSubsystem = coralShooterSubsystem; 
+        this.speed = speed;
+        addRequirements(coralShooterSubsystem);
+    }
+    
+    @Override
+    public void initialize (){
+        startTime = System.currentTimeMillis();
+    }
+    
+    @Override
+    public void execute() {
+            coralShooterSubsystem.setSpeed(speed);
+            SmartDashboard.putNumber("shooter speed", coralShooterSubsystem.getTopMotorLeftSpeed());
+            SmartDashboard.putNumber("velocity delta", speed - coralShooterSubsystem.getBottomMotorSpeed());
+       
+        
+        if(speed > 0) {
+            System.out.println("INTAKING");
+        } else if (speed < 0) {
+            System.out.println ("SHOOTING");
+        }
+        // System.out.println("MOTOR VOLTAGE: " + voltage); 
+        System.out.println("SPEED: " + speed);
+        System.out.println("battery voltage: " + RobotController.getBatteryVoltage());   
+    }
+    
+    @Override
+    public boolean isFinished() {  
+        double timePassed = System.currentTimeMillis() - startTime;
+        System.out.println("Milliseconds passed: " +  timePassed);  
+        
+        System.out.println("MOTOR2 CURRENT: " + coralShooterSubsystem.getBottomMotorStatorCurrent());
+        
+        if(speed > 0){ // if intaking
+            if(timePassed > 5500){
+                coralShooterSubsystem.setSpeed(0);
+                System.out.println ("Finished intaking");
+                return true;
+            } 
+             else if(coralShooterSubsystem.getBottomMotorStatorCurrent() < 0){ 
+                //intakeCurrentPeaked = true; // notifies us that the coral in the shooter, still outtaking
+                System.out.println("SHOOTING CURRENT PEAKED: " + coralShooterSubsystem.getBottomMotorStatorCurrent());
+                coralShooterSubsystem.setSpeed(0);
+                return true;
+            } 
+            //else if(intakeCurrentPeaked && coralShooterSubsystem.getTopMotorLeftStatorCurrent() < Constants.CORAL_INTAKE_MIN_CURRENT){ // if the coral has left the shooter
+            //     coralShooterSubsystem.setSpeed(0); // stop because we have finished outtaking
+            //     shootingCurrentPeaked = false;
+            //     return true;
+            // }
+        } else if(speed == 0){ // if stopped, end command
+            // System.out.println("MOTOR VOLTAGE: 0, STOPPING");
+            System.out.println("SPEED: 0, STOPPING");
+            return true;
+        } else if(speed < 0){ // if shooting
+            if(timePassed > 1500){
+                coralShooterSubsystem.setSpeed(0);
+                System.out.println("Finished shooting");
+                return true;
+            }
+            //  else if(coralShooterSubsystem.getMotorStatorCurrent() > Constants.CORAL_SHOOTING_MAX_CURRENT){ 
+            //     shootingCurrentPeaked = true; // notifies us that the coral in the shooter, still outtaking
+            //     System.out.println("SHOOTING CURRENT PEAKED: " + coralShooterSubsystem.getMotorStatorCurrent());
+            // } else if(shootingCurrentPeaked && coralShooterSubsystem.getMotorStatorCurrent() < Constants.CORAL_SHOOTING_MIN_CURRENT){ // if the coral has left the shooter
+            //     coralShooterSubsystem.setVoltage(0); // stop because we have finished outtaking
+            //     shootingCurrentPeaked = false;
+            //     return true;
+            // }
+        }
+        return false;
+    }
+}

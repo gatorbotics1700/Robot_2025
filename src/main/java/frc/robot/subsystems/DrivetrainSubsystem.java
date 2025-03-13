@@ -53,11 +53,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private ChassisSpeeds chassisSpeeds;
 
     private ShuffleboardTab shuffleboardTab;
-    private final double TRANSLATION_kP = 0.7;
+    private final double TRANSLATION_kP = 1.5;
     private final double ROTATION_kP = 0.02;
     private final double TRANSLATION_MIN_SPEED = 0.15;
     private final double ROTATION_MIN_SPEED = 0.25;
-    private final double DISTANCE_DEADBAND = 0.05;
+    private final double DISTANCE_DEADBAND = 0.025;
     private final double ROTATION_DEADBAND = 2.0;
     private double robotRotation;
 
@@ -266,7 +266,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        updateShuffleboardVariables();
         odometry.update(
             new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
             new SwerveModulePosition[]{ 
@@ -352,16 +351,5 @@ public class DrivetrainSubsystem extends SubsystemBase {
             System.out.println("POINTING TO ANGLE");
         }
         driveToPose(desiredPose);
-    }
-
-    private void updateShuffleboardVariables() {
-        CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
-        double busUtil = CANivore.getStatus().BusUtilization * 100;
-        double transmitErrors = CANivore.getStatus().TEC;
-        double receiveErrors = CANivore.getStatus().REC;
-        SmartDashboard.putNumber("Bus Utilization", busUtil);
-        SmartDashboard.putNumber("Transmit errors", transmitErrors);
-        SmartDashboard.putNumber("Receive errors", receiveErrors);
-        SmartDashboard.putNumber("Robot Angle", getRobotRotationDegrees());
     }
 }

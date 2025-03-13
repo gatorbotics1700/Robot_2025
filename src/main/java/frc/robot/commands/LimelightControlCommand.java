@@ -80,7 +80,7 @@ public class LimelightControlCommand extends Command {
         } else if (pipeline == 3){
             return limelightSubsystem.getTargetID() == 8 || limelightSubsystem.getTargetID() == 17; 
         } else if (pipeline == 4){ 
-            return limelightSubsystem.getTargetID() == 9 || limelightSubsystem.getTargetID() == 12;
+            return limelightSubsystem.getTargetID() == 9 || limelightSubsystem.getTargetID() == 22;
         } else if (pipeline == 5){ 
             return limelightSubsystem.getTargetID() == 11 || limelightSubsystem.getTargetID() == 20;
         } else if (pipeline == 6){ 
@@ -88,7 +88,7 @@ public class LimelightControlCommand extends Command {
         } else if (pipeline == 7){ 
             return limelightSubsystem.getTargetID() == 1 || limelightSubsystem.getTargetID() == 2 || limelightSubsystem.getTargetID() == 12 || limelightSubsystem.getTargetID() == 13;
         }  else if (pipeline == 8){ 
-            return limelightSubsystem.getTargetID() == 4 || limelightSubsystem.getTargetID() == 14;
+            return limelightSubsystem.getTargetID() == 4 || limelightSubsystem.getTargetID() == 14 || limelightSubsystem.getTargetID() == 5 || limelightSubsystem.getTargetID() == 15;
         } else if (pipeline == 9){ 
             return limelightSubsystem.getTargetID() == 5 || limelightSubsystem.getTargetID() == 15;
         } else{

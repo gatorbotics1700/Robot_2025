@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S Path"
+            "pathName": "Blue Low to SE Trough"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score Trough"
           }
         }
       ]
