@@ -94,7 +94,61 @@ public class CoordinateTransforms {
         System.out.println("id17 Left: " + id17LeftCoord);
         System.out.println("id22 Right: " + id22RightCoord);
         System.out.println("id22 Left: " + id22LeftCoord);
+    }
+
+    @Test
+    public void calculateReefCoordsTroughRed() {
+        //imagine you're looking at a field diagram, with the origin in the bottom right corner. for these numbers, imagine the robot is at the top position on the reef, for red or blue, trying to score on the robot's right, or the field's left
+        double botToReefX = Constants.CENTER_TO_BUMPER_OFFSET + Constants.REEF_RADIUS; //distance in meters from robot center to center of reef, but only in the x (assume the robot is vertical with the reef center)
+        Translation2d trough = new Translation2d(botToReefX,0);
+        Translation2d reefCenterRed = new Translation2d(12.9933, 4.025);
+
+        Pose2d id7Coord = new Pose2d(reefCenterRed, new Rotation2d(0)).transformBy(new Transform2d(trough, new Rotation2d(Math.PI)));
+
+        Pose2d id8Coord = new Pose2d(reefCenterRed, new Rotation2d(Math.PI/3.0)).transformBy(new Transform2d(trough, new Rotation2d(Math.PI)));
+
+        Pose2d id9Coord = new Pose2d(reefCenterRed, new Rotation2d(2.0*(Math.PI/3.0))).transformBy(new Transform2d(trough, new Rotation2d(Math.PI)));
+
+        Pose2d id10Coord = new Pose2d(reefCenterRed, new Rotation2d(Math.PI)).transformBy(new Transform2d(trough, new Rotation2d(Math.PI)));
+
+        Pose2d id11Coord = new Pose2d(reefCenterRed, new Rotation2d(-2.0*(Math.PI/3.0))).transformBy(new Transform2d(trough, new Rotation2d(Math.PI)));
+
+        Pose2d id6Coord = new Pose2d(reefCenterRed, new Rotation2d(-Math.PI/3.0)).transformBy(new Transform2d(trough, new Rotation2d(Math.PI)));
+        
+        System.out.println("id7: " + id7Coord);
+        System.out.println("id8: " + id8Coord);
+        System.out.println("id9: " + id9Coord);
+        System.out.println("id10: " + id10Coord);
+        System.out.println("id11: " + id11Coord);
+        System.out.println("id6: " + id6Coord);
        
 
+    }
+
+    @Test
+    public void calculateReefCoordsTroughBlue() {
+        //imagine you're looking at a field diagram, with the origin in the bottom right corner. for these numbers, imagine the robot is at the top position on the reef, for red or blue, trying to score on the robot's right, or the field's left
+        double botToReefX = Constants.CENTER_TO_BUMPER_OFFSET + Constants.REEF_RADIUS; //distance in meters from robot center to center of reef, but only in the x (assume the robot is vertical with the reef center)
+        Translation2d trough = new Translation2d(botToReefX,0);
+        Translation2d reefCenterBlue = new Translation2d(4.5567, 4.025);
+
+        Pose2d id21Coord = new Pose2d(reefCenterBlue, new Rotation2d(0)).transformBy(new Transform2d(trough, new Rotation2d(Math.PI)));
+
+        Pose2d id20Coord = new Pose2d(reefCenterBlue, new Rotation2d(Math.PI/3.0)).transformBy(new Transform2d(trough, new Rotation2d(Math.PI)));
+
+        Pose2d id19Coord = new Pose2d(reefCenterBlue, new Rotation2d(2.0*(Math.PI/3.0))).transformBy(new Transform2d(trough, new Rotation2d(Math.PI)));
+
+        Pose2d id18Coord = new Pose2d(reefCenterBlue, new Rotation2d(Math.PI)).transformBy(new Transform2d(trough, new Rotation2d(Math.PI)));
+
+        Pose2d id17Coord = new Pose2d(reefCenterBlue, new Rotation2d(-2.0*(Math.PI/3.0))).transformBy(new Transform2d(trough, new Rotation2d(Math.PI)));
+
+        Pose2d id22Coord = new Pose2d(reefCenterBlue, new Rotation2d(-Math.PI/3.0)).transformBy(new Transform2d(trough, new Rotation2d(Math.PI)));
+        
+        System.out.println("id21: " + id21Coord);
+        System.out.println("id20: " + id20Coord);
+        System.out.println("id19: " + id19Coord);
+        System.out.println("id18: " + id18Coord);
+        System.out.println("id17: " + id17Coord);
+        System.out.println("id22: " + id22Coord);
     }
 }
