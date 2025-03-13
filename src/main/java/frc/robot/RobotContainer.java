@@ -94,20 +94,6 @@ public class RobotContainer {
 
  /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
 
-<<<<<<< HEAD
-        //limelight 2
-        new Trigger(controller::getAButtonPressed) 
-            .onTrue(new LimelightControlCommand(m_limelightsub2, drivetrainSubsystem, 2, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 7,18,10,21 A (limelight 2)
-
-        // new Trigger(controller::getAButtonPressed) 
-        //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 6,19 A
-        new Trigger(controller::getBButtonPressed)
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // 7,18,10,21 B
-        new Trigger(controller::getXButtonPressed)
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 8,17 X
-        new Trigger(controller::getYButtonPressed)
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 9, controller, Constants.FRONT_CENTER_ALIGN_OFFSET)); // id 9,22 Y
-=======
             Q1LeftLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
     
@@ -210,7 +196,6 @@ public class RobotContainer {
             ? stream.filter(auto -> (auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
             :stream
     );
->>>>>>> origin
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
