@@ -276,6 +276,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
             }
         );
 
+        // System.out.println("POSE 2D: " + odometry.getEstimatedPosition());
+
         boolean doRejectUpdate = false;
         
         LimelightHelpers.SetRobotOrientation("limelight", odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);

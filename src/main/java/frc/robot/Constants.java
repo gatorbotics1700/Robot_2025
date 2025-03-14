@@ -59,7 +59,8 @@ public class Constants {
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(52.1191);
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     public static final String CANIVORE_BUS_NAME = "TRex";
-    public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.347, 0.003175, 0.155, new Rotation3d(Math.toRadians(-2.0), Math.toRadians(-21.0), Math.toRadians(-2.0)));
+    public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.347, 0.003175, 0.155, new Rotation3d(Math.toRadians(-0.0), Math.toRadians(-21.0), Math.toRadians(-2.0)));
+    // public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.347, 0.003175, 0.155, new Rotation3d(Math.toRadians(-2.0), Math.toRadians(-26.0), Math.toRadians(-2.0)));
     public static final double CENTER_TO_BUMPER_OFFSET = 0.45164;
     public static final Pose2d FRONT_CENTER_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
     public static final Pose2d SHOOTING_L4_LEFT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.110066582, -0.1778, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
