@@ -38,6 +38,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
     public void periodic(){
         SmartDashboard.putNumber("bottom motor current",  getBottomMotorStatorCurrent());
         SmartDashboard.putNumber("top motor left current", getTopMotorLeftStatorCurrent());
+        SmartDashboard.putNumber("top wheel speed", getTopMotorLeftSpeed());
     }
 
     // public void setSpeed(double speed){
@@ -55,6 +56,15 @@ public class CoralShooterSubsystem extends SubsystemBase{
     public void setMotorVoltage(double voltage){
         topMotorLeft.setVoltage(voltage);
         topMotorRight.setVoltage(voltage);
+        bottomMotor.setVoltage(voltage);
+    }
+
+    public void setTopVoltage(double voltage){
+        topMotorLeft.setVoltage(voltage);
+        topMotorRight.setVoltage(voltage);
+    }
+
+    public void setBottomVoltage(double voltage){
         bottomMotor.setVoltage(voltage);
     }
 
