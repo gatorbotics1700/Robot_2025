@@ -78,9 +78,9 @@ public class RobotContainer {
     private final Trigger intake = new Trigger(()->buttonBoard2A.getRawButtonPressed(5));
 
     public RobotContainer() {
-        NamedCommands.registerCommand("Score L4", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_SPEED));
+        NamedCommands.registerCommand("Score L4", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_VOLTAGE)); //Constants.CORAL_L4_SHOOTING_SPEED));
 
-        NamedCommands.registerCommand("Score Trough", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_SPEED));
+        NamedCommands.registerCommand("Score Trough", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE)); //Constants.CORAL_TROUGH_SHOOTING_SPEED));
 
         // Print initial joystick values
         System.out.println("RobotContainer initializing");
@@ -113,22 +113,22 @@ public class RobotContainer {
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
     
             Q4LeftLineup
-                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller,Constants.SHOOTING_L4_RIGHT_OFFSET ));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller,Constants.SHOOTING_L4_LEFT_OFFSET ));
     
             Q4RightLineup
-                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
     
             Q5LeftLineup
-                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
-    
-            Q5RightLineup
                 .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
     
+            Q5RightLineup
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+    
             Q6LeftLineup
-                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
     
             Q6RightLineup
-                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
     
     
     
@@ -137,17 +137,17 @@ public class RobotContainer {
             
     /* CO-DRIVER BUTTON BOARD 2 BUTTONS */
 
-        // // climb
         // climb
-        //     .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: FYI the sign has been changed
+        climb
+            .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: FYI the sign has been changed
             
-        // // detach
         // detach
-        //    .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
+        detach
+           .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
 
         // lining up to intake
         intakeLineup
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
 
         // lining up to with reef to score trough
         Q1TroughLineup //q1
@@ -178,26 +178,28 @@ public class RobotContainer {
 
         // score trough
         scoreTrough
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_SPEED));
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE)); //Constants.CORAL_TROUGH_SHOOTING_SPEED));
 
         // score L4
         scoreL4
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_SPEED));
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_VOLTAGE)); //Constants.CORAL_L4_SHOOTING_SPEED));
 
         // intake
         intake
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));   
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_VOLTAGE)); //Constants.CORAL_INTAKING_SPEED));   
     
         
         boolean isCompetition = true;
         boolean isSVR = true;
         autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
-        (stream) -> isSVR
-            ? stream.filter(auto -> (auto.getName().endsWith("SVR")))
-            : stream.filter(auto -> (auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
+        (stream) -> isCompetition
+            // ? stream.filter(auto -> (auto.getName().endsWith("SVR")))
+            ? stream.filter(auto -> (auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
+            : stream
     );
 
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+        // SmartDashboard.putData("Auto Chooser", autoChooser);
+        Shuffleboard.getTab("SmartDashboard").add(autoChooser);
     }
 
     public Command getAutonomousCommand() {
@@ -262,8 +264,8 @@ public class RobotContainer {
      public static Command VomitAndIntake(CoralShooterSubsystem coralShooterSubsystem){
         System.out.println("VOMITING CORAL AND INTAKING");
         return new CoralShooterCommand(coralShooterSubsystem, 0)
-        .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_VOMIT_SPEED))
-        .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_INTAKING_SPEED));
+        .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_VOMIT_VOLTAGE)) //Constants.CORAL_VOMIT_SPEED))
+        .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_INTAKING_VOLTAGE)); //Constants.CORAL_INTAKING_SPEED));
     }
 
     // mech stop command
