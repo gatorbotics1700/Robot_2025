@@ -26,25 +26,24 @@ public class ClimbingCommand extends Command {
     @Override
     public void execute() {
         climbingSubsystem.setSpeed(speed);
-        if (speed > 0) {
+
+        // TODO: FYI these inequalities have been reversed to match the change in the climbing buttons
+        if (speed < 0) {
             System.out.println("CLIMBING");
-        } else if (speed < 0) {
+        } else if (speed > 0) {
             System.out.println("DETACHING");
+        } else if (speed == 0) {
+            System.out.println("CLIMBER STOPPING");
         }
     }
 
     @Override 
     public boolean isFinished() {
-        //if hanging successfully--maybe using pigeon to determine position? 
-            // climbingSubsystem.setSpeed(0);
-            //return true; // commented out for testing shooter - should just stop command on start
-        // else {
-        //     return false; 
-        // } 
 
         double timePassed = System.currentTimeMillis() - startTime;
         System.out.println("Milliseconds passed: " +  timePassed);  
         
+        // TODO did not change these inequalities - not sure why they match with our changes already  
         if(speed > 0){ // if detatching / reverse climbing
             if(System.currentTimeMillis() - startTime > 30000){
                 climbingSubsystem.setSpeed(0);
@@ -52,6 +51,7 @@ public class ClimbingCommand extends Command {
                 return true;
             }
         } else if(speed == 0){
+            //climbingSubsystem.setSpeed(0);
             return true;
         } else if(speed < 0){ // if climbing
             if(System.currentTimeMillis() - startTime > 30000){

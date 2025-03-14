@@ -137,13 +137,13 @@ public class RobotContainer {
             
     /* CO-DRIVER BUTTON BOARD 2 BUTTONS */
 
+        // // climb
         // climb
-        climb
-            .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
+        //     .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: FYI the sign has been changed
             
+        // // detach
         // detach
-        detach
-           .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
+        //    .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
 
         // lining up to intake
         intakeLineup
@@ -174,8 +174,7 @@ public class RobotContainer {
 
         //stop
         mechStop
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, 0)
-            .alongWith(new ClimbingCommand(m_climbingSub, 0)));
+            .onTrue(MechStop());
 
         // score trough
         scoreTrough
@@ -266,7 +265,18 @@ public class RobotContainer {
         .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_VOMIT_SPEED))
         .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_INTAKING_SPEED));
     }
-    
+
+    // mech stop command
+    public static Command MechStop(){
+        System.out.println("ALL MECH STOP!!");
+        return new CoralShooterCommand(m_coralShooterSub, 0)
+        .alongWith(new ClimbingCommand(m_climbingSub, 0));
+    }
+
+    public static Command getMechStopCommand(){
+        return MechStop();
+    }
+
     // public static Command scoreTrough(CoralShooterSubsystem coralShooterSubsystem){
     //     System.out.println("SCORING TROUGH");
     //     return new CoralShooterCommand(coralShooterSubsystem, 0.5);
