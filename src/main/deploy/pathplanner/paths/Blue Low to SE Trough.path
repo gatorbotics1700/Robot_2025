@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.1770000000000005,
-        "y": 2.920978
+        "x": 5.19,
+        "y": 2.92
       },
       "prevControl": {
-        "x": 4.961862271711521,
-        "y": 3.2936074760205947
+        "x": 4.974862271711521,
+        "y": 3.2926294760205947
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 119.99999999999999
   },
   "reversed": false,
-  "folder": "COMP PATHS",
+  "folder": "BLUE COMP PATHS",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

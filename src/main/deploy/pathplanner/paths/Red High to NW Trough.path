@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 9.943,
-        "y": 0.53
+        "y": 7.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 10.943000000000007,
-        "y": 0.53
+        "x": 10.634058521412037,
+        "y": 7.105825376157408
       },
       "isLocked": false,
       "linkedName": null
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 12.36,
-        "y": 2.92
+        "y": 5.13
       },
       "prevControl": {
-        "x": 12.485,
-        "y": 3.1365063509461097
+        "x": 11.824729456018517,
+        "y": 5.753444010416667
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,12 +42,12 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": -59.99999999999999
   },
   "reversed": false,
   "folder": "RED COMP PATHS",
   "idealStartingState": {
-    "velocity": 0.0,
+    "velocity": 0,
     "rotation": 0.0
   },
   "useDefaultConstraints": true

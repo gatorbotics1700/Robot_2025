@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue Mid to E Trough"
+            "pathName": "Blue Low Leave"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "COMP AUTOS",
+  "folder": "BLUE COMP AUTOS",
   "choreoAuto": false
 }

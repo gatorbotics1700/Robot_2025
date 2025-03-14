@@ -11,6 +11,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "Score Trough"
@@ -20,6 +26,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "RED COMP AUTOS",
   "choreoAuto": false
 }

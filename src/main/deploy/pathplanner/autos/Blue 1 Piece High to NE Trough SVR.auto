@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue Mid to E Trough"
+            "pathName": "Blue High to NE Trough"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {
@@ -20,6 +26,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "COMP AUTOS",
+  "folder": "BLUE COMP AUTOS",
   "choreoAuto": false
 }

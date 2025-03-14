@@ -191,10 +191,11 @@ public class RobotContainer {
     
         
         boolean isCompetition = true;
+        boolean isSVR = true;
         autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
-        (stream) -> isCompetition
-            ? stream.filter(auto -> (auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
-            :stream
+        (stream) -> isSVR
+            ? stream.filter(auto -> (auto.getName().endsWith("SVR")))
+            : stream.filter(auto -> (auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
     );
 
         SmartDashboard.putData("Auto Chooser", autoChooser);

@@ -7,19 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Red Mid to W Trough"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Score Trough"
+            "pathName": "Red Low Leave"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "COMP AUTOS",
+  "folder": "RED COMP AUTOS",
   "choreoAuto": false
 }
