@@ -151,4 +151,10 @@ public class CoordinateTransforms {
         System.out.println("id17: " + id17Coord);
         System.out.println("id22: " + id22Coord);
     }
+
+    @Test 
+    public void substationCoordinates(){
+        Pose2d SWSubstation = new Pose2d(0.86075,0.6525, new Rotation2d(Math.toRadians(-126 + 180))).transformBy(new Transform2d(new Translation2d(Constants.CENTER_TO_BUMPER_OFFSET + 0.25, 0), new Rotation2d(Math.toRadians(180))));
+        System.out.println("SW: " + SWSubstation);
+    }
 }
