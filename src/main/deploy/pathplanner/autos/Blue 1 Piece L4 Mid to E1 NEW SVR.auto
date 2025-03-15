@@ -1,0 +1,37 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of Blue Mid to E1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Q1 Left Lineup"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score L4"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "BLUE COMP AUTOS",
+  "choreoAuto": false
+}

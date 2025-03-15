@@ -16,7 +16,7 @@ public class LimelightControlCommand extends Command {
     private Pose2d desiredPose;
     private Pose2d lineUpOffset;
     private Rotation2d pointingToTagAngle; //field relative angle to point the robot at the apriltag
-
+    private boolean dontStart = false;
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem,
             int pipeline, XboxController controller, Pose2d lineUpOffset) {
         this.limelightSubsystem = limelightSubsystem;
@@ -33,6 +33,12 @@ public class LimelightControlCommand extends Command {
         limelightSubsystem.setPipeline(pipeline);
         System.out.println(limelightSubsystem.getLimelightName());
         drivetrainSubsystem.setNotAtDesiredPose();
+        if (limelightSubsystem.hasValidTarget() && targetMatchesPipeline()) { 
+            dontStart = false;
+        } else {
+            dontStart = true;
+            System.out.println("\tNo valid target detected.");
+        }
     }
 
     @Override
@@ -66,7 +72,10 @@ public class LimelightControlCommand extends Command {
         if(drivetrainSubsystem.getAtDesiredPose()){
             return true;
         }
-        
+       if(dontStart){
+         return true;
+       }
+
         return false;
         // TODO: allow mech commands to end this as well
     }

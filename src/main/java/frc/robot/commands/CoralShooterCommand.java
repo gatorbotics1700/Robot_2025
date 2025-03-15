@@ -68,12 +68,12 @@ public class CoralShooterCommand extends Command {
         
         //if(speed > 0){ // if intaking
         if(voltage > 0){
-            if(timePassed > 5500){
+            if(timePassed > 5000){
                 // coralShooterSubsystem.setSpeed(0);
                 coralShooterSubsystem.setMotorVoltage(0);
                 System.out.println ("Finished intaking");
                 return true;
-            } else if(coralShooterSubsystem.getBottomMotorStatorCurrent() < -5){ 
+            } else if(coralShooterSubsystem.getBottomMotorStatorCurrent() < -9.5){ 
                 //intakeCurrentPeaked = true; // notifies us that the coral in the shooter, still outtaking
                 System.out.println("SHOOTING CURRENT PEAKED: " + coralShooterSubsystem.getBottomMotorStatorCurrent());
                 //coralShooterSubsystem.setSpeed(0);

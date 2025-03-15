@@ -38,7 +38,7 @@ public class RobotContainer {
     private final GenericHID buttonBoard2A = new GenericHID(3);
     private final GenericHID buttonBoard2B = new GenericHID(4);
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem("limelight", Constants.LIMELIGHT_OFFSETS);
-    private static final LimelightSubsystem m_limelightsub2 = new LimelightSubsystem("limelight-two", Constants.LIMELIGHT_OFFSETS_2);
+   // private static final LimelightSubsystem m_limelightsub2 = new LimelightSubsystem("limelight-two", Constants.LIMELIGHT_OFFSETS_2);
     private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
     private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
 
@@ -83,6 +83,13 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("Score Trough", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE)); //Constants.CORAL_TROUGH_SHOOTING_SPEED));
 
+        NamedCommands.registerCommand("Q1 Left Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+        NamedCommands.registerCommand("Q1 Right Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+        NamedCommands.registerCommand("Q2 Left Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+        NamedCommands.registerCommand("Q2 Right Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+        NamedCommands.registerCommand("Q6 Left Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+        NamedCommands.registerCommand("Q6 Right Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+
         // Print initial joystick values
         System.out.println("RobotContainer initializing");
 
@@ -92,6 +99,9 @@ public class RobotContainer {
 
         new Trigger(controller::getRightBumperPressed)
                 .onTrue(new InstantCommand(drivetrainSubsystem::setSlowDrive));
+
+        new Trigger(controller::getAButtonPressed)
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
 
  /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
 
@@ -148,7 +158,8 @@ public class RobotContainer {
 
         // lining up to intake
         intakeLineup
-            .onTrue(new LimelightControlCommand(m_limelightsub2, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
+            // .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
 
         // lining up to with reef to score trough
         Q1TroughLineup //q1
