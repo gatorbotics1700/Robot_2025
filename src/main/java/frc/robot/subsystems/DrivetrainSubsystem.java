@@ -41,6 +41,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule frontRightModule;
     private final SwerveModule backLeftModule;
     private final SwerveModule backRightModule;
+    private static boolean atDesiredPose = false;
 
     private static Pigeon2 pigeon;
 
@@ -323,7 +324,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             System.out.println("AT ROTATION DEADBAND");
         }
 
-        boolean atDesiredPose = xError == 0.0 && yError == 0.0 && rotationError == 0.0;
+        atDesiredPose = xError == 0.0 && yError == 0.0 && rotationError == 0.0;
 
         if (atDesiredPose) { // stop
             setStates(new SwerveModuleState[] {
@@ -353,5 +354,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
             System.out.println("POINTING TO ANGLE");
         }
         driveToPose(desiredPose);
+    }
+
+    public boolean getAtDesiredPose(){
+        return atDesiredPose;
+    }
+
+    public void setNotAtDesiredPose(){
+        atDesiredPose = false;
     }
 }

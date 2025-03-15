@@ -32,6 +32,7 @@ public class LimelightControlCommand extends Command {
     public void initialize() {
         limelightSubsystem.setPipeline(pipeline);
         System.out.println(limelightSubsystem.getLimelightName());
+        drivetrainSubsystem.setNotAtDesiredPose();
     }
 
     @Override
@@ -59,6 +60,10 @@ public class LimelightControlCommand extends Command {
         if (joystickMoved) {
             System.out.println("Joystick moved, ending command.");
             desiredPose = null;
+            return true;
+        }
+
+        if(drivetrainSubsystem.getAtDesiredPose()){
             return true;
         }
         
