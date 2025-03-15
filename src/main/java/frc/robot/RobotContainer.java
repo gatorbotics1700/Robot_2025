@@ -38,6 +38,7 @@ public class RobotContainer {
     private final GenericHID buttonBoard2A = new GenericHID(3);
     private final GenericHID buttonBoard2B = new GenericHID(4);
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem("limelight", Constants.LIMELIGHT_OFFSETS);
+    private static final LimelightSubsystem m_limelightsub2 = new LimelightSubsystem("limelight-two", Constants.LIMELIGHT_OFFSETS_2);
     private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
     private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
 
@@ -147,7 +148,7 @@ public class RobotContainer {
 
         // lining up to intake
         intakeLineup
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
+            .onTrue(new LimelightControlCommand(m_limelightsub2, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
 
         // lining up to with reef to score trough
         Q1TroughLineup //q1
