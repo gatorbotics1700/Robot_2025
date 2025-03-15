@@ -63,7 +63,7 @@ public class Constants {
     // public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.347, 0.003175, 0.155, new Rotation3d(Math.toRadians(-2.0), Math.toRadians(-26.0), Math.toRadians(-2.0)));
     public static final double CENTER_TO_BUMPER_OFFSET = 0.45164;
     public static final Pose2d FRONT_CENTER_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
-    public static final Pose2d INTAKE_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.25, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
+    public static final Pose2d INTAKE_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.16, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
     public static final Pose2d SHOOTING_L4_LEFT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.110066582, -0.1778, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
     public static final Pose2d SHOOTING_L4_RIGHT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.110066582, 0.1778, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
     // //the line up offsets are the point (in robot relative coordinates) that needs to align with the apriltag in order for us to score left/right post 
@@ -102,8 +102,8 @@ public class Constants {
     public static final double CORAL_SHOOTING_MAX_CURRENT = 10;
     public static final double CORAL_SHOOTING_MIN_CURRENT = 2.5;
     public static final double CORAL_INTAKING_VOLTAGE = 5.0; // switched from 4.0
-    public static final double CORAL_L4_SHOOTING_VOLTAGE = -8.4;
-    public static final double CORAL_TROUGH_SHOOTING_VOLTAGE = -5.0; // switched from -4.0
+    public static final double CORAL_L4_SHOOTING_VOLTAGE = -7.8;//-7.8;
+    public static final double CORAL_TROUGH_SHOOTING_VOLTAGE = -5.5; // switched from -4.0
     public static final double CORAL_VOMIT_VOLTAGE = -0.3;
 
     // CLIMBING MECHANISM

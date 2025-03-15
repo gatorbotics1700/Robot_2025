@@ -190,7 +190,7 @@ public class RobotContainer {
     
         
         boolean isCompetition = true;
-        boolean isSVR = true;
+       // boolean isSVR = true;
         autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
         (stream) -> isCompetition
             // ? stream.filter(auto -> (auto.getName().endsWith("SVR")))
@@ -198,7 +198,7 @@ public class RobotContainer {
             : stream
     );
 
-        // SmartDashboard.putData("Auto Chooser", autoChooser);
+        SmartDashboard.putData("Auto Chooser", autoChooser);
         Shuffleboard.getTab("SmartDashboard").add(autoChooser);
     }
 
