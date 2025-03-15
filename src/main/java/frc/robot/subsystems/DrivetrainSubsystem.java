@@ -54,7 +54,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private ChassisSpeeds chassisSpeeds;
 
     private ShuffleboardTab shuffleboardTab;
-    private final double TRANSLATION_kP = 1.5;
+    private final double TRANSLATION_kP = 3.0;
     private final double ROTATION_kP = 0.02;
     private final double TRANSLATION_MIN_SPEED = 0.15;
     private final double ROTATION_MIN_SPEED = 0.25;
@@ -340,6 +340,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
         double xSpeed = Math.max(Math.abs(xError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(xError);
         double ySpeed = Math.max(Math.abs(yError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(yError);
         double rotationSpeed = Math.max(Math.abs(rotationError * ROTATION_kP), ROTATION_MIN_SPEED) * Math.signum(rotationError);
+        if(xSpeed >= 1.8){
+            xSpeed = 1.8;
+        }
+        if(ySpeed >= 1.8){
+            ySpeed = 1.8;
+        }
 
         drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, currentPose.getRotation()));
     }

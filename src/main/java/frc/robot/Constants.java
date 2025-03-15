@@ -103,7 +103,7 @@ public class Constants {
     public static final double CORAL_SHOOTING_MAX_CURRENT = 10;
     public static final double CORAL_SHOOTING_MIN_CURRENT = 2.5;
     public static final double CORAL_INTAKING_VOLTAGE = 5.4; // switched from 4.0
-    public static final double CORAL_L4_SHOOTING_VOLTAGE = -7.8;//-7.8;
+    public static final double CORAL_L4_SHOOTING_VOLTAGE = -7.85;//-7.8;
     public static final double CORAL_TROUGH_SHOOTING_VOLTAGE = -5.5; // switched from -4.0
     public static final double CORAL_VOMIT_VOLTAGE = -0.3;
 
