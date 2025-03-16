@@ -103,6 +103,15 @@ public class RobotContainer {
         new Trigger(controller::getAButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
 
+        new Trigger(controller::getXButtonPressed)
+            .onTrue(new InstantCommand(m_coralShooterSub::decreaseVoltageTune));
+
+        new Trigger(controller::getBButtonPressed)
+            .onTrue(new InstantCommand(m_coralShooterSub::increaseVoltageTune));
+
+        new Trigger(controller::getYButton)
+            .onTrue(new InstantCommand(drivetrainSubsystem::faceReef));
+
  /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
 
             Q1LeftLineup
@@ -236,7 +245,7 @@ public class RobotContainer {
                 drivetrainSubsystem,
                 () -> -modifyAxis(controller.getRightY()),    // Changed to raw values
                 () -> -modifyAxis(controller.getRightX()),     // Changed to raw values
-                () -> -modifyAxis(controller.getLeftX())    // Changed to raw values
+                () -> -modifyAxis(0.8*controller.getLeftX())    // Changed to raw values
             )
         );
     }

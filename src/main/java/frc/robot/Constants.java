@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import frc.com.swervedrivespecialties.swervelib.MechanicalConfiguration;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
@@ -59,7 +60,7 @@ public class Constants {
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(52.1191);
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     public static final String CANIVORE_BUS_NAME = "TRex";
-    public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.347, 0.003175, 0.155, new Rotation3d(Math.toRadians(0.0), Math.toRadians(-41.0), Math.toRadians(-3.0)));
+    public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.347, 0.003175, 0.155, new Rotation3d(Math.toRadians(0.0), Math.toRadians(-26.0), Math.toRadians(-3.0)));
     public static final Pose3d LIMELIGHT_OFFSETS_2 = new Pose3d(0.347, -0.005775, 0.155+0.196, new Rotation3d(Math.toRadians(0.0), Math.toRadians(-25.0), Math.toRadians(-6.0)));
     // public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.347, 0.003175, 0.155, new Rotation3d(Math.toRadians(-2.0), Math.toRadians(-26.0), Math.toRadians(-2.0)));
     public static final double CENTER_TO_BUMPER_OFFSET = 0.45164;
@@ -115,6 +116,9 @@ public class Constants {
      * degrees to ticks conversion: ticks per rev * gear ratio / 360
      */
     public static final double LOOPTIME_SECONDS = 0.02;
+
+    public static final Translation2d RED_REEF_POSE = new Translation2d(12.933, 4.025);
+    public static final Translation2d BLUE_REEF_POSE = new Translation2d(4.5567, 4.025);
 
 }   
 

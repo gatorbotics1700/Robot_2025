@@ -23,6 +23,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -368,5 +369,36 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void setNotAtDesiredPose(){
         atDesiredPose = false;
+    }
+
+    public Rotation2d angleToReef(double robotMinusReefX, double robotMinusReefY){
+
+        double targetRotation = Math.atan(-robotMinusReefY/robotMinusReefX);
+        if(robotMinusReefX>0){
+            targetRotation = Math.PI-targetRotation;
+        }
+
+        return new Rotation2d(targetRotation);
+    }
+    public void faceReef(){
+        var alliance = DriverStation.getAlliance();
+        Pose2d currentPose = odometry.getEstimatedPosition();
+        double reefX = 0;
+        double reefY = 0;
+        if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red){
+            reefX = Constants.RED_REEF_POSE.getX();
+            reefY = Constants.RED_REEF_POSE.getY();
+            
+        } else if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) {
+            reefX = Constants.BLUE_REEF_POSE.getX();
+            reefY = Constants.BLUE_REEF_POSE.getY();
+        }
+
+        double robotMinusReefX = currentPose.getX() - reefX;
+        double robotMinusReefY = currentPose.getY() - reefY;
+
+        Rotation2d targetRotation = angleToReef(robotMinusReefX, robotMinusReefY);
+        Pose2d targetPose = new Pose2d(currentPose.getX(), currentPose.getY(), targetRotation);
+        driveToPose(targetPose);
     }
 }
