@@ -47,14 +47,14 @@ public class CoralShooterCommand extends Command {
         if(voltage > 0) {
             System.out.println("INTAKING");
         } else if (voltage < 0){
-            System.out.println("SHOOTING");
-            if(voltage == Constants.CORAL_L4_SHOOTING_VOLTAGE){
+            // System.out.println("SHOOTING");
+            if(voltage == Constants.CORAL_L4_SHOOTING_VOLTAGE + coralShooterSubsystem.getVoltageTune()){
                 System.out.println("L4 L4 L4");
-            } else if(voltage == Constants.CORAL_TROUGH_SHOOTING_VOLTAGE){
+            } else if(voltage == Constants.CORAL_TROUGH_SHOOTING_VOLTAGE + coralShooterSubsystem.getVoltageTune()){
                 System.out.println("TROUGH TROUGH TROUGH");
             }
         }
-        System.out.println("MOTOR VOLTAGE: " + voltage); 
+        // System.out.println("MOTOR VOLTAGE: " + voltage); 
         // System.out.println("SPEED: " + speed);
         // System.out.println("battery voltage: " + RobotController.getBatteryVoltage());   
     }
@@ -75,7 +75,7 @@ public class CoralShooterCommand extends Command {
                 return true;
             } else if(coralShooterSubsystem.getBottomMotorStatorCurrent() < -9.5){ 
                 //intakeCurrentPeaked = true; // notifies us that the coral in the shooter, still outtaking
-                System.out.println("SHOOTING CURRENT PEAKED: " + coralShooterSubsystem.getBottomMotorStatorCurrent());
+                System.out.println("INTAKING CURRENT PEAKED: " + coralShooterSubsystem.getBottomMotorStatorCurrent());
                 //coralShooterSubsystem.setSpeed(0);
                 coralShooterSubsystem.setMotorVoltage(0);
                 return true;

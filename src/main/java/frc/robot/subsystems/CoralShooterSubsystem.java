@@ -17,7 +17,8 @@ public class CoralShooterSubsystem extends SubsystemBase{
     public final TalonFX topMotorRight;
     public final TalonFX bottomMotor;
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
-    private double voltageTune = 0.0;
+    private static double voltageTune = 0.0;
+    private double voltagE;
     //private final DigitalInput beamBreakSensor;
     
     public CoralShooterSubsystem(){
@@ -53,9 +54,10 @@ public class CoralShooterSubsystem extends SubsystemBase{
     // }
 
     public void setMotorVoltage(double voltage){
-        topMotorLeft.setVoltage(voltage + voltageTune);
-        topMotorRight.setVoltage(voltage + voltageTune);
-        bottomMotor.setVoltage(voltage + voltageTune);
+        topMotorLeft.setVoltage(voltage);
+        topMotorRight.setVoltage(voltage);
+        bottomMotor.setVoltage(voltage);
+        voltagE = voltage;
     }
 
     public void setBottomMotorSpeed(double speed){
@@ -80,11 +82,16 @@ public class CoralShooterSubsystem extends SubsystemBase{
 
     public void increaseVoltageTune(){
         voltageTune += 0.05;
+        
+        System.out.print("New Voltage= " + (voltagE + voltageTune));
     }
 
     public void decreaseVoltageTune(){
         voltageTune -= 0.05;
+        System.out.print("New Voltage= " + (voltagE + voltageTune));
     }
 
-
+    public double getVoltageTune(){
+        return voltageTune;
+    }
 }

@@ -312,17 +312,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         if (Math.abs(xError) < DISTANCE_DEADBAND) { // Stop if within deadband
             xError = 0.0;
-            System.out.println("AT X DEADBAND");
+            // System.out.println("AT X DEADBAND");
         }
 
         if (Math.abs(yError) < DISTANCE_DEADBAND) {
             yError = 0.0;
-            System.out.println("AT Y DEADBAND");
+            // System.out.println("AT Y DEADBAND");
         }
         
         if (Math.abs(rotationError) < ROTATION_DEADBAND) {
             rotationError = 0.0;
-            System.out.println("AT ROTATION DEADBAND");
+            // System.out.println("AT ROTATION DEADBAND");
         }
 
         atDesiredPose = xError == 0.0 && yError == 0.0 && rotationError == 0.0;

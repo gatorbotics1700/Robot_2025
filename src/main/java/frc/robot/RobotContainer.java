@@ -199,11 +199,11 @@ public class RobotContainer {
 
         // score trough
         scoreTrough
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE)); //Constants.CORAL_TROUGH_SHOOTING_SPEED));
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune())); //Constants.CORAL_TROUGH_SHOOTING_SPEED));
 
         // score L4
         scoreL4
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_VOLTAGE)); //Constants.CORAL_L4_SHOOTING_SPEED));
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune())); //Constants.CORAL_L4_SHOOTING_SPEED));
 
         // intake
         intake
