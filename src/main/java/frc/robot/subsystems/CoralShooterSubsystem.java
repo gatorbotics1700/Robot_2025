@@ -18,7 +18,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
     public final TalonFX bottomMotor;
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
     private static double voltageTune = 0.0;
-    private double voltagE;
+    private double voltagE; //anaika is anti this. so this was the solution.... the typo is in fact intentional :/
     //private final DigitalInput beamBreakSensor;
     
     public CoralShooterSubsystem(){
@@ -39,6 +39,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
     public void periodic(){
         SmartDashboard.putNumber("bottom motor current",  getBottomMotorStatorCurrent());
         SmartDashboard.putNumber("top motor left current", getTopMotorLeftStatorCurrent());
+        SmartDashboard.putNumber("shooting voltage", voltagE);
     }
 
     // public void setSpeed(double speed){
@@ -93,5 +94,9 @@ public class CoralShooterSubsystem extends SubsystemBase{
 
     public double getVoltageTune(){
         return voltageTune;
+    }
+
+    public double getVoltage(){
+        return voltagE;
     }
 }

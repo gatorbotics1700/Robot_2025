@@ -50,6 +50,7 @@ public class CoralShooterCommand extends Command {
             // System.out.println("SHOOTING");
             if(voltage == Constants.CORAL_L4_SHOOTING_VOLTAGE + coralShooterSubsystem.getVoltageTune()){
                 System.out.println("L4 L4 L4");
+                System.out.println("VOLTAGE: "+ coralShooterSubsystem.getVoltage());
             } else if(voltage == Constants.CORAL_TROUGH_SHOOTING_VOLTAGE + coralShooterSubsystem.getVoltageTune()){
                 System.out.println("TROUGH TROUGH TROUGH");
             }

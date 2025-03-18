@@ -55,11 +55,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private ChassisSpeeds chassisSpeeds;
 
     private ShuffleboardTab shuffleboardTab;
-    private final double TRANSLATION_kP = 3.0;
+    private final double TRANSLATION_kP = 2.5;
     private final double ROTATION_kP = 0.02;
     private final double TRANSLATION_MIN_SPEED = 0.15;
     private final double ROTATION_MIN_SPEED = 0.25;
-    private final double DISTANCE_DEADBAND = 0.025;
+    private final double DISTANCE_DEADBAND = 0.0225;
     private final double ROTATION_DEADBAND = 2.0;
     private double robotRotation;
 

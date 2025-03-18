@@ -235,16 +235,13 @@ public class RobotContainer {
         }
     }
 
-
-
-
     public void setDefaultTeleopCommand(){
         System.out.println("SETTING DEFAULT TELEOP COMMAND");
         drivetrainSubsystem.setDefaultCommand(
             new TeleopDriveCommand(
                 drivetrainSubsystem,
-                () -> -modifyAxis(controller.getRightY()),    // Changed to raw values
-                () -> -modifyAxis(controller.getRightX()),     // Changed to raw values
+                () -> -modifyAxis(0.9*controller.getRightY()),    // Changed to raw values
+                () -> -modifyAxis(0.9*controller.getRightX()),     // Changed to raw values
                 () -> -modifyAxis(0.8*controller.getLeftX())    // Changed to raw values
             )
         );
