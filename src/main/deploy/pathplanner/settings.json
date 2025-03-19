@@ -3,12 +3,12 @@
   "robotLength": 0.89,
   "holonomicMode": true,
   "pathFolders": [
-    "BLUE COMP PATHS",
-    "RED COMP PATHS"
+    "Blue Start to Reef",
+    "Red Reef to Coral Station",
+    "Red Start to Reef"
   ],
   "autoFolders": [
-    "BLUE COMP AUTOS",
-    "RED COMP AUTOS"
+    "Blue 1 Piece L4 Autos"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
