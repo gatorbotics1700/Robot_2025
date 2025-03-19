@@ -1,0 +1,37 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Red High to Q1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Q1 Right Lineup"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score L4"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Red 1 Piece L4 Autos",
+  "choreoAuto": false
+}

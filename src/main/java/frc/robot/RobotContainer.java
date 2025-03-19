@@ -87,6 +87,10 @@ public class RobotContainer {
         NamedCommands.registerCommand("Q1 Right Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
         NamedCommands.registerCommand("Q2 Left Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
         NamedCommands.registerCommand("Q2 Right Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+        NamedCommands.registerCommand("Q3 Left Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+        NamedCommands.registerCommand("Q3 Right Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+        NamedCommands.registerCommand("Q5 Left Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+        NamedCommands.registerCommand("Q5 Right Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
         NamedCommands.registerCommand("Q6 Left Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
         NamedCommands.registerCommand("Q6 Right Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
 
