@@ -120,5 +120,9 @@ public class Constants {
     public static final Translation2d RED_REEF_POSE = new Translation2d(12.933, 4.025);
     public static final Translation2d BLUE_REEF_POSE = new Translation2d(4.5567, 4.025);
 
+    public static final double L4_SHOOTING_DISTANCE = 0.110066582;
+    public static final double REEF_RADIUS = 0.8232394; //not actually the radius, but distance from center to apriltag
+    public static final double POST_DISTANCE = 0.1778; //distance from center of robot to center of reef to line up with post (in robot y)
+
 }   
 
