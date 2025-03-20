@@ -21,6 +21,8 @@ public class Constants {
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4_L2;
     public static final String CANIVORE_BUS_NAME = "";
 
+    public static final int MOTOR = 20;
+
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; 
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 2;
