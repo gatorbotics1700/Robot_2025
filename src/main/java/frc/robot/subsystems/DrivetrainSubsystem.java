@@ -322,7 +322,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         
         if (Math.abs(rotationError) < ROTATION_DEADBAND) {
             rotationError = 0.0;
-            // System.out.println("AT ROTATION DEADBAND");
+             System.out.println("AT ROTATION DEADBAND");
         }
 
         atDesiredPose = xError == 0.0 && yError == 0.0 && rotationError == 0.0;
@@ -347,8 +347,36 @@ public class DrivetrainSubsystem extends SubsystemBase {
         if(ySpeed >= 1.8){
             ySpeed = 1.8;
         }
-
+        System.out.println("rotationspeed:"+rotationSpeed);
         drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, currentPose.getRotation()));
+    }
+
+    public void turnToAngle(Rotation2d desiredAngle){
+        Pose2d currentPose = odometry.getEstimatedPosition();
+        double rotationError = desiredAngle.getDegrees() - currentPose.getRotation().getDegrees();
+        rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
+        
+        if (Math.abs(rotationError) < ROTATION_DEADBAND) {
+            rotationError = 0.0;
+             System.out.println("AT ROTATION DEADBAND");
+        }
+
+        atDesiredPose = rotationError == 0.0;
+
+        if (atDesiredPose) { // stop
+            setStates(new SwerveModuleState[] {
+                    new SwerveModuleState(0.0, new Rotation2d()),
+                    new SwerveModuleState(0.0, new Rotation2d()),
+                    new SwerveModuleState(0.0, new Rotation2d()),
+                    new SwerveModuleState(0.0, new Rotation2d())
+            });
+            System.out.println("At desired pose, stopping.");
+            return;
+        }
+
+        double rotationSpeed = Math.max(Math.abs(rotationError * ROTATION_kP*3), ROTATION_MIN_SPEED) * Math.signum(rotationError);
+        System.out.println("rotationspeed:"+rotationSpeed);
+        drive(ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, rotationSpeed, currentPose.getRotation()));
     }
 
     //starts out pointing at apriltag, then turns to be parallel with the tag once it's close enough
@@ -373,10 +401,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public Rotation2d angleToReef(double robotMinusReefX, double robotMinusReefY){
 
-        double targetRotation = Math.atan(-robotMinusReefY/robotMinusReefX);
-        if(robotMinusReefX>0){
-            targetRotation = Math.PI-targetRotation;
-        }
+        double targetRotation = Math.atan2(-robotMinusReefY,robotMinusReefX);
+        targetRotation = MathUtil.angleModulus(targetRotation);
+        // if(robotMinusReefX>0){
+        //     targetRotation = Math.PI-targetRotation;
+        // }
 
         return new Rotation2d(targetRotation);
     }
@@ -398,7 +427,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         double robotMinusReefY = currentPose.getY() - reefY;
 
         Rotation2d targetRotation = angleToReef(robotMinusReefX, robotMinusReefY);
-        Pose2d targetPose = new Pose2d(currentPose.getX(), currentPose.getY(), targetRotation);
-        driveToPose(targetPose);
+        System.out.println("Facing reef!! this is rotation: "+targetRotation+", "+currentPose.getRotation());
+        turnToAngle(targetRotation);
     }
 }

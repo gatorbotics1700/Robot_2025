@@ -4,6 +4,7 @@ import frc.robot.commands.TestDriveCommand;
 import frc.robot.commands.ClimbingCommand;
 import frc.robot.commands.CoralShooterCommand;
 import frc.robot.commands.LimelightControlCommand;
+import frc.robot.commands.PointToReefCommand;
 import frc.robot.commands.ScoreCommands;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.subsystems.ClimbingSubsystem;
@@ -13,6 +14,7 @@ import frc.robot.subsystems.LimelightSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -24,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 
@@ -39,8 +42,8 @@ public class RobotContainer {
     private final GenericHID buttonBoard2B = new GenericHID(4);
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem("limelight", Constants.LIMELIGHT_OFFSETS);
    // private static final LimelightSubsystem m_limelightsub2 = new LimelightSubsystem("limelight-two", Constants.LIMELIGHT_OFFSETS_2);
-    private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
-    private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
+    // private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
+    // private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
 
     private final SendableChooser<Command> autoChooser;
     private static final ScoreCommands m_scoreCommands = new ScoreCommands();
@@ -79,9 +82,9 @@ public class RobotContainer {
     private final Trigger intake = new Trigger(()->buttonBoard2A.getRawButtonPressed(5));
 
     public RobotContainer() {
-        NamedCommands.registerCommand("Score L4", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_VOLTAGE)); //Constants.CORAL_L4_SHOOTING_SPEED));
+        // NamedCommands.registerCommand("Score L4", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_VOLTAGE)); //Constants.CORAL_L4_SHOOTING_SPEED));
 
-        NamedCommands.registerCommand("Score Trough", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE)); //Constants.CORAL_TROUGH_SHOOTING_SPEED));
+        // NamedCommands.registerCommand("Score Trough", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE)); //Constants.CORAL_TROUGH_SHOOTING_SPEED));
 
         NamedCommands.registerCommand("Q1 Left Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
         NamedCommands.registerCommand("Q1 Right Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
@@ -107,14 +110,14 @@ public class RobotContainer {
         new Trigger(controller::getAButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
 
-        new Trigger(controller::getXButtonPressed)
-            .onTrue(new InstantCommand(m_coralShooterSub::decreaseVoltageTune));
+        // new Trigger(controller::getXButtonPressed)
+        //     .onTrue(new InstantCommand(m_coralShooterSub::decreaseVoltageTune));
 
-        new Trigger(controller::getBButtonPressed)
-            .onTrue(new InstantCommand(m_coralShooterSub::increaseVoltageTune));
+        // new Trigger(controller::getBButtonPressed)
+        //     .onTrue(new InstantCommand(()->drivetrainSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(0,0,1.2, drivetrainSubsystem.getRotation()))));
 
         new Trigger(controller::getYButton)
-            .onTrue(new InstantCommand(drivetrainSubsystem::faceReef));
+            .onTrue(new PointToReefCommand(drivetrainSubsystem, controller));
 
  /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
 
@@ -162,12 +165,12 @@ public class RobotContainer {
     /* CO-DRIVER BUTTON BOARD 2 BUTTONS */
 
         // climb
-        climb
-            .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: FYI the sign has been changed
+        // climb
+        //     .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: FYI the sign has been changed
             
+        // // detach
         // detach
-        detach
-           .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
+        //    .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
 
         // lining up to intake
         intakeLineup
@@ -194,24 +197,24 @@ public class RobotContainer {
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
 
         //vomit
-        vomit
-            .onTrue(VomitAndIntake(m_coralShooterSub)); 
+        // vomit
+        //     .onTrue(VomitAndIntake(m_coralShooterSub)); 
 
         //stop
-        mechStop
-            .onTrue(MechStop());
+        // mechStop
+        //     .onTrue(MechStop());
 
         // score trough
-        scoreTrough
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune())); //Constants.CORAL_TROUGH_SHOOTING_SPEED));
+        // scoreTrough
+        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune())); //Constants.CORAL_TROUGH_SHOOTING_SPEED));
 
-        // score L4
-        scoreL4
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune())); //Constants.CORAL_L4_SHOOTING_SPEED));
+        // // score L4
+        // scoreL4
+        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune())); //Constants.CORAL_L4_SHOOTING_SPEED));
 
+        // // intake
         // intake
-        intake
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_VOLTAGE)); //Constants.CORAL_INTAKING_SPEED));   
+        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_VOLTAGE)); //Constants.CORAL_INTAKING_SPEED));   
     
         
         boolean isCompetition = true;
@@ -219,7 +222,7 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
         (stream) -> isCompetition
             // ? stream.filter(auto -> (auto.getName().endsWith("SVR")))
-            ? stream.filter(auto -> (auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
+            ? stream.filter(auto -> !(auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
             : stream
     );
 
@@ -241,14 +244,26 @@ public class RobotContainer {
 
     public void setDefaultTeleopCommand(){
         System.out.println("SETTING DEFAULT TELEOP COMMAND");
-        drivetrainSubsystem.setDefaultCommand(
-            new TeleopDriveCommand(
-                drivetrainSubsystem,
-                () -> -modifyAxis(0.9*controller.getRightY()),    // Changed to raw values
-                () -> -modifyAxis(0.9*controller.getRightX()),     // Changed to raw values
-                () -> -modifyAxis(0.8*controller.getLeftX())    // Changed to raw values
-            )
-        );
+        var alliance = DriverStation.getAlliance();
+        if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red){
+            drivetrainSubsystem.setDefaultCommand(
+                new TeleopDriveCommand(
+                    drivetrainSubsystem,
+                    () -> modifyAxis(0.9*controller.getRightY()),    // Changed to raw values
+                    () -> modifyAxis(0.9*controller.getRightX()),     // Changed to raw values
+                    () -> -modifyAxis(0.8*controller.getLeftX())    // Changed to raw values
+                )
+            );
+        }else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue){
+            drivetrainSubsystem.setDefaultCommand(
+                new TeleopDriveCommand(
+                    drivetrainSubsystem,
+                    () -> -modifyAxis(0.9*controller.getRightY()),    // Changed to raw values
+                    () -> -modifyAxis(0.9*controller.getRightX()),     // Changed to raw values
+                    () -> -modifyAxis(0.8*controller.getLeftX())    // Changed to raw values
+                )
+            );
+        }
     }
 
     public DrivetrainSubsystem getDrivetrainSubsystem(){
@@ -291,15 +306,15 @@ public class RobotContainer {
     }
 
     // mech stop command
-    public static Command MechStop(){
-        System.out.println("ALL MECH STOP!!");
-        return new CoralShooterCommand(m_coralShooterSub, 0)
-        .alongWith(new ClimbingCommand(m_climbingSub, 0));
-    }
+    // public static Command MechStop(){
+    //     System.out.println("ALL MECH STOP!!");
+    //     return new CoralShooterCommand(m_coralShooterSub, 0)
+    //     .alongWith(new ClimbingCommand(m_climbingSub, 0));
+    // }
 
-    public static Command getMechStopCommand(){
-        return MechStop();
-    }
+    // public static Command getMechStopCommand(){
+    //     return MechStop();
+    // }
 
     // public static Command scoreTrough(CoralShooterSubsystem coralShooterSubsystem){
     //     System.out.println("SCORING TROUGH");
