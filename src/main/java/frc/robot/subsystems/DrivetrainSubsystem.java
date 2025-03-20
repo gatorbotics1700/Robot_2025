@@ -12,6 +12,7 @@ import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import frc.com.swervedrivespecialties.swervelib.SwerveModule;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
+import frc.robot.commands.TeleopDriveCommand;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -191,7 +192,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void zeroGyroscope() {
-        odometry.resetPosition( // this line shouldn't work but it should - essentially we are only reseting
+        var alliance = DriverStation.getAlliance();
+        if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red){
+            odometry.resetPosition( // this line shouldn't work but it should - essentially we are only reseting
+                        // angle instead of reseting position which is the whole point of reset position
+            new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
+            new SwerveModulePosition[] { frontLeftModule.getPosition(), frontRightModule.getPosition(),
+                backLeftModule.getPosition(), backRightModule.getPosition() },
+            new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(),
+                Rotation2d.fromDegrees(180.0)));
+            // System.out.println("you pressed the right button yay you");
+        }else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue){
+            odometry.resetPosition( // this line shouldn't work but it should - essentially we are only reseting
                                 // angle instead of reseting position which is the whole point of reset position
                 new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
                 new SwerveModulePosition[] { frontLeftModule.getPosition(), frontRightModule.getPosition(),
@@ -199,6 +211,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(),
                         Rotation2d.fromDegrees(0.0)));
         // System.out.println("you pressed the right button yay you");
+        }
+        
     }
 
     public Pose2d getPose() {
