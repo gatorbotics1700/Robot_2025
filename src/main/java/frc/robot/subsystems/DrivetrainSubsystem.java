@@ -11,9 +11,6 @@ import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import frc.com.swervedrivespecialties.swervelib.SwerveModule;
 import frc.robot.Constants;
-import frc.robot.LimelightHelpers;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -23,7 +20,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -42,7 +38,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule frontRightModule;
     private final SwerveModule backLeftModule;
     private final SwerveModule backRightModule;
-    private static boolean atDesiredPose = false;
 
     private static Pigeon2 pigeon;
 
@@ -55,13 +50,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private ChassisSpeeds chassisSpeeds;
 
     private ShuffleboardTab shuffleboardTab;
-    private final double TRANSLATION_kP = 2.5;
-    private final double ROTATION_kP = 0.02;
-    private final double TRANSLATION_MIN_SPEED = 0.15;
-    private final double ROTATION_MIN_SPEED = 0.25;
-    private final double DISTANCE_DEADBAND = 0.0225;
-    private final double ROTATION_DEADBAND = 2.0;
-    private double robotRotation;
 
     private boolean slowDrive;
     private static CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
@@ -277,128 +265,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 backRightModule.getPosition() 
             }
         );
-
-        // System.out.println("POSE 2D: " + odometry.getEstimatedPosition());
-
-        boolean doRejectUpdate = false;
-        
-        LimelightHelpers.SetRobotOrientation("limelight", odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
-        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-        if(mt2 != null){
-            if(Math.abs(pigeon.getAngularVelocityZWorld().getValueAsDouble()) > 720){
-                doRejectUpdate = true;
-            }
-            if(mt2.tagCount == 0){
-                doRejectUpdate = true;
-            }
-            if(!doRejectUpdate){
-                //this line sets the amount the pigeon odometry can be off by in each axis before vision odometry takes over. we trust the pigeon for heading, hence the reaaaaally big number
-                odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.05, .05, 999999)); 
-                odometry.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
-            }
-        }
         
         SmartDashboard.putNumber("Gyroscope Angle", getRotation().getDegrees());
         SmartDashboard.putNumber("Pose X", odometry.getEstimatedPosition().getX());
         SmartDashboard.putNumber("Pose Y", odometry.getEstimatedPosition().getY());
-    }
-
-    public void driveToPose(Pose2d desiredPose) {
-        Pose2d currentPose = odometry.getEstimatedPosition();
-        double xError = desiredPose.getX() - currentPose.getX();
-        double yError = desiredPose.getY() - currentPose.getY();
-        double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
-        rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
-
-        if (Math.abs(xError) < DISTANCE_DEADBAND) { // Stop if within deadband
-            xError = 0.0;
-            // System.out.println("AT X DEADBAND");
-        }
-
-        if (Math.abs(yError) < DISTANCE_DEADBAND) {
-            yError = 0.0;
-            // System.out.println("AT Y DEADBAND");
-        }
-        
-        if (Math.abs(rotationError) < ROTATION_DEADBAND) {
-            rotationError = 0.0;
-            // System.out.println("AT ROTATION DEADBAND");
-        }
-
-        atDesiredPose = xError == 0.0 && yError == 0.0 && rotationError == 0.0;
-
-        if (atDesiredPose) { // stop
-            setStates(new SwerveModuleState[] {
-                    new SwerveModuleState(0.0, new Rotation2d()),
-                    new SwerveModuleState(0.0, new Rotation2d()),
-                    new SwerveModuleState(0.0, new Rotation2d()),
-                    new SwerveModuleState(0.0, new Rotation2d())
-            });
-            System.out.println("At desired pose, stopping.");
-            return;
-        }
-
-        double xSpeed = Math.max(Math.abs(xError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(xError);
-        double ySpeed = Math.max(Math.abs(yError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(yError);
-        double rotationSpeed = Math.max(Math.abs(rotationError * ROTATION_kP), ROTATION_MIN_SPEED) * Math.signum(rotationError);
-        if(xSpeed >= 1.8){
-            xSpeed = 1.8;
-        }
-        if(ySpeed >= 1.8){
-            ySpeed = 1.8;
-        }
-
-        drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, currentPose.getRotation()));
-    }
-
-    //starts out pointing at apriltag, then turns to be parallel with the tag once it's close enough
-    public void driveToPoseWithInitialAngle(Pose2d desiredPose, Rotation2d pointingToTagAngle) { 
-        Pose2d currentPose = odometry.getEstimatedPosition();
-        double xError = desiredPose.getX() - currentPose.getX();
-        double yError = desiredPose.getY() - currentPose.getY();
-        if (Math.abs(xError) > 0.2 && Math.abs(yError) > 0.2) {
-            desiredPose = new Pose2d(desiredPose.getX(), desiredPose.getY(), pointingToTagAngle);
-            System.out.println("POINTING TO ANGLE");
-        }
-        driveToPose(desiredPose);
-    }
-
-    public boolean getAtDesiredPose(){
-        return atDesiredPose;
-    }
-
-    public void setNotAtDesiredPose(){
-        atDesiredPose = false;
-    }
-
-    public Rotation2d angleToReef(double robotMinusReefX, double robotMinusReefY){
-
-        double targetRotation = Math.atan(-robotMinusReefY/robotMinusReefX);
-        if(robotMinusReefX>0){
-            targetRotation = Math.PI-targetRotation;
-        }
-
-        return new Rotation2d(targetRotation);
-    }
-    public void faceReef(){
-        var alliance = DriverStation.getAlliance();
-        Pose2d currentPose = odometry.getEstimatedPosition();
-        double reefX = 0;
-        double reefY = 0;
-        if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red){
-            reefX = Constants.RED_REEF_POSE.getX();
-            reefY = Constants.RED_REEF_POSE.getY();
-            
-        } else if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) {
-            reefX = Constants.BLUE_REEF_POSE.getX();
-            reefY = Constants.BLUE_REEF_POSE.getY();
-        }
-
-        double robotMinusReefX = currentPose.getX() - reefX;
-        double robotMinusReefY = currentPose.getY() - reefY;
-
-        Rotation2d targetRotation = angleToReef(robotMinusReefX, robotMinusReefY);
-        Pose2d targetPose = new Pose2d(currentPose.getX(), currentPose.getY(), targetRotation);
-        driveToPose(targetPose);
     }
 }
