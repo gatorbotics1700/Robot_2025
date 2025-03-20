@@ -12,7 +12,6 @@ import frc.robot.Constants;
 
 public class RolyWheelsSubsystem extends SubsystemBase {
     public final TalonFX motor;
-    private static double voltagE = 0.0;
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
     public RolyWheelsSubsystem(){
@@ -25,17 +24,13 @@ public class RolyWheelsSubsystem extends SubsystemBase {
     
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("shooting voltage", voltagE);
-    }
-
-    public void setMotorVoltage(double voltage){
-        motor.setVoltage(voltage);
-        voltagE = voltage;
     }
 
     public void setMotorSpeed(double speed){
         motor.setControl(dutyCycleOut.withOutput(speed));
     }
+
+
 
 
     
