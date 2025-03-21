@@ -413,54 +413,20 @@ public class DrivetrainSubsystem extends SubsystemBase {
         atDesiredPose = false;
     }
 
-    public Rotation2d angleToReef(double robotMinusReefX, double robotMinusReefY){
-        //tan does weird stuff when one of the values is 0!
-        if(robotMinusReefX == 0){
-            return new Rotation2d(Math.signum(robotMinusReefY)*Math.toRadians(-90));
-        }else if(robotMinusReefY == 0){
-            if(robotMinusReefX<0){
-                return new Rotation2d(0);
-            }else{
-                return new Rotation2d(Math.toRadians(180));
-            }
-        }
-
-        double targetRotation; //this was a sad thing to realize BUT: atan2 takes in (y, x), and if you superimposed a normal coordinate system over our field one you would get that normal x = field -y, and normal y = field x. this needs to be flipped because otherwise our zero angle is in the wrong place!
-       
-
-       
-        //targetRotation = targetRotation - Math.toRadians(90);
-
-       
-        if(robotMinusReefX > 0){
-            targetRotation = Math.atan(robotMinusReefX/robotMinusReefY);
-            targetRotation = targetRotation + Math.signum(targetRotation)*Math.PI/2;
-            targetRotation = MathUtil.angleModulus(targetRotation);
-            //if(robotMinusReefY > 0){
-                System.out.println("POSTITIVE Y");
-                targetRotation = -targetRotation;
-            //}
-            //targetRotation = MathUtil.angleModulus(targetRotation);
-        }else {
-            targetRotation = Math.atan(robotMinusReefY/robotMinusReefX);
-            targetRotation = MathUtil.angleModulus(targetRotation);
-        }
-
-        
-
-        // if(robotMinusReefY>0){
-        //     targetRotation = Math.PI+targetRotation; //unclear why this works???
-        //     //targetRotation = MathUtil.angleModulus(targetRotation);
-        // }
-        
-        
-        
-
-        return new Rotation2d(targetRotation);
+    public Rotation2d angleToPoint(double deltaX, double deltaY){ //delta being the target-current point
+        return new Rotation2d(Math.atan2(deltaY, deltaX));
     }
+
+    public void facePoint(Translation2d target){
+        Pose2d currentPose = odometry.getEstimatedPosition();
+        double deltaX = target.getX() - currentPose.getX();
+        double deltaY = target.getY() - currentPose.getY();
+        Rotation2d targetRotation = angleToPoint(deltaX, deltaY);
+        turnToAngle(targetRotation);
+    }
+
     public void faceReef(){
         var alliance = DriverStation.getAlliance();
-        Pose2d currentPose = odometry.getEstimatedPosition();
         double reefX = 0;
         double reefY = 0;
         if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red){
@@ -471,12 +437,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             reefX = Constants.BLUE_REEF_POSE.getX();
             reefY = Constants.BLUE_REEF_POSE.getY();
         }
-
-        double robotMinusReefX = currentPose.getX() - reefX;
-        double robotMinusReefY = currentPose.getY() - reefY;
-
-        Rotation2d targetRotation = angleToReef(robotMinusReefX, robotMinusReefY);
-        System.out.println("Facing reef!! this is rotation: "+targetRotation+", "+currentPose.getRotation());
-        turnToAngle(targetRotation);
+        facePoint(new Translation2d(reefX, reefY));
+       
     }
 }
