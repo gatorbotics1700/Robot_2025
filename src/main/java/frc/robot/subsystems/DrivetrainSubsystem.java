@@ -414,12 +414,33 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public Rotation2d angleToReef(double robotMinusReefX, double robotMinusReefY){
-
-        double targetRotation = Math.atan2(-robotMinusReefY,robotMinusReefX);
-        targetRotation = MathUtil.angleModulus(targetRotation);
-        if(robotMinusReefX>0){
-            targetRotation = Math.PI-targetRotation;
+        //tan does weird stuff when one of the values is 0!
+        if(robotMinusReefX == 0){
+            return new Rotation2d(Math.signum(robotMinusReefY)*Math.toRadians(-90));
+        }else if(robotMinusReefY == 0){
+            if(robotMinusReefX<0){
+                return new Rotation2d(0);
+            }else{
+                return new Rotation2d(Math.toRadians(180));
+            }
         }
+
+        double targetRotation = -Math.atan2(robotMinusReefX, -robotMinusReefY); //this was a sad thing to realize BUT: atan2 takes in (y, x), and if you superimposed a normal coordinate system over our field one you would get that normal x = field -y, and normal y = field x. this needs to be flipped because otherwise our zero angle is in the wrong place!
+       
+
+        targetRotation = MathUtil.angleModulus(targetRotation);
+        //targetRotation = targetRotation - Math.toRadians(90);
+       
+        if(robotMinusReefX<0){
+            targetRotation = Math.PI+targetRotation; //unclear why this works???
+            targetRotation = MathUtil.angleModulus(targetRotation);
+        }
+
+        if(robotMinusReefY<0){
+            targetRotation = Math.PI+targetRotation; //unclear why this works???
+            targetRotation = MathUtil.angleModulus(targetRotation);
+        }
+        
 
         return new Rotation2d(targetRotation);
     }

@@ -6,23 +6,128 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import frc.robot.subsystems.LimelightSubsystem;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 // import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.Constants;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class PointToReefTest {
-    private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
-    
+    static DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
+//    @Test 
+//     public void testPointToReefa(){
+//         Pose2d currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX() - 5, Constants.BLUE_REEF_POSE.getY() - 5, new Rotation2d(0));
+//         double robotMinusReefX = currentPose.getX() - Constants.BLUE_REEF_POSE.getX();
+//         double robotMinusReefY = currentPose.getY() - Constants.BLUE_REEF_POSE.getY();
+//         Rotation2d target = drivetrainSubsystem.angleToReef(robotMinusReefX, robotMinusReefY);
+//         System.out.println("-x -y: " + target);
+//         assertEquals(target, new Rotation2d(Math.toRadians(45)));
+
+//         currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX() +5, Constants.BLUE_REEF_POSE.getY() - 5, new Rotation2d(0));
+//         robotMinusReefX = currentPose.getX() - Constants.BLUE_REEF_POSE.getX();
+//         robotMinusReefY = currentPose.getY() - Constants.BLUE_REEF_POSE.getY();
+//         target = drivetrainSubsystem.angleToReef(robotMinusReefX, robotMinusReefY);
+//         System.out.println("+x, -y: " + target);
+//         assertEquals(target, new Rotation2d(Math.toRadians(135)));
+//     }
     @Test
-    public void testPointToReef1(){
-        Rotation2d target = drivetrainSubsystem.angleToReef(5, 0);
-        System.out.println(target);
+     void testPointToReef1(){
+        Pose2d currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX() + 5, Constants.BLUE_REEF_POSE.getY() + 5, new Rotation2d(0));
+        double robotMinusReefX = currentPose.getX() - Constants.BLUE_REEF_POSE.getX();
+        double robotMinusReefY = currentPose.getY() - Constants.BLUE_REEF_POSE.getY();
+        Rotation2d target = drivetrainSubsystem.angleToReef(robotMinusReefX, robotMinusReefY);
+        System.out.println("+x +y: " + target);
+        assertEquals(target, new Rotation2d(Math.toRadians(-135)));
+
+        currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX() -5, Constants.BLUE_REEF_POSE.getY() + 5, new Rotation2d(0));
+        robotMinusReefX = currentPose.getX() - Constants.BLUE_REEF_POSE.getX();
+        robotMinusReefY = currentPose.getY() - Constants.BLUE_REEF_POSE.getY();
+        target = drivetrainSubsystem.angleToReef(robotMinusReefX, robotMinusReefY);
+        System.out.println("-x, +y: " + target);
+        assertEquals(target, new Rotation2d(Math.toRadians(-45)));
+       
+    }
+
+    @Test
+    void testPointToReef2(){
+       
+        Pose2d currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX() + 5, Constants.BLUE_REEF_POSE.getY() - 5, new Rotation2d(0));
+        double robotMinusReefX = currentPose.getX() - Constants.BLUE_REEF_POSE.getX();
+        double robotMinusReefY = currentPose.getY() - Constants.BLUE_REEF_POSE.getY();
+        Rotation2d target = drivetrainSubsystem.angleToReef(robotMinusReefX, robotMinusReefY);
+        System.out.println("+x -y: " + target);
+        assertEquals(target, new Rotation2d(Math.toRadians(135)));
+
+        currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX() -5, Constants.BLUE_REEF_POSE.getY() - 5, new Rotation2d(0));
+        robotMinusReefX = currentPose.getX() - Constants.BLUE_REEF_POSE.getX();
+        robotMinusReefY = currentPose.getY() - Constants.BLUE_REEF_POSE.getY();
+        target = drivetrainSubsystem.angleToReef(robotMinusReefX, robotMinusReefY);
+        System.out.println("-x, -y: " + target);
+        assertEquals(target, new Rotation2d(Math.toRadians(45)));
+       
+    }
+
+    @Test
+    void testPointToReef3(){
+       
+        Pose2d currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX() + 5, Constants.BLUE_REEF_POSE.getY(), new Rotation2d(0));
+        double robotMinusReefX = currentPose.getX() - Constants.BLUE_REEF_POSE.getX();
+        double robotMinusReefY = currentPose.getY() - Constants.BLUE_REEF_POSE.getY();
+        Rotation2d target = drivetrainSubsystem.angleToReef(robotMinusReefX, robotMinusReefY);
+        System.out.println("+x: " + target);
         assertEquals(target, new Rotation2d(Math.toRadians(180)));
 
-        target = drivetrainSubsystem.angleToReef(0, 5);
-        System.out.println(target);
+        currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX() -5, Constants.BLUE_REEF_POSE.getY(), new Rotation2d(0));
+        robotMinusReefX = currentPose.getX() - Constants.BLUE_REEF_POSE.getX();
+        robotMinusReefY = currentPose.getY() - Constants.BLUE_REEF_POSE.getY();
+        target = drivetrainSubsystem.angleToReef(robotMinusReefX, robotMinusReefY);
+        System.out.println("-x: " + target);
+        assertEquals(target, new Rotation2d(Math.toRadians(0)));
+       
+    }
+
+    @Test
+    void testPointToReef4(){
+       
+        Pose2d currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX(), Constants.BLUE_REEF_POSE.getY() +5, new Rotation2d(0));
+        double robotMinusReefX = currentPose.getX() - Constants.BLUE_REEF_POSE.getX();
+        double robotMinusReefY = currentPose.getY() - Constants.BLUE_REEF_POSE.getY();
+        Rotation2d target = drivetrainSubsystem.angleToReef(robotMinusReefX, robotMinusReefY);
+        System.out.println("+y: " + target);
         assertEquals(target, new Rotation2d(Math.toRadians(-90)));
 
-        target = drivetrainSubsystem.angleToReef(0, -5);
-        System.out.println(target);
+        currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX(), Constants.BLUE_REEF_POSE.getY()-5, new Rotation2d(0));
+        robotMinusReefX = currentPose.getX() - Constants.BLUE_REEF_POSE.getX();
+        robotMinusReefY = currentPose.getY() - Constants.BLUE_REEF_POSE.getY();
+        target = drivetrainSubsystem.angleToReef(robotMinusReefX, robotMinusReefY);
+        System.out.println("-y: " + target);
         assertEquals(target, new Rotation2d(Math.toRadians(90)));
+       
     }
+
+    @Test
+    void testPointToReef5(){
+       
+        Pose2d currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX() + 1, Constants.BLUE_REEF_POSE.getY() + Math.sqrt(3), new Rotation2d(0));
+        double robotMinusReefX = currentPose.getX() - Constants.BLUE_REEF_POSE.getX();
+        double robotMinusReefY = currentPose.getY() - Constants.BLUE_REEF_POSE.getY();
+        Rotation2d target = drivetrainSubsystem.angleToReef(robotMinusReefX, robotMinusReefY);
+        System.out.println("x+1, y+root 3: " + target);
+        assertEquals(target, new Rotation2d(Math.toRadians(-120)));
+
+        currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX() -1 , Constants.BLUE_REEF_POSE.getY()+ Math.sqrt(3), new Rotation2d(0));
+        robotMinusReefX = currentPose.getX() - Constants.BLUE_REEF_POSE.getX();
+        robotMinusReefY = currentPose.getY() - Constants.BLUE_REEF_POSE.getY();
+        target = drivetrainSubsystem.angleToReef(robotMinusReefX, robotMinusReefY);
+        System.out.println("x-1, y+root 3 " + target);
+        assertEquals(target, new Rotation2d(Math.toRadians(-30)));
+       
+    }
+
+    
 } 
