@@ -33,9 +33,9 @@ public class Robot extends TimedRobot {
     // private GenericEntry shuffleboardTester;
 
     public Robot() {
-    //    CameraServer.startAutomaticCapture();
-    //    CvSink cvSink = CameraServer.getVideo();
-    //    CvSource outputStream = new CvSource("Blur", PixelFormat.kMJPEG, 640, 480, 90);
+       CameraServer.startAutomaticCapture();
+       CvSink cvSink = CameraServer.getVideo();
+       CvSource outputStream = new CvSource("Blur", PixelFormat.kMJPEG, 640, 480, 90);
     }
 
     @Override
