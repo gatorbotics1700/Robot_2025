@@ -24,6 +24,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -110,6 +112,8 @@ public class RobotContainer {
         new Trigger(controller::getAButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
 
+        new Trigger(controller::getLeftBumperButtonPressed)
+            .onTrue(new RunCommand(drivetrainSubsystem::zeroGyroscope));
         // new Trigger(controller::getXButtonPressed)
         //     .onTrue(new InstantCommand(m_coralShooterSub::decreaseVoltageTune));
 

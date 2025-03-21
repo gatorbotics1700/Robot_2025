@@ -417,9 +417,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         double targetRotation = Math.atan2(-robotMinusReefY,robotMinusReefX);
         targetRotation = MathUtil.angleModulus(targetRotation);
-        // if(robotMinusReefX>0){
-        //     targetRotation = Math.PI-targetRotation;
-        // }
+        if(robotMinusReefX>0){
+            targetRotation = Math.PI-targetRotation;
+        }
 
         return new Rotation2d(targetRotation);
     }
