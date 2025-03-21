@@ -425,21 +425,35 @@ public class DrivetrainSubsystem extends SubsystemBase {
             }
         }
 
-        double targetRotation = -Math.atan2(robotMinusReefX, -robotMinusReefY); //this was a sad thing to realize BUT: atan2 takes in (y, x), and if you superimposed a normal coordinate system over our field one you would get that normal x = field -y, and normal y = field x. this needs to be flipped because otherwise our zero angle is in the wrong place!
+        double targetRotation; //this was a sad thing to realize BUT: atan2 takes in (y, x), and if you superimposed a normal coordinate system over our field one you would get that normal x = field -y, and normal y = field x. this needs to be flipped because otherwise our zero angle is in the wrong place!
        
 
-        targetRotation = MathUtil.angleModulus(targetRotation);
+       
         //targetRotation = targetRotation - Math.toRadians(90);
+
        
-        if(robotMinusReefX<0){
-            targetRotation = Math.PI+targetRotation; //unclear why this works???
+        if(robotMinusReefX > 0){
+            targetRotation = Math.atan(robotMinusReefX/robotMinusReefY);
+            targetRotation = targetRotation + Math.signum(targetRotation)*Math.PI/2;
+            targetRotation = MathUtil.angleModulus(targetRotation);
+            //if(robotMinusReefY > 0){
+                System.out.println("POSTITIVE Y");
+                targetRotation = -targetRotation;
+            //}
+            //targetRotation = MathUtil.angleModulus(targetRotation);
+        }else {
+            targetRotation = Math.atan(robotMinusReefY/robotMinusReefX);
             targetRotation = MathUtil.angleModulus(targetRotation);
         }
 
-        if(robotMinusReefY<0){
-            targetRotation = Math.PI+targetRotation; //unclear why this works???
-            targetRotation = MathUtil.angleModulus(targetRotation);
-        }
+        
+
+        // if(robotMinusReefY>0){
+        //     targetRotation = Math.PI+targetRotation; //unclear why this works???
+        //     //targetRotation = MathUtil.angleModulus(targetRotation);
+        // }
+        
+        
         
 
         return new Rotation2d(targetRotation);

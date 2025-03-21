@@ -19,22 +19,6 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class PointToReefTest {
     static DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
-//    @Test 
-//     public void testPointToReefa(){
-//         Pose2d currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX() - 5, Constants.BLUE_REEF_POSE.getY() - 5, new Rotation2d(0));
-//         double robotMinusReefX = currentPose.getX() - Constants.BLUE_REEF_POSE.getX();
-//         double robotMinusReefY = currentPose.getY() - Constants.BLUE_REEF_POSE.getY();
-//         Rotation2d target = drivetrainSubsystem.angleToReef(robotMinusReefX, robotMinusReefY);
-//         System.out.println("-x -y: " + target);
-//         assertEquals(target, new Rotation2d(Math.toRadians(45)));
-
-//         currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX() +5, Constants.BLUE_REEF_POSE.getY() - 5, new Rotation2d(0));
-//         robotMinusReefX = currentPose.getX() - Constants.BLUE_REEF_POSE.getX();
-//         robotMinusReefY = currentPose.getY() - Constants.BLUE_REEF_POSE.getY();
-//         target = drivetrainSubsystem.angleToReef(robotMinusReefX, robotMinusReefY);
-//         System.out.println("+x, -y: " + target);
-//         assertEquals(target, new Rotation2d(Math.toRadians(135)));
-//     }
     @Test
      void testPointToReef1(){
         Pose2d currentPose = new Pose2d(Constants.BLUE_REEF_POSE.getX() + 5, Constants.BLUE_REEF_POSE.getY() + 5, new Rotation2d(0));
@@ -128,6 +112,14 @@ public class PointToReefTest {
         assertEquals(target, new Rotation2d(Math.toRadians(-30)));
        
     }
+
+    // @Test
+    // void printingTest(){
+    //     System.out.println("left: " + Math.atan(0.0/3.0));
+    //     System.out.println("down: " + Math.atan2(0, -3.0));
+    //     System.out.println("right: " + Math.atan2(-3.0, 0));
+    //     System.out.println("up: " + Math.atan2(0, 3.0));
+    // }
 
     
 } 
