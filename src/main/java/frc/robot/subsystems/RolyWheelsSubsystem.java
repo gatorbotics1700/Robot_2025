@@ -15,7 +15,7 @@ public class RolyWheelsSubsystem extends SubsystemBase {
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
     public RolyWheelsSubsystem(){
-        motor = new TalonFX(Constants.MOTOR);
+        motor = new TalonFX(Constants.ROLY_MOTOR);
 
         motor.getConfigurator().apply(new TalonFXConfiguration()
         .withMotorOutput(new MotorOutputConfigs()

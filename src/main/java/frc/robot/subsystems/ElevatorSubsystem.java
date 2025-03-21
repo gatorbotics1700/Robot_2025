@@ -27,7 +27,7 @@ public class ElevatorSubsystem extends SubsystemBase{
      public double setPosition(double current, double target){
         current = current*(Math.PI*1.22/2048);
         target = target*(Math.PI*1.22/2048);
-        double speed = PIDController.calculate(current, target);
+        double speed = PIDcontroller.calculate(current, target);
 
      }
 }
