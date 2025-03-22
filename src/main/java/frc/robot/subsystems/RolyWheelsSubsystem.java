@@ -29,10 +29,4 @@ public class RolyWheelsSubsystem extends SubsystemBase {
     public void setMotorSpeed(double speed){
         motor.setControl(dutyCycleOut.withOutput(speed));
     }
-
-
-
-
-    
-
 }

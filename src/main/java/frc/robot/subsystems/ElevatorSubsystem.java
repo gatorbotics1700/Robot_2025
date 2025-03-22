@@ -1,7 +1,14 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase{
     /*
@@ -18,16 +25,33 @@ public class ElevatorSubsystem extends SubsystemBase{
      private final double KP = 0.4;
      private final double KI = 10;
      private final double KD = 2;
+     public final TalonFX motor;
+     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
+
 
 
      public ElevatorSubsystem(){
         this.PIDcontroller = new PIDController(KP, KI, KD);
+        motor = new TalonFX(Constants.ELEVATOR_MOTOR);
+
+        motor.getConfigurator().apply(new TalonFXConfiguration()
+        .withMotorOutput(new MotorOutputConfigs()
+        .withInverted(InvertedValue.Clockwise_Positive)));
      }
 
-     public double setPosition(double current, double target){
-        current = current*(Math.PI*1.22/2048);
-        target = target*(Math.PI*1.22/2048);
+     public void setPosition(double target){
+        double current = motor.getPosition().getValueAsDouble();
+        target = target*(Math.PI * 1.22/Constants.KRAKEN_TICKS_PER_REV);
         double speed = PIDcontroller.calculate(current, target);
-
+        motor.setControl(dutyCycleOut.withOutput(speed));
+        if (current==target){
+         motor.setControl(dutyCycleOut.withOutput(0));
+        }
      }
+
+     public double getCurrent() {
+      return motor.getPosition().getValueAsDouble();
+     }
+
+
 }

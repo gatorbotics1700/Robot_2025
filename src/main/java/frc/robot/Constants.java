@@ -22,6 +22,7 @@ public class Constants {
     public static final String CANIVORE_BUS_NAME = "";
 
     public static final int ROLY_MOTOR = 20;
+    public static final int ELEVATOR_MOTOR = 69;
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; 
