@@ -77,6 +77,11 @@ public class LimelightSubsystem extends SubsystemBase {
         //returns yaw of april tag relative to camera
         return limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6])[4];
     }
+
+    public double[] getObjectArray() {
+        return limelightTable.getEntry("llpython").getDoubleArray(new double[6]);
+        //returns array of information for detected object
+    }
     
     /**
      * Calculates a target pose for the robot based on AprilTag detection from the Limelight.

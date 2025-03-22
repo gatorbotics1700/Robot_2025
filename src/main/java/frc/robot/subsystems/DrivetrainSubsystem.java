@@ -440,4 +440,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
         facePoint(new Translation2d(reefX, reefY));
        
     }
+     //need to make command for this for actual use
+    public void faceCenterCage() {
+        LimelightHelpers.setPipelineIndex("limelight", 4);
+        double tx = LimelightHelpers.getTX("limelight");
+        Pose2d currentPose = odometry.getEstimatedPosition();
+        if(tx<-Constants.CAGE_DEADBAND) { //to left of limelight
+            Pose2d newPose = new Pose2d (currentPose.getTranslation().plus(new Translation2d(0, -1.0)), currentPose.getRotation()); // TODO: check negatives of this
+            driveToPose(newPose);
+        } else if (tx>Constants.CAGE_DEADBAND) {
+            Pose2d newPose = new Pose2d (currentPose.getTranslation().plus(new Translation2d(0, 1.0)), currentPose.getRotation()); 
+            driveToPose(newPose);
+        } else {
+            driveToPose(currentPose);
+        }
+    }
 }
