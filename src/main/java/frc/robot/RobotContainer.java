@@ -1,8 +1,10 @@
 package frc.robot;
 
+import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.RolyWheelsCommand;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.RolyWheelsSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -11,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class RobotContainer {
     // private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
     private final RolyWheelsSubsystem rolyWheelsSubsystem = new RolyWheelsSubsystem();
+    private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     
     private final XboxController controller_1 = new XboxController(0);
     private final XboxController controller_2 = new XboxController(1);
@@ -33,6 +36,9 @@ public class RobotContainer {
                 
         new Trigger(controller_2::getAButtonPressed)
                 .onTrue(new RolyWheelsCommand(rolyWheelsSubsystem, 0.0));
+
+        new Trigger(controller_2::getXButtonPressed)
+                .onTrue(new ElevatorCommand(elevatorSubsystem, 10));
             
     }
 

@@ -44,5 +44,12 @@ public class Constants {
     public static final double NEO_TICKS_PER_REV = 42;
     
     public static final double LOOPTIME_SECONDS = 0.02;
+
+    public static final double TARGET_POSITION = 10;
+
+    public static final int TOP_LIMIT_SWITCH_PORT = 1;
+    public static final int BOTTOM_LIMIT_SWITCH_PORT = 11;
+
+    
 }   
 
