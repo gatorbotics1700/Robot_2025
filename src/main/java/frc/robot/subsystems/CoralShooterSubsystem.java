@@ -77,6 +77,10 @@ public class CoralShooterSubsystem extends SubsystemBase{
         return topMotorLeft.getVelocity().getValueAsDouble();
     }
 
+    public double getTopMotorRightSpeed(){
+        return topMotorRight.getVelocity().getValueAsDouble();
+    }
+
     public double getBottomMotorSpeed(){
         return bottomMotor.getVelocity().getValueAsDouble();
     }
@@ -98,5 +102,14 @@ public class CoralShooterSubsystem extends SubsystemBase{
 
     public double getVoltage(){
         return voltagE;
+    }
+
+    public void setTopVoltage(double voltage){
+        topMotorLeft.setVoltage(voltage);
+        topMotorRight.setVoltage(voltage);
+    }
+
+    public void setBottomVoltage(double voltage){
+        bottomMotor.setVoltage(voltage);
     }
 }

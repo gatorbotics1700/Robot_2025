@@ -61,7 +61,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final double TRANSLATION_MIN_SPEED = 0.15;
     private final double ROTATION_MIN_SPEED = 0.25;
     private final double DISTANCE_DEADBAND = 0.0225;
-    private final double ROTATION_DEADBAND = 2.0;
+    private final double ROTATION_DEADBAND = 1.0;
     private double robotRotation;
 
     private boolean slowDrive;
@@ -212,6 +212,34 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         Rotation2d.fromDegrees(0.0)));
         // System.out.println("you pressed the right button yay you");
         }
+        
+    }
+
+    public void zeroGyroscope(boolean isFlipped) {
+    if (isFlipped){
+        var alliance = DriverStation.getAlliance();
+        if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red){
+            odometry.resetPosition( // this line shouldn't work but it should - essentially we are only reseting
+                        // angle instead of reseting position which is the whole point of reset position
+            new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
+            new SwerveModulePosition[] { frontLeftModule.getPosition(), frontRightModule.getPosition(),
+                backLeftModule.getPosition(), backRightModule.getPosition() },
+            new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(),
+                Rotation2d.fromDegrees(0.0)));
+            // System.out.println("you pressed the right button yay you");
+        }else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue){
+            odometry.resetPosition( // this line shouldn't work but it should - essentially we are only reseting
+                                // angle instead of reseting position which is the whole point of reset position
+                new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
+                new SwerveModulePosition[] { frontLeftModule.getPosition(), frontRightModule.getPosition(),
+                        backLeftModule.getPosition(), backRightModule.getPosition() },
+                new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(),
+                        Rotation2d.fromDegrees(180.0)));
+        // System.out.println("you pressed the right button yay you");
+        }
+    } else {
+        zeroGyroscope();
+    }
         
     }
 

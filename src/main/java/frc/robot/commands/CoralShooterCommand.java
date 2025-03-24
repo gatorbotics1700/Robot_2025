@@ -12,6 +12,7 @@ public class CoralShooterCommand extends Command {
     private double startTime;
     private boolean shootingCurrentPeaked; 
     private boolean intakeCurrentPeaked; 
+    private boolean readyToShoot; 
     
     public CoralShooterCommand(CoralShooterSubsystem coralShooterSubsystem, double voltage){ //double speed){
         this.coralShooterSubsystem = coralShooterSubsystem; 
@@ -45,13 +46,21 @@ public class CoralShooterCommand extends Command {
         // }
 
         if(voltage > 0) {
+            coralShooterSubsystem.setMotorVoltage(voltage);
             System.out.println("INTAKING");
         } else if (voltage < 0){
-            // System.out.println("SHOOTING");
-            if(voltage == Constants.CORAL_L4_SHOOTING_VOLTAGE + coralShooterSubsystem.getVoltageTune()){
+            System.out.println("SHOOTING");
+            if(voltage == Constants.CORAL_L4_SHOOTING_VOLTAGE){
+                coralShooterSubsystem.setTopVoltage(voltage);
+                if(coralShooterSubsystem.getTopMotorLeftSpeed() >= Constants.CORAL_L4_SHOOTING_SPEED && coralShooterSubsystem.getTopMotorRightSpeed() == coralShooterSubsystem.getTopMotorLeftSpeed()){
+                    readyToShoot = true;
+                }
+                if(readyToShoot){
+                    coralShooterSubsystem.setBottomVoltage(voltage);
+                }
                 System.out.println("L4 L4 L4");
-                System.out.println("VOLTAGE: "+ coralShooterSubsystem.getVoltage());
-            } else if(voltage == Constants.CORAL_TROUGH_SHOOTING_VOLTAGE + coralShooterSubsystem.getVoltageTune()){
+            } else if(voltage == Constants.CORAL_TROUGH_SHOOTING_VOLTAGE){
+                coralShooterSubsystem.setMotorVoltage(voltage);
                 System.out.println("TROUGH TROUGH TROUGH");
             }
         }
