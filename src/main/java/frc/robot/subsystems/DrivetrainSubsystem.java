@@ -64,6 +64,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final double ROTATION_DEADBAND = 1.0;
     private double robotRotation;
 
+    private boolean robotRelativeDrive;
+
     private boolean slowDrive;
     private static CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
     public static double busUtil = CANivore.getStatus().BusUtilization*100; //bus utilization percentage
@@ -193,53 +195,54 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void zeroGyroscope() {
         var alliance = DriverStation.getAlliance();
+        Rotation2d zeroedAngle = null;
         if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red){
-            odometry.resetPosition( // this line shouldn't work but it should - essentially we are only reseting
-                        // angle instead of reseting position which is the whole point of reset position
+            zeroedAngle = Rotation2d.fromDegrees(180.0);
+        }else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue){
+            zeroedAngle = Rotation2d.fromDegrees(0.0);
+        }
+        if(zeroedAngle != null){
+        odometry.resetPosition(
             new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
             new SwerveModulePosition[] { frontLeftModule.getPosition(), frontRightModule.getPosition(),
                 backLeftModule.getPosition(), backRightModule.getPosition() },
             new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(),
-                Rotation2d.fromDegrees(180.0)));
-            // System.out.println("you pressed the right button yay you");
-        }else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue){
-            odometry.resetPosition( // this line shouldn't work but it should - essentially we are only reseting
-                                // angle instead of reseting position which is the whole point of reset position
+                zeroedAngle));
+        } else {
+            System.err.println("zeroed angle was null -- setting to 0");
+            odometry.resetPosition(
                 new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
                 new SwerveModulePosition[] { frontLeftModule.getPosition(), frontRightModule.getPosition(),
-                        backLeftModule.getPosition(), backRightModule.getPosition() },
+                    backLeftModule.getPosition(), backRightModule.getPosition() },
                 new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(),
-                        Rotation2d.fromDegrees(0.0)));
-        // System.out.println("you pressed the right button yay you");
+                    Rotation2d.fromDegrees(0.0)));
         }
-        
     }
 
-    public void zeroGyroscope(boolean isFlipped) {
-    if (isFlipped){
+    public void robotRelativeHeading(double offsetAngle) {
         var alliance = DriverStation.getAlliance();
+        Rotation2d zeroedAngle = null;
         if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red){
-            odometry.resetPosition( // this line shouldn't work but it should - essentially we are only reseting
-                        // angle instead of reseting position which is the whole point of reset position
+            zeroedAngle = Rotation2d.fromDegrees(180.0 - offsetAngle);
+        }else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue){
+            zeroedAngle = Rotation2d.fromDegrees(0.0 - offsetAngle);
+        }
+        if(zeroedAngle != null){
+        odometry.resetPosition(
             new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
             new SwerveModulePosition[] { frontLeftModule.getPosition(), frontRightModule.getPosition(),
                 backLeftModule.getPosition(), backRightModule.getPosition() },
             new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(),
-                Rotation2d.fromDegrees(0.0)));
-            // System.out.println("you pressed the right button yay you");
-        }else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue){
-            odometry.resetPosition( // this line shouldn't work but it should - essentially we are only reseting
-                                // angle instead of reseting position which is the whole point of reset position
+                zeroedAngle));
+        } else {
+            System.err.println("zeroed angle was null -- setting to 0");
+            odometry.resetPosition(
                 new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
                 new SwerveModulePosition[] { frontLeftModule.getPosition(), frontRightModule.getPosition(),
-                        backLeftModule.getPosition(), backRightModule.getPosition() },
+                    backLeftModule.getPosition(), backRightModule.getPosition() },
                 new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(),
-                        Rotation2d.fromDegrees(180.0)));
-        // System.out.println("you pressed the right button yay you");
+                    Rotation2d.fromDegrees(0.0)));
         }
-    } else {
-        zeroGyroscope();
-    }
         
     }
 
@@ -310,6 +313,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        if(robotRelativeDrive){
+            robotRelativeHeading(180);
+        }
+
         odometry.update(
             new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
             new SwerveModulePosition[]{ 
@@ -467,5 +474,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
         }
         facePoint(new Translation2d(reefX, reefY));
        
+    }
+
+    public void toggleRobotRelativeDrive(){
+        robotRelativeDrive = !robotRelativeDrive;
     }
 }

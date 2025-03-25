@@ -112,8 +112,11 @@ public class RobotContainer {
         new Trigger(controller::getAButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
 
+        // new Trigger(controller::getLeftBumperButtonPressed)
+        //     .onTrue(new RunCommand(()->drivetrainSubsystem.robotRelativeHeading(180)));
+
         new Trigger(controller::getLeftBumperButtonPressed)
-            .onTrue(new RunCommand(()->drivetrainSubsystem.zeroGyroscope(true)));
+            .onTrue(new InstantCommand(drivetrainSubsystem::toggleRobotRelativeDrive));
         // new Trigger(controller::getXButtonPressed)
         //     .onTrue(new InstantCommand(m_coralShooterSub::decreaseVoltageTune));
 
