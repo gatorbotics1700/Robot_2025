@@ -101,12 +101,12 @@ public class Constants {
     public static final double CORAL_L4_SHOOTING_SPEED = -0.67; 
     // public static final double CORAL_TROUGH_SHOOTING_SPEED = -0.45;
     // public static final double CORAL_VOMIT_SPEED = -0.4; // slow outtake for when coral gets stuck
-    public static final double CORAL_INTAKING_CURRENT_LIMIT = 50;
+    public static final double CORAL_INTAKING_CURRENT_LIMIT = -5;
     public static final double CORAL_INTAKE_MIN_CURRENT = 3;
     public static final double CORAL_SHOOTING_MAX_CURRENT = 10;
     public static final double CORAL_SHOOTING_MIN_CURRENT = 2.5;
     public static final double CORAL_INTAKING_VOLTAGE = 5.4; // switched from 4.0
-    public static final double CORAL_L4_SHOOTING_VOLTAGE = -8.1;//-7.8;
+    public static final double CORAL_L4_SHOOTING_VOLTAGE = -8.0;//-8.1;//-7.8;
     public static final double CORAL_TROUGH_SHOOTING_VOLTAGE = -5.5; // switched from -4.0
     public static final double CORAL_VOMIT_VOLTAGE = -0.3;
 
