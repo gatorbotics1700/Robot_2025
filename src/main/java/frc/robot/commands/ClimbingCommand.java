@@ -60,11 +60,11 @@ public class ClimbingCommand extends Command {
                 return true;
             } 
         }
-        if(climbingSubsystem.isAnyLimitSwitchPressed()){
-            climbingSubsystem.setSpeed(0);
-            System.out.println("LIMIT SWITCH TRIGGERED");
-            return true;
-        }
+        // if(climbingSubsystem.isAnyLimitSwitchPressed()){
+        //     climbingSubsystem.setSpeed(0);
+        //     System.out.println("LIMIT SWITCH TRIGGERED");
+        //     return true;
+        // }
         return false;
     }
 }

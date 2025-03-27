@@ -433,7 +433,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         Pose2d currentPose = odometry.getEstimatedPosition();
         double xError = desiredPose.getX() - currentPose.getX();
         double yError = desiredPose.getY() - currentPose.getY();
-        if (Math.abs(xError) > 0.2 && Math.abs(yError) > 0.2) {
+        if (Math.abs(xError) > 0.6 && Math.abs(yError) > 0.6) {
             desiredPose = new Pose2d(desiredPose.getX(), desiredPose.getY(), pointingToTagAngle);
             System.out.println("POINTING TO ANGLE");
         }
