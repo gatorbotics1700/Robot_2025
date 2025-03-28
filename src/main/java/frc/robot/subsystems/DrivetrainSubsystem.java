@@ -13,6 +13,7 @@ import frc.com.swervedrivespecialties.swervelib.SwerveModule;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.commands.TeleopDriveCommand;
+import frc.robot.config.GatorConfig;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -32,12 +33,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
+    private static GatorConfig gatorConfig = GatorConfig.getConfig();
     private static final double MAX_VOLTAGE = 12.0;
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380 / 60
             * SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter()
             * Math.PI;
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
-            Math.hypot(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
+            Math.hypot(gatorConfig.driveTrainTrackWidthMeters / 2.0, gatorConfig.driveTrainWheelBaseMeters / 2.0);
 
     private final SwerveModule frontLeftModule;
     private final SwerveModule frontRightModule;
@@ -78,17 +80,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
         slowDrive = false;
         shuffleboardTab = Shuffleboard.getTab("Drivetrain");
 
-        pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID, Constants.CANIVORE_BUS_NAME);
+        pigeon = new Pigeon2(gatorConfig.driveTrainPigeonId, Constants.CANIVORE_BUS_NAME);
 
         kinematics = new SwerveDriveKinematics(
-                new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-                        Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
-                new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-                        -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
-                new Translation2d(-Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-                        Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
-                new Translation2d(-Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-                        -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0));
+                new Translation2d(gatorConfig.driveTrainTrackWidthMeters / 2.0,
+                        gatorConfig.driveTrainWheelBaseMeters / 2.0),
+                new Translation2d(gatorConfig.driveTrainTrackWidthMeters / 2.0,
+                        -gatorConfig.driveTrainWheelBaseMeters / 2.0),
+                new Translation2d(-gatorConfig.driveTrainTrackWidthMeters / 2.0,
+                        gatorConfig.driveTrainWheelBaseMeters / 2.0),
+                new Translation2d(-gatorConfig.driveTrainTrackWidthMeters / 2.0,
+                        -gatorConfig.driveTrainWheelBaseMeters / 2.0));
 
         chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
@@ -100,7 +102,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 .withDriveMotor(Constants.FRONT_LEFT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
                 .withSteerMotor(Constants.FRONT_LEFT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
                 .withSteerEncoderPort(Constants.FRONT_LEFT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
-                .withSteerOffset(Constants.FRONT_LEFT_MODULE_STEER_OFFSET)
+                .withSteerOffset(gatorConfig.driveTrainFrontLeftModuleSteerOffset)
                 .build();
 
         frontRightModule = new MkSwerveModuleBuilder()
@@ -111,7 +113,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 .withDriveMotor(Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
                 .withSteerMotor(Constants.FRONT_RIGHT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
                 .withSteerEncoderPort(Constants.FRONT_RIGHT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
-                .withSteerOffset(Constants.FRONT_RIGHT_MODULE_STEER_OFFSET)
+                .withSteerOffset(gatorConfig.driveTrainFrontRightModuleSteerOffset)
                 .build();
 
         backLeftModule = new MkSwerveModuleBuilder()
@@ -122,7 +124,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 .withDriveMotor(Constants.BACK_LEFT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
                 .withSteerMotor(Constants.BACK_LEFT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
                 .withSteerEncoderPort(Constants.BACK_LEFT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
-                .withSteerOffset(Constants.BACK_LEFT_MODULE_STEER_OFFSET)
+                .withSteerOffset(gatorConfig.driveTrainBackLeftModuleSteerOffset)
                 .build();
 
         backRightModule = new MkSwerveModuleBuilder()
@@ -133,7 +135,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 .withDriveMotor(Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
                 .withSteerMotor(Constants.BACK_RIGHT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
                 .withSteerEncoderPort(Constants.BACK_RIGHT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
-                .withSteerOffset(Constants.BACK_RIGHT_MODULE_STEER_OFFSET)
+                .withSteerOffset(gatorConfig.driveTrainBackRightModuleSteerOffset)
                 .build();
 
         odometry = new SwerveDrivePoseEstimator(

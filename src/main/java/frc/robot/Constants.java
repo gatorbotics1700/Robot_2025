@@ -9,30 +9,15 @@ import frc.com.swervedrivespecialties.swervelib.MechanicalConfiguration;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
 public class Constants {
-    //for a 25x25 dirvetrain
-    // public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.508;
-    // public static final double DRIVETRAIN_WHEELBASE_METERS = 0.508;
+    //All drivetrain size and offset constants have been moved to the GatorConfig.java file
 
-    //for a 30x30 drivetrain
-    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.508 + 0.127;
-    public static final double DRIVETRAIN_WHEELBASE_METERS = 0.508 + 0.127;
-
-    public static final int DRIVETRAIN_PIGEON_ID = 6;
     public static final double CENTER_TO_POST = 0.1778;
 
     // hulk
-    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(118.6253437499); //116.806640625
-    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(283.7109375); //282.919921875
-    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(124.0988159179); //121.640624999
-    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(38.75976562499); //227.548
     // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4_L2;
     // public static final String CANIVORE_BUS_NAME = "";
 
     //nemo
-    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(336.094);
-    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(225.176);
-    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(243.369);
-    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(204.256);
     // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     // public static final String CANIVORE_BUS_NAME = "";
     // public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.172, 0.325, 0.197, new Rotation3d(Math.toRadians(10.0), Math.toRadians(-23.0), Math.toRadians(-46.0)));
@@ -41,10 +26,6 @@ public class Constants {
 
 
     // dory
-    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(98.173828125);
-    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(149.23828125);
-    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(333.10546875);
-    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(102.8320312500);
     // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     // public static final String CANIVORE_BUS_NAME = "";
     // public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.26035, 0.00635, 1.143, new Rotation3d(Math.toRadians(0.0), Math.toRadians(-32.0), Math.toRadians(-4.0)));
@@ -56,11 +37,7 @@ public class Constants {
     // public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
     // public static final double ELEVATOR_INVERT = 1.0; // 1.0 means the elevator is NOT inverted
 
-    //comp bot
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(268.0664);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(231.3281);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(169.3652);
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(52.1191);
+    // manta
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     public static final String CANIVORE_BUS_NAME = "TRex";
     public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.3394, 0.004, 0.196, new Rotation3d(Math.toRadians(1), Math.toRadians(-21), Math.toRadians(-3.0)));
