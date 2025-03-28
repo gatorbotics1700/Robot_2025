@@ -88,12 +88,13 @@ public class GatorConfig {
     // you can call this in robot container, drivetrainsubsystem, whatever.
     public static GatorConfig getConfig() {
         String serialNum;
-        // try to read the serial number from the RoboRIO
+        // try to read the serial number from the RoboRIO.
+        // if we can't, log an error pick a good default to return.
         try {
-            serialNum = new String(Files.readAllBytes(Paths.get("/sys/firmware/serial_number"))).trim();
-        } catch (IOException e) {
+            serialNum = edu.wpi.first.wpilibj.RobotController.getSerialNumber();
+        } catch (Exception e) {
             System.err.println("Failed to read RoboRIO serial number. Defaulting to practice bot config.");
-            return getCompBotConfig(); // Default to comp bot for now
+            return getCompBotConfig();
         }
 
         // based on the serial number, return the correct config.
@@ -107,6 +108,7 @@ public class GatorConfig {
             case "dory_serial": // Replace with actual serial
                 return getDoryConfig();
             default:
+                // if we don't have a config for this robot, log an error and return the comp bot config.
                 System.err.println("Unknown robot serial number: " + serialNum + ". Defaulting to comp bot config.");
                 return getCompBotConfig();
         }
