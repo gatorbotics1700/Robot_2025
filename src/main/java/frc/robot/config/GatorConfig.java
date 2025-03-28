@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import edu.wpi.first.wpilibj.RobotController;
+
 /**
  * Named GatorConfig because RobotConfig was already taken by wpilibj.
  * The intention here is  to replace Constants.java with this class.
@@ -19,8 +21,8 @@ public class GatorConfig {
     // go through a config object.
 
     //for a 25x25 dirvetrain
-    private static final double DRIVETRAIN_TRACKWIDTH_METERS_25X25 = 0.508;
-    private static final double DRIVETRAIN_WHEELBASE_METERS_25X25 = 0.508;
+    public static final double DRIVETRAIN_TRACKWIDTH_METERS_25X25 = 0.508;
+    public static final double DRIVETRAIN_WHEELBASE_METERS_25X25 = 0.508;
 
     //for a 30x30 drivetrain
     private static final double DRIVETRAIN_TRACKWIDTH_METERS_30X30 = 0.508 + 0.127;
@@ -30,13 +32,13 @@ public class GatorConfig {
     private static final int DRIVETRAIN_PIGEON_ID = 6;
 
     // these are member variables for the actual config.
-    private double driveTrainTrackWidthMeters;
-    private double driveTrainWheelBaseMeters;
-    private int driveTrainPigeonId;
-    private double driveTrainFrontLeftModuleSteerOffset;
-    private double driveTrainFrontRightModuleSteerOffset;
-    private double driveTrainBackLeftModuleSteerOffset;
-    private double driveTrainBackRightModuleSteerOffset;
+    public final double driveTrainTrackWidthMeters;
+    public final double driveTrainWheelBaseMeters;
+    public final int driveTrainPigeonId;
+    public final double driveTrainFrontLeftModuleSteerOffset;
+    public final double driveTrainFrontRightModuleSteerOffset;
+    public final double driveTrainBackLeftModuleSteerOffset;
+    public final double driveTrainBackRightModuleSteerOffset;
     
     // your average run of the mill constructor
     public GatorConfig(
@@ -56,61 +58,36 @@ public class GatorConfig {
         this.driveTrainBackRightModuleSteerOffset = driveTrainBackRightModuleSteerOffset;
     }
 
-    public double getDriveTrainTrackWidthMeters() {
-        return driveTrainTrackWidthMeters;
-    }
-
-    public double getDriveTrainWheelBaseMeters() {
-        return driveTrainWheelBaseMeters;
-    }
-
-    public int getDriveTrainPigeonId() {
-        return driveTrainPigeonId;
-    }
-
-    public double getDriveTrainFrontLeftModuleSteerOffset() {
-        return driveTrainFrontLeftModuleSteerOffset;
-    }
-
-    public double getDriveTrainFrontRightModuleSteerOffset() {
-        return driveTrainFrontRightModuleSteerOffset;
-    }
-
-    public double getDriveTrainBackLeftModuleSteerOffset() {
-        return driveTrainBackLeftModuleSteerOffset;
-    }
-
-    public double getDriveTrainBackRightModuleSteerOffset() {
-        return driveTrainBackRightModuleSteerOffset;
-    }
-
     // this is a static method that returns a new config based on the RoboRIO serial number.
     // you can call this in robot container, drivetrainsubsystem, whatever.
     public static GatorConfig getConfig() {
-        String serialNum;
-        // try to read the serial number from the RoboRIO.
-        // if we can't, log an error pick a good default to return.
-        try {
-            serialNum = edu.wpi.first.wpilibj.RobotController.getSerialNumber();
-        } catch (Exception e) {
-            System.err.println("Failed to read RoboRIO serial number. Defaulting to practice bot config.");
-            return getCompBotConfig();
-        }
+        // if we're running on a real robot, read the serial number and return the correct config.
+        if (edu.wpi.first.wpilibj.RobotBase.isReal()) {
+            String serialNum;
+            try {
+                serialNum = edu.wpi.first.wpilibj.RobotController.getSerialNumber();
+            } catch (Exception e) {
+                System.err.println("Failed to read RoboRIO serial number. Defaulting to comp bot config.");
+                return getCompBotConfig();
+            }
 
-        // based on the serial number, return the correct config.
-        switch (serialNum) {
-            case "031b1d4b": // Comp Bot
-                return getCompBotConfig();
-            case "nemo_serial": // Replace with actual serial
-                return getNemoConfig();
-            case "hulk_serial": // Replace with actual serial
-                return getHulkConfig();
-            case "dory_serial": // Replace with actual serial
-                return getDoryConfig();
-            default:
-                // if we don't have a config for this robot, log an error and return the comp bot config.
-                System.err.println("Unknown robot serial number: " + serialNum + ". Defaulting to comp bot config.");
-                return getCompBotConfig();
+            switch (serialNum) {
+                case "031b1d4b": // Comp Bot
+                    return getCompBotConfig();
+                case "nemo_serial": // Replace with actual serial
+                    return getNemoConfig();
+                case "hulk_serial": // Replace with actual serial
+                    return getHulkConfig();
+                case "dory_serial": // Replace with actual serial
+                    return getDoryConfig();
+                default:
+                    System.err.println("Unknown robot serial number: " + serialNum + ". Defaulting to comp bot config.");
+                    return getCompBotConfig();
+            }
+        } else {
+            // We're in simulation/test environment
+            System.out.println("Running in simulation mode. Using comp bot config.");
+            return getCompBotConfig();
         }
     }
 

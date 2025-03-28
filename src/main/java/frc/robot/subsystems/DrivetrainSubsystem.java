@@ -39,7 +39,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             * SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter()
             * Math.PI;
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
-            Math.hypot(robotConfig.getDriveTrainTrackWidthMeters() / 2.0, robotConfig.getDriveTrainWheelBaseMeters() / 2.0);
+            Math.hypot(robotConfig.driveTrainTrackWidthMeters / 2.0, robotConfig.driveTrainWheelBaseMeters / 2.0);
 
     private final SwerveModule frontLeftModule;
     private final SwerveModule frontRightModule;
@@ -78,17 +78,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
         slowDrive = false;
         shuffleboardTab = Shuffleboard.getTab("Drivetrain");
 
-        pigeon = new Pigeon2(robotConfig.getDriveTrainPigeonId(), Constants.CANIVORE_BUS_NAME);
+        pigeon = new Pigeon2(robotConfig.driveTrainPigeonId, Constants.CANIVORE_BUS_NAME);
 
         kinematics = new SwerveDriveKinematics(
-                new Translation2d(robotConfig.getDriveTrainTrackWidthMeters() / 2.0,
-                        robotConfig.getDriveTrainWheelBaseMeters() / 2.0),
-                new Translation2d(robotConfig.getDriveTrainTrackWidthMeters() / 2.0,
-                        -robotConfig.getDriveTrainWheelBaseMeters() / 2.0),
-                new Translation2d(-robotConfig.getDriveTrainTrackWidthMeters() / 2.0,
-                        robotConfig.getDriveTrainWheelBaseMeters() / 2.0),
-                new Translation2d(-robotConfig.getDriveTrainTrackWidthMeters() / 2.0,
-                        -robotConfig.getDriveTrainWheelBaseMeters() / 2.0));
+                new Translation2d(robotConfig.driveTrainTrackWidthMeters / 2.0,
+                        robotConfig.driveTrainWheelBaseMeters / 2.0),
+                new Translation2d(robotConfig.driveTrainTrackWidthMeters / 2.0,
+                        -robotConfig.driveTrainWheelBaseMeters / 2.0),
+                new Translation2d(-robotConfig.driveTrainTrackWidthMeters / 2.0,
+                        robotConfig.driveTrainWheelBaseMeters / 2.0),
+                new Translation2d(-robotConfig.driveTrainTrackWidthMeters / 2.0,
+                        -robotConfig.driveTrainWheelBaseMeters / 2.0));
 
         chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
