@@ -446,13 +446,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
         double tx = LimelightHelpers.getTX("limelight");
         Pose2d currentPose = odometry.getEstimatedPosition();
         if(tx<-Constants.CAGE_DEADBAND) { //to left of limelight
-            Pose2d newPose = new Pose2d (currentPose.getTranslation().plus(new Translation2d(0, -1.0)), currentPose.getRotation()); // TODO: check negatives of this
+            Pose2d newPose = new Pose2d (currentPose.getTranslation().plus(new Translation2d(0, 0.05)), currentPose.getRotation()); // TODO: check negatives of this
             driveToPose(newPose);
+            System.out.println("SEES CAGE: TO LEFT OF LIMELIGHT");
         } else if (tx>Constants.CAGE_DEADBAND) {
-            Pose2d newPose = new Pose2d (currentPose.getTranslation().plus(new Translation2d(0, 1.0)), currentPose.getRotation()); 
+            Pose2d newPose = new Pose2d (currentPose.getTranslation().plus(new Translation2d(0, -0.05)), currentPose.getRotation()); // In meters
             driveToPose(newPose);
+            System.out.println("SEES CAGE: TO RIGHT OF LIMELIGHT");
         } else {
             driveToPose(currentPose);
+            System.out.println("NO CAGE SEEN");
         }
     }
 }

@@ -1,6 +1,7 @@
 package frc.robot;
 
 import frc.robot.commands.TestDriveCommand;
+import frc.robot.commands.CageDetectionCommand;
 import frc.robot.commands.ClimbingCommand;
 import frc.robot.commands.CoralShooterCommand;
 import frc.robot.commands.LimelightControlCommand;
@@ -122,6 +123,9 @@ public class RobotContainer {
 
         new Trigger(controller::getYButton)
             .onTrue(new PointToReefCommand(drivetrainSubsystem, controller));
+
+        new Trigger(controller::getXButtonPressed)
+            .onTrue(new CageDetectionCommand(drivetrainSubsystem, m_limelightsub, controller));
 
  /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
 

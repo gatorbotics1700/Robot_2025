@@ -125,6 +125,6 @@ public class Constants {
     public static final double REEF_RADIUS = 0.8232394; //not actually the radius, but distance from center to apriltag
     public static final double POST_DISTANCE = 0.1778; //distance from center of robot to center of reef to line up with post (in robot y)
 
-    public static final double CAGE_DEADBAND = 1; //TODO: test and adjust
+    public static final double CAGE_DEADBAND = 1.5; //TODO: test and adjust
 }   
 

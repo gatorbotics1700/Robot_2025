@@ -17,6 +17,7 @@ public class LimelightControlCommand extends Command {
     private Pose2d lineUpOffset;
     private Rotation2d pointingToTagAngle; //field relative angle to point the robot at the apriltag
     private boolean dontStart = false;
+    
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem,
             int pipeline, XboxController controller, Pose2d lineUpOffset) {
         this.limelightSubsystem = limelightSubsystem;
