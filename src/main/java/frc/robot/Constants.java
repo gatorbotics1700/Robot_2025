@@ -14,7 +14,7 @@ public class Constants {
 
     public static final int DRIVETRAIN_PIGEON_ID = 6;
 
-    //hulk k
+    //hulk
     // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(118.6253437499); //116.806640625
     // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(283.7109375); //282.919921875
     // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(124.0988159179); //121.640624999
@@ -28,7 +28,7 @@ public class Constants {
     // public static final double LIMELIGHT_PITCH_OFFSET = -2.0;
     // public static final double LIMELIGHT_ROLL_OFFSET = -1.0;
 
-    // nemo
+    //nemo
     // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(336.094);
     // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(225.176);
     // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(243.369);
@@ -71,7 +71,7 @@ public class Constants {
     public static final double LIMELIGHT_YAW_OFFSET = 0.0;
     public static final double LIMELIGHT_PITCH_OFFSET = 0.0;
     public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
-    public static final double ELEVATOR_INVERT = -1.0; // -1 means that the motor is inverted
+    public static final double ELEVATOR_INVERT = 1.0;//-1.0; // -1 means that the motor is inverted
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; 
@@ -91,6 +91,8 @@ public class Constants {
     
     public static final double KRAKEN_TICKS_PER_REV = 2048; //same for falcons
     public static final double NEO_TICKS_PER_REV = 42;
+
+    public static final double LOOPTIME_SECONDS = 0.02;
     
     // CORAL SHOOTER MECHANISM
     public static final int SHOOTER_MOTOR_TOP_LEFT_CAN_ID = 30;
@@ -115,7 +117,7 @@ public class Constants {
     // ELEVATOR MECHANISM
     public static final int ELEVATOR_CAN_ID = 17;
     public static final double ELEVATOR_SPROCKET_DIAMETER = 1.22; // inches
-    public static final double ELEVATOR_GEAR_RATIO = 125.0;
+    public static final double ELEVATOR_GEAR_RATIO = 81.0;
     public static final double ELEVATOR_TICKS_PER_INCH = ((KRAKEN_TICKS_PER_REV * ELEVATOR_GEAR_RATIO) / ELEVATOR_SPROCKET_DIAMETER / Math.PI)/2;
     public static final double ELEVATOR_LEVEL_ONE = 0.0;
     public static final double ELEVATOR_LEVEL_TWO = 13.875;
@@ -138,7 +140,3 @@ public class Constants {
      * degrees to ticks conversion: ticks per rev * gear ratio / 360
      */
 }   
-
-    public static final double LOOPTIME_SECONDS = 0.02;
-}
-

@@ -39,7 +39,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
 
     public ElevatorSubsystem(){
-        motor = new TalonFX(Constants.ELEVATOR_CAN_ID, Constants.CANIVORE_BUS_NAME);
+        motor = new TalonFX(Constants.ELEVATOR_CAN_ID);
         motor.setNeutralMode(NeutralModeValue.Brake);
         
         // motor.getConfigurator().apply(new TalonFXConfiguration()
