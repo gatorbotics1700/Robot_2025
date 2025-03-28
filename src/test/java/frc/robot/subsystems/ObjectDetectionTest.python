@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 
 def drawDecorations(image, text):
-    cv2.putText(image, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
-    
+    cv2.putText(image, text, (5, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
 def runPipeline(image, llrobot):
     # Initialize variables to avoid unboundlocal errors
     largest_contour = np.array([[]])
@@ -13,9 +13,9 @@ def runPipeline(image, llrobot):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     # Define range for red color (Red wraps around 180/0)
-    lower_red1 = np.array([0, 100, 100])
+    lower_red1 = np.array([0, 120, 70])
     upper_red1 = np.array([10, 255, 255])
-    lower_red2 = np.array([160, 100, 100])
+    lower_red2 = np.array([170, 120, 70])
     upper_red2 = np.array([180, 255, 255])
     
     # Create masks for red color
@@ -36,7 +36,7 @@ def runPipeline(image, llrobot):
     
     if contours:
         # Filter contours based on area
-        filtered_contours = [cnt for cnt in contours if cv2.contourArea(cnt) > 1170] #larger number gets rid of smaller background objects
+        filtered_contours = [cnt for cnt in contours if cv2.contourArea(cnt) > 1200] #larger number gets rid of smaller background objects
         
         if filtered_contours:
             # Find the largest contour
@@ -58,15 +58,17 @@ def runPipeline(image, llrobot):
             # Calculate data for llpython
             area = cv2.contourArea(largest_contour)
             aspect_ratio = float(w) / h
+            #image_center_x = image.shape[1]/2
+            #tx = (center_x - image_center_x)/image_center_x #calculate tx (horizontal offset from center) normalize to [-1,1]
             
             # Populate llpython with useful data
             llpython = [1, center_x, center_y, w, h, area, aspect_ratio, 0]
 
             #check if cage is in view, range can use tuning
-            if  0.9*expected_aspect_ratio <= aspect_ratio <= 1.23*expected_aspect_ratio: 
-                drawDecorations(image, f"Cage Detected: ({center_x}, {center_y})")
-            else:
-                drawDecorations(image, "Other red object detected")
+            #if  0.9*expected_aspect_ratio <= aspect_ratio <= 1.23*expected_aspect_ratio: 
+                #drawDecorations(image, f"Cage Detected: ({center_x}, {center_y})")
+            #else:
+            drawDecorations(image, f"Object detected: ({center_x}, {center_y})")
 
         else:
             drawDecorations(image, "NO game piece detected")
