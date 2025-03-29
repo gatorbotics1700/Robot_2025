@@ -125,7 +125,10 @@ public class RobotContainer {
             .onTrue(new PointToReefCommand(drivetrainSubsystem, controller));
 
         new Trigger(controller::getXButtonPressed)
-            .onTrue(new CageDetectionCommand(drivetrainSubsystem, m_limelightsub, controller));
+            .onTrue(new CageDetectionCommand(drivetrainSubsystem, m_limelightsub, controller, true)); //line up with red cage
+
+        new Trigger(controller::getBButtonPressed)
+            .onTrue(new CageDetectionCommand(drivetrainSubsystem, m_limelightsub, controller, false)); //line up with blue cage
 
  /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
 

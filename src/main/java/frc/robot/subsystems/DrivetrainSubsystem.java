@@ -441,8 +441,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
        
     }
      //need to make command for this for actual use
-    public void faceCenterCage() {
-        LimelightHelpers.setPipelineIndex("limelight", 4);
+    public void faceCenterCage(int pipeline) {
+        LimelightHelpers.setPipelineIndex("limelight", pipeline);
         double tx = LimelightHelpers.getTX("limelight");
         Pose2d currentPose = odometry.getEstimatedPosition();
         if(tx<-Constants.CAGE_DEADBAND) { //to left of limelight

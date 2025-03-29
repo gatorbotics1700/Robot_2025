@@ -13,25 +13,33 @@ public class CageDetectionCommand extends Command {
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final LimelightSubsystem limelightSubsystem;
     private final XboxController controller;
+    private final boolean isRed;
 
-    public CageDetectionCommand(DrivetrainSubsystem drivetrainSubsystem, LimelightSubsystem limelightSubsystem, XboxController controller){
+    public CageDetectionCommand(DrivetrainSubsystem drivetrainSubsystem, LimelightSubsystem limelightSubsystem, XboxController controller, boolean isRed){
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.limelightSubsystem = limelightSubsystem;
         this.controller = controller;
+        this.isRed = isRed;
 
         addRequirements(limelightSubsystem, drivetrainSubsystem);
     }
 
     @Override
     public void initialize(){
-        limelightSubsystem.setPipeline(4);
+        if(isRed==true){
+            limelightSubsystem.setPipeline(4);
+        } else {
+            limelightSubsystem.setPipeline(5);
+        }  
     }
 
     @Override
     public void execute(){
-        //if (limelightSubsystem.getObjectArray()[0] == 1){
-            drivetrainSubsystem.faceCenterCage();
-        //}
+        if (isRed==true){
+            drivetrainSubsystem.faceCenterCage(4);
+        } else {
+            drivetrainSubsystem.faceCenterCage(5);
+        }
     }
 
     @Override
@@ -44,7 +52,7 @@ public class CageDetectionCommand extends Command {
             System.out.println("Joystick moved, ending command.");
             return true;
         }
-        
+
         if(Math.abs(LimelightHelpers.getTX("limelight"))<Constants.CAGE_DEADBAND){
             System.out.println("Reached cage, ending command");
             return true;            
