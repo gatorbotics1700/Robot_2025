@@ -48,6 +48,8 @@ public class CoralShooterCommand extends Command {
         if(voltage > 0) {
             coralShooterSubsystem.setMotorVoltage(voltage);
             System.out.println("INTAKING");
+            System.out.println("top left motor current: " + coralShooterSubsystem.getTopMotorLeftStatorCurrent());
+
         } else if (voltage < 0){
             System.out.println("SHOOTING");
             if(voltage == Constants.CORAL_L4_SHOOTING_VOLTAGE){
@@ -55,9 +57,9 @@ public class CoralShooterCommand extends Command {
                 if(coralShooterSubsystem.getTopMotorLeftSpeed() >= Constants.CORAL_L4_SHOOTING_SPEED && coralShooterSubsystem.getTopMotorRightSpeed() == coralShooterSubsystem.getTopMotorLeftSpeed()){
                     readyToShoot = true;
                 }
-                if(readyToShoot){
-                    coralShooterSubsystem.setBottomVoltage(voltage);
-                }
+                // if(readyToShoot){
+                //     coralShooterSubsystem.setBottomVoltage(voltage);
+                // }
                 System.out.println("L4 L4 L4");
             } else if(voltage == Constants.CORAL_TROUGH_SHOOTING_VOLTAGE){
                 coralShooterSubsystem.setMotorVoltage(voltage);
@@ -83,15 +85,19 @@ public class CoralShooterCommand extends Command {
                 coralShooterSubsystem.setMotorVoltage(0);
                 System.out.println ("Finished intaking");
                 return true;
-            } else if(coralShooterSubsystem.getBottomMotorStatorCurrent() < Constants.CORAL_INTAKING_CURRENT_LIMIT){ 
-                //intakeCurrentPeaked = true; // notifies us that the coral in the shooter, still outtaking
-                System.out.println("INTAKING CURRENT PEAKED: " + coralShooterSubsystem.getBottomMotorStatorCurrent());
-                //coralShooterSubsystem.setSpeed(0);
+            // } else if(coralShooterSubsystem.getTopMotorLeftStatorCurrent() < Constants.CORAL_INTAKING_CURRENT_LIMIT && timePassed > 1000){ 
+            //     // intakeCurrentPeaked = true; // notifies us that the coral in the shooter, still outtaking
+            //     System.out.println("INTAKING CURRENT PEAKED: " + coralShooterSubsystem.getTopMotorLeftStatorCurrent());
+            //     //coralShooterSubsystem.setSpeed(0);
+            //     coralShooterSubsystem.setMotorVoltage(0);
+            //     return true;
+            } else if (coralShooterSubsystem.getLimitSwitch()){
+                System.out.println("limit switch triggered -- ending intaking");
                 coralShooterSubsystem.setMotorVoltage(0);
                 return true;
-            } 
-            //else if(intakeCurrentPeaked && coralShooterSubsystem.getTopMotorLeftStatorCurrent() < Constants.CORAL_INTAKE_MIN_CURRENT){ // if the coral has left the shooter
-            //     coralShooterSubsystem.setSpeed(0); // stop because we have finished outtaking
+            }
+            // else if(intakeCurrentPeaked && coralShooterSubsystem.getTopMotorLeftStatorCurrent() < Constants.CORAL_INTAKE_MIN_CURRENT){ // if the coral has left the shooter
+            //     coralShooterSubsystem.setMotorVoltage(0); // stop because we have finished outtaking
             //     shootingCurrentPeaked = false;
             //     return true;
             // }
