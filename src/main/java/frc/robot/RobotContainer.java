@@ -11,6 +11,7 @@ import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CoralShooterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.commands.PointToTagCommand;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -52,27 +53,27 @@ public class RobotContainer {
 
     private final Trigger Q1LeftLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(1));
     private final Trigger Q1RightLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(2));
-    private final Trigger Q1TroughLineup = new Trigger(()->buttonBoard2B.getRawButtonPressed(3));
+    private final Trigger Q1PointToTag = new Trigger(()->buttonBoard2B.getRawButtonPressed(3));
 
     private final Trigger Q2LeftLineup = new Trigger(()->buttonBoard1B.getRawButtonPressed(2));
     private final Trigger Q2RightLineup = new Trigger(()->buttonBoard1B.getRawButtonPressed(1));
-    private final Trigger Q2TroughLineup = new Trigger(()->buttonBoard2B.getRawButtonPressed(4));
+    private final Trigger Q2PointToTag = new Trigger(()->buttonBoard2B.getRawButtonPressed(4));
 
     private final Trigger Q3LeftLineup = new Trigger(()->buttonBoard1B.getRawButtonPressed(4));
     private final Trigger Q3RightLineup = new Trigger(()->buttonBoard1B.getRawButtonPressed(3));
-    private final Trigger Q3TroughLineup = new Trigger(()->buttonBoard2B.getRawButtonPressed(5));
+    private final Trigger Q3PointToTag = new Trigger(()->buttonBoard2B.getRawButtonPressed(5));
 
     private final Trigger Q4LeftLineup = new Trigger(()->buttonBoard1B.getRawButtonPressed(6));
     private final Trigger Q4RightLineup = new Trigger(()->buttonBoard1B.getRawButtonPressed(5));
-    private final Trigger Q4TroughLineup = new Trigger(()->buttonBoard2B.getRawButtonPressed(6));
+    private final Trigger Q4PointToTag = new Trigger(()->buttonBoard2B.getRawButtonPressed(6));
 
     private final Trigger Q5LeftLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(5));
     private final Trigger Q5RightLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(6));
-    private final Trigger Q5TroughLineup = new Trigger(()->buttonBoard2A.getRawButtonPressed(3));
+    private final Trigger Q5PointToTag = new Trigger(()->buttonBoard2A.getRawButtonPressed(3));
 
     private final Trigger Q6LeftLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(3));
     private final Trigger Q6RightLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(4));
-    private final Trigger Q6TroughLineup = new Trigger(()->buttonBoard2A.getRawButtonPressed(2));
+    private final Trigger Q6PointToTag = new Trigger(()->buttonBoard2A.getRawButtonPressed(2));
 
     private final Trigger climb = new Trigger(()->buttonBoard2A.getRawButtonPressed(1));
     private final Trigger detach = new Trigger(()->buttonBoard2B.getRawButtonPressed(2));
@@ -185,23 +186,23 @@ public class RobotContainer {
             // .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
 
         // lining up to with reef to score trough
-        Q1TroughLineup //q1
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
+        Q1PointToTag //q1
+            .onTrue(new PointToTagCommand(drivetrainSubsystem, controller, 1));
         
-        Q2TroughLineup //q2
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
+        Q2PointToTag //q2
+            .onTrue(new PointToTagCommand(drivetrainSubsystem, controller, 2));
 
-        Q3TroughLineup //q3
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
+        Q3PointToTag //q3
+            .onTrue(new PointToTagCommand(drivetrainSubsystem, controller, 3));
 
-        Q4TroughLineup //q4
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
+        Q4PointToTag //q4
+            .onTrue(new PointToTagCommand(drivetrainSubsystem, controller, 4));
 
-        Q5TroughLineup //q5
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
+        Q5PointToTag //q5
+            .onTrue(new PointToTagCommand(drivetrainSubsystem, controller, 5));
 
-        Q6TroughLineup //q6
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.FRONT_CENTER_ALIGN_OFFSET));
+        Q6PointToTag //q6
+            .onTrue(new PointToTagCommand(drivetrainSubsystem, controller, 6));
 
         // vomit
         vomit
