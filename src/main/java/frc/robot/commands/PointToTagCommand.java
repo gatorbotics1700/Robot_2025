@@ -1,11 +1,14 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -62,60 +65,37 @@ public class PointToTagCommand extends Command {
     }
 
     private Translation2d getTagCoords(){
+        double rotation = 0;
+        Translation2d reefCenter = Constants.BLUE_REEF_POSE;
         var alliance = DriverStation.getAlliance();
         if(quadrant == 1){
-            if(alliance.get() == DriverStation.Alliance.Blue){
-                //tagID = 21
-                return new Translation2d(5.321046,4.0259);
-            }else{
-                //tagID = 10
-                return new Translation2d(12.227306,	4.0259);
-            }
+           rotation = 0;
         }else if(quadrant == 2){
-            if(alliance.get() == DriverStation.Alliance.Blue){
-                //tagID = 22
-                return new Translation2d(4.90474,	3.306318);
-            }else{
-                //tagID = 9
-                return new Translation2d(12.643358,	4.745482);
-            }
+            rotation = -60;
         }
         else if(quadrant == 3){
-            if(alliance.get() == DriverStation.Alliance.Blue){
-                //tagID = 17
-                return new Translation2d(4.073906,3.306318);
-            }else{
-                //tagID = 8
-                return new Translation2d(13.474446,4.745482);
-            }
+            rotation = -120;
         }
         else if(quadrant == 4){
-            if(alliance.get() == DriverStation.Alliance.Blue){
-                //tagID = 18
-                return new Translation2d(3.6576,4.0259);
-            }else{
-                //tagID = 7
-                return new Translation2d(13.890498,4.0259);
-            }
+            rotation = 180;
         }
         else if(quadrant == 5){
-            if(alliance.get() == DriverStation.Alliance.Blue){
-                //tagID = 19
-                return new Translation2d(4.073906,4.745482);
-            }else{
-                //tagID = 6
-                return new Translation2d(13.474446,3.306318);
-            }
+            rotation = 120;
         } else if (quadrant == 6){
-            if(alliance.get() == DriverStation.Alliance.Blue){
-                //tagID = 20
-                return new Translation2d(4.90474,4.745482);
-            }else{
-                //tagID = 11
-                return new Translation2d(12.643358,3.306318);
-            }
+            rotation = 60;
+        }else{     
+            System.out.println("INVALID QUADRANT");
+            return new Translation2d();
         }
-        System.out.println("INVALID QUADRANT");
-        return new Translation2d();
+        if(alliance.equals(DriverStation.Alliance.Red)){
+            reefCenter = Constants.RED_REEF_POSE;
+            rotation += 180;
+            
+        }
+        rotation = MathUtil.angleModulus(Math.toRadians(rotation)); //now it's in radians
+        Pose2d reefPose = new Pose2d(reefCenter, new Rotation2d(rotation));
+        Transform2d centerToTag = new Transform2d(new Translation2d(Constants.REEF_RADIUS,0), new Rotation2d());
+        Pose2d aprilTagCoord = reefPose.transformBy(centerToTag);
+        return new Translation2d(aprilTagCoord.getX(), aprilTagCoord.getY());
     }
 }
