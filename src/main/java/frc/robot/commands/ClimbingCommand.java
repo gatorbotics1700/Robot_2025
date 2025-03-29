@@ -1,5 +1,6 @@
 package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.ClimbingSubsystem;
 
 public class ClimbingCommand extends Command {
@@ -7,7 +8,7 @@ public class ClimbingCommand extends Command {
     private ClimbingSubsystem climbingSubsystem; 
     
     private final double speed;
-    
+
     private double startTime;
 
     
@@ -44,8 +45,9 @@ public class ClimbingCommand extends Command {
         System.out.println("Milliseconds passed: " +  timePassed);  
         
         // TODO did not change these inequalities - not sure why they match with our changes already  
+
         if(speed > 0){ // if detatching / reverse climbing
-            if(System.currentTimeMillis() - startTime > 30000){
+            if(System.currentTimeMillis() - startTime > Constants.UNWINCH_TIME){
                 climbingSubsystem.setSpeed(0);
                 System.out.println ("Finished detaching - TIMED OUT");
                 return true;

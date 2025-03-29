@@ -175,7 +175,7 @@ public class RobotContainer {
         climb
             .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: FYI the sign has been changed
             
-        // detach
+        // detach or unwinch
         detach
            .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
 

@@ -15,8 +15,8 @@ public class ClimbingSubsystem extends SubsystemBase{
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
     private final DigitalInput baseLimitSwitch = new DigitalInput(0);
-    private final DigitalInput shooterLeftLimitSwitch = new DigitalInput(1);
-    private final DigitalInput shooterRightLimitSwitch = new DigitalInput(2);
+   // private final DigitalInput shooterLeftLimitSwitch = new DigitalInput(1);
+   // private final DigitalInput shooterRightLimitSwitch = new DigitalInput(2);
 
     public ClimbingSubsystem() {
         motor = new TalonFX(Constants.CLIMBING_MOTOR_CAN_ID, Constants.CANIVORE_BUS_NAME);
@@ -32,12 +32,12 @@ public class ClimbingSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
        SmartDashboard.putBoolean("base limit switch",  baseLimitSwitch.get());
-        SmartDashboard.putBoolean("shooter left limit switch",  shooterLeftLimitSwitch.get());
-        SmartDashboard.putBoolean("shooter right limit switch",  shooterRightLimitSwitch.get());
+       // SmartDashboard.putBoolean("shooter left limit switch",  shooterLeftLimitSwitch.get());
+       // SmartDashboard.putBoolean("shooter right limit switch",  shooterRightLimitSwitch.get());
     }
 
     public boolean isAnyLimitSwitchPressed() {
-        return baseLimitSwitch.get() || shooterLeftLimitSwitch.get() || shooterRightLimitSwitch.get();
+        return baseLimitSwitch.get(); //|| shooterLeftLimitSwitch.get() || shooterRightLimitSwitch.get();
     }
     
 }
