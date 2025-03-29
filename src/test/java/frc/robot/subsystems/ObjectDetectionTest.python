@@ -1,3 +1,5 @@
+RED CAGE (pipeline 4):
+
 import cv2
 import numpy as np
 
@@ -72,5 +74,79 @@ def runPipeline(image, llrobot):
 
         else:
             drawDecorations(image, "NO game piece detected")
+    
+    return largest_contour, image, llpython
+
+
+BLUE CAGE (pipeline 5):
+
+import cv2
+import numpy as np
+
+def drawDecorations(image, text):
+    cv2.putText(image, text, (5, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
+def runPipeline(image, llrobot):
+    # Initialize variables to avoid unboundlocal errors
+    largest_contour = np.array([[]])
+    llpython = [0, 0, 0, 0, 0, 0, 0, 0]
+    
+    # Convert BGR image to HSV
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    # Define range for blue color
+    lower_blue = np.array([100, 150, 100])
+    upper_blue = np.array([140, 255, 255])
+    
+    # Create masks for blue color
+    mask = cv2.inRange(hsv, lower_blue, upper_blue)
+    
+    # Noise reduction
+    kernel = np.ones((5,5), np.uint8)
+    mask = cv2.erode(mask, kernel, iterations=1)
+    mask = cv2.dilate(mask, kernel, iterations=1)
+    mask = cv2.GaussianBlur(mask, (5, 5), 0)
+    
+    expected_aspect_ratio = 7.375 / 24
+
+    # Find contours
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    
+    if contours:
+        # Filter contours based on area
+        filtered_contours = [cnt for cnt in contours if cv2.contourArea(cnt) > 1500] #larger number gets rid of smaller background objects
+        
+        if filtered_contours:
+            # Find the largest contour
+            largest_contour = max(filtered_contours, key=cv2.contourArea)
+            
+            # Get bounding box
+            x, y, w, h = cv2.boundingRect(largest_contour)
+            
+            # Draw rectangle around the game piece
+            cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
+            
+            # Calculate center point
+            center_x = x + w // 2
+            center_y = y + h // 2
+            
+            # Draw center point
+            cv2.circle(image, (center_x, center_y), 5, (0, 0, 255), -1)
+            
+            # Calculate data for llpython
+            area = cv2.contourArea(largest_contour)
+            aspect_ratio = float(w) / h
+            
+            # Populate llpython with useful data
+            llpython = [1, center_x, center_y, w, h, area, aspect_ratio, 0]
+
+            #check if cage is in view, range can use tuning
+            #if  0.9*expected_aspect_ratio <= aspect_ratio <= 1.23*expected_aspect_ratio: 
+                #drawDecorations(image, f"Cage Detected: ({center_x}, {center_y})")
+            #else:
+            drawDecorations(image, f"Blue object detected: ({center_x}, {center_y})")
+
+    else:
+        drawDecorations(image, "NO game piece detected")
     
     return largest_contour, image, llpython
