@@ -50,14 +50,14 @@ public class PointToTagCommand extends Command {
         if(drivetrain.getAtDesiredPose()){
             return true;
         }
-        boolean joystickMoved = Math.abs(controller.getLeftX()) > 0.2 ||
-        Math.abs(controller.getLeftY()) > 0.2 ||
-        Math.abs(controller.getRightX()) > 0.2 ||
-        Math.abs(controller.getRightY()) > 0.2;
-        if (joystickMoved) {
-            System.out.println("Joystick moved, ending command.");
-            return true;
-        }
+        // boolean joystickMoved = Math.abs(controller.getLeftX()) > 0.2 ||
+        // Math.abs(controller.getLeftY()) > 0.2 ||
+        // Math.abs(controller.getRightX()) > 0.2 ||
+        // Math.abs(controller.getRightY()) > 0.2;
+        // if (joystickMoved) {
+        //     System.out.println("Joystick moved, ending command.");
+        //     return true;
+        // }
         if(!DriverStation.getAlliance().isPresent()){
             return true;
         }
