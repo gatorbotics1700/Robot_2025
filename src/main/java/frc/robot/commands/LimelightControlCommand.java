@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class LimelightControlCommand extends Command {
@@ -58,6 +59,12 @@ public class LimelightControlCommand extends Command {
 
     @Override
     public boolean isFinished() {
+        if (dontStart && DriverStation.isAutonomousEnabled()){ //if we're trying to use vision to line up in auto and it can't see a tag, don't move on (we will lose the piece we have intaken)
+            return false; 
+        }
+        if(dontStart){
+            return true;
+        }
         // Check if either stick on the Xbox controller is moved
         boolean joystickMoved = Math.abs(controller.getLeftX()) > 0.2 ||
                 Math.abs(controller.getLeftY()) > 0.2 ||
@@ -72,9 +79,7 @@ public class LimelightControlCommand extends Command {
         if(drivetrainSubsystem.getAtDesiredPose()){
             return true;
         }
-       if(dontStart){
-         return true;
-       }
+       
 
         return false;
         // TODO: allow mech commands to end this as well

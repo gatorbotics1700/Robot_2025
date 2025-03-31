@@ -226,10 +226,8 @@ public class RobotContainer {
     
         
         boolean isCompetition = true;
-       // boolean isSVR = true;
         autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
         (stream) -> isCompetition
-            // ? stream.filter(auto -> (auto.getName().endsWith("SVR")))
             ? stream.filter(auto -> (auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
             //TODO: consider using the option below instead for filtering to minimize autos on the selector
             // ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") || auto.getName().startsWith("Blue 2P") || auto.getName().startsWith("Red 2P")))
@@ -237,7 +235,7 @@ public class RobotContainer {
     );
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
-        Shuffleboard.getTab("SmartDashboard").add(autoChooser);
+        // Shuffleboard.getTab("SmartDashboard").add(autoChooser);
     }
 
     public Command getAutonomousCommand() {
