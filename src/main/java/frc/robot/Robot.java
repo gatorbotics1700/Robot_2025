@@ -23,7 +23,7 @@ import edu.wpi.first.cscore.MjpegServer;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
-    // private Command mechStopCommand;
+    private Command mechStopCommand;
     private CoralShooterSubsystem coralShooterSubsystem;
     private ClimbingSubsystem climbingSubsystem;
     private RobotContainer container;
@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
         // shuffleboardTest = Shuffleboard.getTab("Shuffleboard Test");
         // shuffleboardTester = shuffleboardTest.add("shuffleboard tester", 0).getEntry();
 
-        // mechStopCommand = container.getMechStopCommand();
+        mechStopCommand = container.getMechStopCommand();
     }
 
     @Override
@@ -73,13 +73,13 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         
         container.setDefaultTeleopCommand();
-        // mechStopCommand.schedule();
+        mechStopCommand.schedule();
 
 
         // This makes sure that the autonomous stops running when teleop starts
-        // if (m_autonomousCommand != null) {
-        //     m_autonomousCommand.cancel();
-        // }
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.cancel();
+        }
         // container.setDefaultTeleopCommand();
     }
 
