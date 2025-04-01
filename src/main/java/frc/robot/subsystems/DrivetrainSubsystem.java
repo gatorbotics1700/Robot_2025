@@ -76,6 +76,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final double ROTATION_DEADBAND = 1.0;
     private double robotRotation;
 
+    private PIDController xController = new PIDController(TRANSLATION_kP, 0, TRANSLATION_kD);
+    private PIDController yController = new PIDController(TRANSLATION_kP, 0, TRANSLATION_kD);
+    private PIDController rotationController = new PIDController(ROTATION_kP, 0, ROTATION_kD);
+
     private boolean robotRelativeDrive;
 
     private boolean slowDrive;
@@ -402,9 +406,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
             return;
         }
 
-        PIDController xController = new PIDController(TRANSLATION_kP, 0, TRANSLATION_kD);
-        PIDController yController = new PIDController(TRANSLATION_kP, 0, TRANSLATION_kD);
-        PIDController rotationController = new PIDController(TRANSLATION_kP, 0, TRANSLATION_kD);
+        
+
+
 
         double xSpeed = xController.calculate(currentPose.getX(), desiredPose.getX());
         double ySpeed = yController.calculate(currentPose.getY(), desiredPose.getY());
