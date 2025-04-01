@@ -17,6 +17,9 @@ import frc.robot.LimelightHelpers;
 import frc.robot.commands.TeleopDriveCommand;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -26,6 +29,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -47,6 +53,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule backRightModule;
     private static boolean atDesiredPose = false;
 
+    public static final double MAX_ACCELERATION = 11.0;
+
     private static Pigeon2 pigeon;
 
     private final SwerveDriveKinematics kinematics;
@@ -58,8 +66,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private ChassisSpeeds chassisSpeeds;
 
     private ShuffleboardTab shuffleboardTab;
-    private final double TRANSLATION_kP = 2.5;
-    private final double ROTATION_kP = 0.02;
+    private final double TRANSLATION_kP = 2.8;
+    private final double TRANSLATION_kD = 0.05;
+    private final double ROTATION_kP = 0.03;
+    private final double ROTATION_kD = 0.0003;
     private final double TRANSLATION_MIN_SPEED = 0.15;
     private final double ROTATION_MIN_SPEED = 0.25;
     private final double DISTANCE_DEADBAND = 0.0225;
@@ -315,6 +325,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+
         if(robotRelativeDrive){
             robotRelativeHeading(180);
         }
@@ -358,27 +369,27 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void driveToPose(Pose2d desiredPose) {
         Pose2d currentPose = odometry.getEstimatedPosition();
-        double xError = desiredPose.getX() - currentPose.getX();
-        double yError = desiredPose.getY() - currentPose.getY();
-        double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
-        rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
+        // double xError = desiredPose.getX() - currentPose.getX();
+        // double yError = desiredPose.getY() - currentPose.getY();
+        // double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
+        //rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
 
-        if (Math.abs(xError) < DISTANCE_DEADBAND) { // Stop if within deadband
-            xError = 0.0;
+        if (Math.abs(desiredPose.getX()-currentPose.getX()) < DISTANCE_DEADBAND) { // Stop if within deadband
+            desiredPose = new Pose2d(currentPose.getX(), desiredPose.getY(), desiredPose.getRotation());
             // System.out.println("AT X DEADBAND");
         }
 
-        if (Math.abs(yError) < DISTANCE_DEADBAND) {
-            yError = 0.0;
+        if (Math.abs(desiredPose.getY()-currentPose.getY()) < DISTANCE_DEADBAND) {
+            desiredPose = new Pose2d(desiredPose.getX(), currentPose.getY(), desiredPose.getRotation());
             // System.out.println("AT Y DEADBAND");
         }
         
-        if (Math.abs(rotationError) < ROTATION_DEADBAND) {
-            rotationError = 0.0;
+        if (Math.abs(desiredPose.getRotation().getDegrees()-currentPose.getRotation().getDegrees()) < ROTATION_DEADBAND) {
+            desiredPose = new Pose2d(desiredPose.getX(), desiredPose.getY(), currentPose.getRotation());
              System.out.println("AT ROTATION DEADBAND");
         }
 
-        atDesiredPose = xError == 0.0 && yError == 0.0 && rotationError == 0.0;
+        atDesiredPose = desiredPose.getX()-currentPose.getX() == 0.0 && desiredPose.getY()-currentPose.getY() == 0.0 && desiredPose.getRotation().getDegrees()-currentPose.getRotation().getDegrees() == 0.0;
 
         if (atDesiredPose) { // stop
             setStates(new SwerveModuleState[] {
@@ -391,20 +402,31 @@ public class DrivetrainSubsystem extends SubsystemBase {
             return;
         }
 
-        double xSpeed = Math.max(Math.abs(xError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(xError);
-        double ySpeed = Math.max(Math.abs(yError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(yError);
-        double rotationSpeed = Math.max(Math.abs(rotationError * ROTATION_kP), ROTATION_MIN_SPEED) * Math.signum(rotationError);
+        PIDController xController = new PIDController(TRANSLATION_kP, 0, TRANSLATION_kD);
+        PIDController yController = new PIDController(TRANSLATION_kP, 0, TRANSLATION_kD);
+        ProfiledPIDController rotationController = new ProfiledPIDController(TRANSLATION_kP, 0, TRANSLATION_kD, new TrapezoidProfile.Constraints(MAX_VELOCITY_METERS_PER_SECOND, MAX_ACCELERATION));
+        HolonomicDriveController controller = new HolonomicDriveController(xController, yController, rotationController);
+
+        double xSpeed = xController.calculate(currentPose.getX(), desiredPose.getX());
+        double ySpeed = yController.calculate(currentPose.getY(), desiredPose.getY());
+        System.out.println("XSPEED: "+xSpeed+" YSPEED: " + ySpeed);
+
+       double rotationSpeed = rotationController.calculate(currentPose.getRotation().getDegrees(), desiredPose.getRotation().getDegrees());
+        // double xSpeed = Math.max(Math.abs(xError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(xError);
+        // double ySpeed = Math.max(Math.abs(yError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(yError);
+        // double rotationSpeed = Math.max(Math.abs(rotationError * ROTATION_kP), ROTATION_MIN_SPEED) * Math.signum(rotationError);
         if(xSpeed >= 1.8){
             xSpeed = 1.8;
         }
         if(ySpeed >= 1.8){
             ySpeed = 1.8;
         }
-        System.out.println("rotationspeed:"+rotationSpeed);
+       System.out.println("rotationspeed:"+rotationSpeed);
         drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, currentPose.getRotation()));
     }
 
     public void turnToAngle(Rotation2d desiredAngle){
+        //driveToPose(new Pose2d(odometry.getEstimatedPosition().getTranslation(), desiredAngle));
         Pose2d currentPose = odometry.getEstimatedPosition();
         double rotationError = desiredAngle.getDegrees() - currentPose.getRotation().getDegrees();
         rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
@@ -427,7 +449,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             return;
         }
 
-        double rotationSpeed = Math.max(Math.abs(rotationError * ROTATION_kP*3), ROTATION_MIN_SPEED) * Math.signum(rotationError);
+        double rotationSpeed = Math.max(Math.abs(rotationError * ROTATION_kP*5), ROTATION_MIN_SPEED) * Math.signum(rotationError);
         System.out.println("rotationspeed:"+rotationSpeed);
         drive(ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, rotationSpeed, currentPose.getRotation()));
     }
