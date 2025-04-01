@@ -404,8 +404,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         PIDController xController = new PIDController(TRANSLATION_kP, 0, TRANSLATION_kD);
         PIDController yController = new PIDController(TRANSLATION_kP, 0, TRANSLATION_kD);
-        ProfiledPIDController rotationController = new ProfiledPIDController(TRANSLATION_kP, 0, TRANSLATION_kD, new TrapezoidProfile.Constraints(MAX_VELOCITY_METERS_PER_SECOND, MAX_ACCELERATION));
-        HolonomicDriveController controller = new HolonomicDriveController(xController, yController, rotationController);
+        PIDController rotationController = new PIDController(TRANSLATION_kP, 0, TRANSLATION_kD);
 
         double xSpeed = xController.calculate(currentPose.getX(), desiredPose.getX());
         double ySpeed = yController.calculate(currentPose.getY(), desiredPose.getY());
