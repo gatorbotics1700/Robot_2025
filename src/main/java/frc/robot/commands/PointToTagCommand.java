@@ -98,4 +98,39 @@ public class PointToTagCommand extends Command {
         Pose2d aprilTagCoord = reefPose.transformBy(centerToTag);
         return new Translation2d(aprilTagCoord.getX(), aprilTagCoord.getY());
     }
+
+    //this is the version for test cases
+    public static Translation2d getTagCoords(String alliance, int quadrant){
+        double rotation = 0;
+        Translation2d reefCenter = Constants.BLUE_REEF_POSE;
+        if(quadrant == 1){
+           rotation = 0;
+        }else if(quadrant == 2){
+            rotation = -60;
+        }
+        else if(quadrant == 3){
+            rotation = -120;
+        }
+        else if(quadrant == 4){
+            rotation = 180;
+        }
+        else if(quadrant == 5){
+            rotation = 120;
+        } else if (quadrant == 6){
+            rotation = 60;
+        }else{     
+            System.out.println("INVALID QUADRANT");
+            return new Translation2d();
+        }
+        if(alliance.equals("red")){
+            reefCenter = Constants.RED_REEF_POSE;
+            rotation += 180;
+            
+        }
+        rotation = MathUtil.angleModulus(Math.toRadians(rotation)); //now it's in radians
+        Pose2d reefPose = new Pose2d(reefCenter, new Rotation2d(rotation));
+        Transform2d centerToTag = new Transform2d(new Translation2d(Constants.REEF_RADIUS,0), new Rotation2d());
+        Pose2d aprilTagCoord = reefPose.transformBy(centerToTag);
+        return new Translation2d(aprilTagCoord.getX(), aprilTagCoord.getY());
+    }
 }
