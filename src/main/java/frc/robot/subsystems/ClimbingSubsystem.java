@@ -35,7 +35,6 @@ public class ClimbingSubsystem extends SubsystemBase{
     }
     
     public boolean isAnyLimitSwitchPressed() {
-        return false;
-       // return baseLimitSwitch.get() || shooterLeftLimitSwitch.get() || shooterRightLimitSwitch.get();
+        return baseLimitSwitch.get() || shooterLeftLimitSwitch.get() || shooterRightLimitSwitch.get();
     }
 }
