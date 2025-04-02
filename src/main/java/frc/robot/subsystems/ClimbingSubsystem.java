@@ -14,7 +14,7 @@ public class ClimbingSubsystem extends SubsystemBase{
     private final TalonFX motor;
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
-    private final DigitalInput baseLimitSwitch = new DigitalInput(0);
+    private final DigitalInput baseLimitSwitch = new DigitalInput(8);
    // private final DigitalInput shooterLeftLimitSwitch = new DigitalInput(1);
    // private final DigitalInput shooterRightLimitSwitch = new DigitalInput(2);
 

@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import java.sql.Driver;
-
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -9,17 +7,15 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+
 import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import frc.com.swervedrivespecialties.swervelib.SwerveModule;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
-import frc.robot.commands.TeleopDriveCommand;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.controller.HolonomicDriveController;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -29,9 +25,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -66,19 +59,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private ChassisSpeeds chassisSpeeds;
 
     private ShuffleboardTab shuffleboardTab;
-    private final double TRANSLATION_kP = 2.8;
-    private final double TRANSLATION_kD = 0.05;
-    private final double ROTATION_kP = 0.03;
-    private final double ROTATION_kD = 0.0003;
+    private final double TRANSLATION_kP = 2.5;
+    //private final double TRANSLATION_kD = 0.05;
+    private final double ROTATION_kP = 0.02;
+    //private final double ROTATION_kD = 0.0003;
     private final double TRANSLATION_MIN_SPEED = 0.15;
     private final double ROTATION_MIN_SPEED = 0.25;
     private final double DISTANCE_DEADBAND = 0.0225;
     private final double ROTATION_DEADBAND = 1.0;
     private double robotRotation;
-
-    private PIDController xController = new PIDController(TRANSLATION_kP, 0, TRANSLATION_kD);
-    private PIDController yController = new PIDController(TRANSLATION_kP, 0, TRANSLATION_kD);
-    private PIDController rotationController = new PIDController(ROTATION_kP, 0, ROTATION_kD);
 
     private boolean robotRelativeDrive;
 
@@ -192,7 +181,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
                     return false;
 
                 },
-                this);
+                this
+        );
 
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
@@ -214,16 +204,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
         Rotation2d zeroedAngle = null;
         if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red){
             zeroedAngle = Rotation2d.fromDegrees(180.0);
-        }else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue){
+        } else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue){
             zeroedAngle = Rotation2d.fromDegrees(0.0);
         }
         if(zeroedAngle != null){
-        odometry.resetPosition(
-            new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
-            new SwerveModulePosition[] { frontLeftModule.getPosition(), frontRightModule.getPosition(),
-                backLeftModule.getPosition(), backRightModule.getPosition() },
-            new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(),
-                zeroedAngle));
+            odometry.resetPosition(
+                new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
+                new SwerveModulePosition[] { frontLeftModule.getPosition(), frontRightModule.getPosition(),
+                    backLeftModule.getPosition(), backRightModule.getPosition() },
+                new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(),
+                    zeroedAngle)
+            );
         } else {
             System.err.println("zeroed angle was null -- setting to 0");
             odometry.resetPosition(
@@ -231,7 +222,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 new SwerveModulePosition[] { frontLeftModule.getPosition(), frontRightModule.getPosition(),
                     backLeftModule.getPosition(), backRightModule.getPosition() },
                 new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(),
-                    Rotation2d.fromDegrees(0.0)));
+                    Rotation2d.fromDegrees(0.0))
+            );
         }
     }
 
@@ -240,16 +232,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
         Rotation2d zeroedAngle = null;
         if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red){
             zeroedAngle = Rotation2d.fromDegrees(180.0 - offsetAngle);
-        }else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue){
+        } else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue){
             zeroedAngle = Rotation2d.fromDegrees(0.0 - offsetAngle);
         }
         if(zeroedAngle != null){
-        odometry.resetPosition(
-            new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
-            new SwerveModulePosition[] { frontLeftModule.getPosition(), frontRightModule.getPosition(),
-                backLeftModule.getPosition(), backRightModule.getPosition() },
-            new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(),
-                zeroedAngle));
+            odometry.resetPosition(
+                new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
+                new SwerveModulePosition[] { frontLeftModule.getPosition(), frontRightModule.getPosition(),
+                    backLeftModule.getPosition(), backRightModule.getPosition() },
+                new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(),
+                    zeroedAngle)
+            );
         } else {
             System.err.println("zeroed angle was null -- setting to 0");
             odometry.resetPosition(
@@ -257,7 +250,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 new SwerveModulePosition[] { frontLeftModule.getPosition(), frontRightModule.getPosition(),
                     backLeftModule.getPosition(), backRightModule.getPosition() },
                 new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(),
-                    Rotation2d.fromDegrees(0.0)));
+                    Rotation2d.fromDegrees(0.0))
+            );
         }
         
     }
@@ -343,9 +337,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 backRightModule.getPosition() 
             }
         );
-
-        // System.out.println("POSE 2D: " + odometry.getEstimatedPosition());
-
         boolean doRejectUpdate = false;
         
         LimelightHelpers.SetRobotOrientation("limelight", odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
@@ -367,33 +358,31 @@ public class DrivetrainSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Gyroscope Angle", getRotation().getDegrees());
         SmartDashboard.putNumber("Pose X", odometry.getEstimatedPosition().getX());
         SmartDashboard.putNumber("Pose Y", odometry.getEstimatedPosition().getY());
-        SmartDashboard.putBoolean("is autonomous", DriverStation.isAutonomous());
-        SmartDashboard.putBoolean("is autonomous enabled", DriverStation.isAutonomousEnabled());
     }
 
     public void driveToPose(Pose2d desiredPose) {
         Pose2d currentPose = odometry.getEstimatedPosition();
-        // double xError = desiredPose.getX() - currentPose.getX();
-        // double yError = desiredPose.getY() - currentPose.getY();
-        // double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
-        //rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
+        double xError = desiredPose.getX() - currentPose.getX();
+        double yError = desiredPose.getY() - currentPose.getY();
+        double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
+        rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
 
-        if (Math.abs(desiredPose.getX()-currentPose.getX()) < DISTANCE_DEADBAND) { // Stop if within deadband
-            desiredPose = new Pose2d(currentPose.getX(), desiredPose.getY(), desiredPose.getRotation());
+        if (Math.abs(xError) < DISTANCE_DEADBAND) { // Stop if within deadband
+            xError = 0.0;
             // System.out.println("AT X DEADBAND");
         }
 
-        if (Math.abs(desiredPose.getY()-currentPose.getY()) < DISTANCE_DEADBAND) {
-            desiredPose = new Pose2d(desiredPose.getX(), currentPose.getY(), desiredPose.getRotation());
+        if (Math.abs(yError) < DISTANCE_DEADBAND) {
+            yError = 0.0;
             // System.out.println("AT Y DEADBAND");
         }
         
-        if (Math.abs(desiredPose.getRotation().getDegrees()-currentPose.getRotation().getDegrees()) < ROTATION_DEADBAND) {
-            desiredPose = new Pose2d(desiredPose.getX(), desiredPose.getY(), currentPose.getRotation());
+        if (Math.abs(rotationError) < ROTATION_DEADBAND) {
+            rotationError = 0.0;
              System.out.println("AT ROTATION DEADBAND");
         }
 
-        atDesiredPose = desiredPose.getX()-currentPose.getX() == 0.0 && desiredPose.getY()-currentPose.getY() == 0.0 && desiredPose.getRotation().getDegrees()-currentPose.getRotation().getDegrees() == 0.0;
+        atDesiredPose = xError == 0.0 && yError == 0.0 && rotationError == 0.0;
 
         if (atDesiredPose) { // stop
             setStates(new SwerveModuleState[] {
@@ -406,18 +395,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
             return;
         }
 
-        
-
-
-
-        double xSpeed = xController.calculate(currentPose.getX(), desiredPose.getX());
-        double ySpeed = yController.calculate(currentPose.getY(), desiredPose.getY());
-        System.out.println("XSPEED: "+xSpeed+" YSPEED: " + ySpeed);
-
-       double rotationSpeed = rotationController.calculate(currentPose.getRotation().getDegrees(), desiredPose.getRotation().getDegrees());
-        // double xSpeed = Math.max(Math.abs(xError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(xError);
-        // double ySpeed = Math.max(Math.abs(yError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(yError);
-        // double rotationSpeed = Math.max(Math.abs(rotationError * ROTATION_kP), ROTATION_MIN_SPEED) * Math.signum(rotationError);
+        double xSpeed = Math.max(Math.abs(xError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(xError);
+        double ySpeed = Math.max(Math.abs(yError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(yError);
+        double rotationSpeed = Math.max(Math.abs(rotationError * ROTATION_kP), ROTATION_MIN_SPEED) * Math.signum(rotationError);
         if(xSpeed >= 1.8){
             xSpeed = 1.8;
         }

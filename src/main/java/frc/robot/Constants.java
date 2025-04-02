@@ -59,17 +59,16 @@ public class Constants {
     //comp bot
     public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(268.0664);
     public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(231.3281);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(169.3652);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(229.57);
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(52.1191);
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     public static final String CANIVORE_BUS_NAME = "TRex";
     public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.3394, 0.004, 0.196, new Rotation3d(Math.toRadians(1), Math.toRadians(-19.5), Math.toRadians(-3.0)));
-   // public static final Pose3d LIMELIGHT_OFFSETS_2 = new Pose3d(0.347, -0.005775, 0.155+0.196, new Rotation3d(Math.toRadians(0.0), Math.toRadians(-25.0), Math.toRadians(-6.0)));
     public static final double CENTER_TO_BUMPER_OFFSET = 0.45164;
     public static final Pose2d FRONT_CENTER_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
-    public static final Pose2d INTAKE_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET - 0.3/*0.3*/, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
-    public static final Pose2d SHOOTING_L4_LEFT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.0254 + 0.0254, -0.161925 /*+ 0.0254 + 0.0127/*-CENTER_TO_POST*/, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
-    public static final Pose2d SHOOTING_L4_RIGHT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.0254 + 0.0254, 0.161925/*+ 0.0508 /*+ 0.008467*//*CENTER_TO_POST*/, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
+    public static final Pose2d INTAKE_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET - 0.3, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
+    public static final Pose2d SHOOTING_L4_LEFT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.0254 + 0.0254, -0.161925 /*-CENTER_TO_POST*/, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
+    public static final Pose2d SHOOTING_L4_RIGHT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.0254 + 0.0254, 0.161925/*CENTER_TO_POST*/, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
     // //the line up offsets are the point (in robot relative coordinates) that needs to align with the apriltag in order for us to score left/right post 
     // //(we flip the values in our offset method so that we can find the pose the center of the robot needs to be at, but they should not be flipped here!)
 
@@ -111,9 +110,9 @@ public class Constants {
     public static final double CORAL_VOMIT_VOLTAGE = -0.3;
 
     // CLIMBING MECHANISM
-    public static final double CLIMBING_SPEED = 0.3; 
+    public static final double CLIMBING_SPEED = 0.5; 
     public static final int CLIMBING_MOTOR_CAN_ID = 35; 
-    public static final int UNWINCH_TIME = 30000; //change timer
+    public static final int UNWINCH_TIME = 3400;
 
     /* other information
      * degrees to ticks conversion: ticks per rev * gear ratio / 360

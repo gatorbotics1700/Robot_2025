@@ -24,13 +24,8 @@ import edu.wpi.first.cscore.MjpegServer;
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
     private Command mechStopCommand;
-    private CoralShooterSubsystem coralShooterSubsystem;
-    private ClimbingSubsystem climbingSubsystem;
     private RobotContainer container;
     private ShuffleboardTab visionTesting;
-
-    // private ShuffleboardTab shuffleboardTest;
-    // private GenericEntry shuffleboardTester;
 
     public Robot() {
        CameraServer.startAutomaticCapture();

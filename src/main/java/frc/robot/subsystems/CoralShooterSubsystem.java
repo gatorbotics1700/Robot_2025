@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
@@ -34,7 +33,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
         // bottomMotor.getConfigurator().apply(new TalonFXConfiguration()
         //     .withMotorOutput(new MotorOutputConfigs()
         //         .withInverted(InvertedValue.Clockwise_Positive)));
-        limitSwitch = new DigitalInput(8);
+        limitSwitch = new DigitalInput(9);
     }
 
     @Override
