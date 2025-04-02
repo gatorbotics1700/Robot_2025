@@ -1,0 +1,70 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 11.0,
+        "y": 4.03
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 10.990162312024117,
+        "y": 4.279806364801399
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 11.89275905064174,
+        "y": 7.044
+      },
+      "prevControl": {
+        "x": 11.64275905064174,
+        "y": 7.044
+      },
+      "nextControl": {
+        "x": 12.59892144511324,
+        "y": 7.044
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 17.214344262295082,
+        "y": 6.705
+      },
+      "prevControl": {
+        "x": 16.447950463466956,
+        "y": 6.706231846400669
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 54.0
+  },
+  "reversed": false,
+  "folder": "Red Reef to Coral Station",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

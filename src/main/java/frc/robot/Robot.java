@@ -24,18 +24,13 @@ import edu.wpi.first.cscore.MjpegServer;
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
     private Command mechStopCommand;
-    private CoralShooterSubsystem coralShooterSubsystem;
-    private ClimbingSubsystem climbingSubsystem;
     private RobotContainer container;
     private ShuffleboardTab visionTesting;
 
-    // private ShuffleboardTab shuffleboardTest;
-    // private GenericEntry shuffleboardTester;
-
     public Robot() {
-    //    CameraServer.startAutomaticCapture();
-    //    CvSink cvSink = CameraServer.getVideo();
-    //    CvSource outputStream = new CvSource("Blur", PixelFormat.kMJPEG, 640, 480, 90);
+       CameraServer.startAutomaticCapture();
+       CvSink cvSink = CameraServer.getVideo();
+       CvSource outputStream = new CvSource("Blur", PixelFormat.kMJPEG, 640, 480, 90);
     }
 
     @Override
@@ -77,9 +72,9 @@ public class Robot extends TimedRobot {
 
 
         // This makes sure that the autonomous stops running when teleop starts
-        // if (m_autonomousCommand != null) {
-        //     m_autonomousCommand.cancel();
-        // }
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.cancel();
+        }
         // container.setDefaultTeleopCommand();
     }
 

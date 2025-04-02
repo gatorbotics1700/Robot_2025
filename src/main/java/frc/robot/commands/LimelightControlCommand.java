@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class LimelightControlCommand extends Command {
@@ -35,6 +36,8 @@ public class LimelightControlCommand extends Command {
         drivetrainSubsystem.setNotAtDesiredPose();
         if (limelightSubsystem.hasValidTarget() && targetMatchesPipeline()) { 
             dontStart = false;
+        } else if (DriverStation.isAutonomousEnabled()){
+            System.out.println("initialization of limelight control command in auto with no valid target");
         } else {
             dontStart = true;
             System.out.println("\tNo valid target detected.");
@@ -51,13 +54,14 @@ public class LimelightControlCommand extends Command {
         }
 
         if (desiredPose != null) {
-           drivetrainSubsystem.driveToPoseWithInitialAngle(desiredPose, pointingToTagAngle);
-
+            //drivetrainSubsystem.driveToPoseWithInitialAngle(desiredPose, pointingToTagAngle);
+            drivetrainSubsystem.driveToPose(desiredPose);
         }
     }
 
     @Override
     public boolean isFinished() {
+        
         // Check if either stick on the Xbox controller is moved
         boolean joystickMoved = Math.abs(controller.getLeftX()) > 0.2 ||
                 Math.abs(controller.getLeftY()) > 0.2 ||
@@ -72,9 +76,9 @@ public class LimelightControlCommand extends Command {
         if(drivetrainSubsystem.getAtDesiredPose()){
             return true;
         }
-       if(dontStart){
-         return true;
-       }
+        if(dontStart){
+            return true;
+        }
 
         return false;
         // TODO: allow mech commands to end this as well
