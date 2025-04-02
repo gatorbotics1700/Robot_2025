@@ -87,10 +87,11 @@ public class PointToTagCommand extends Command {
             System.out.println("INVALID QUADRANT");
             return new Translation2d();
         }
-        if(alliance.equals(DriverStation.Alliance.Red)){
+        System.out.println(alliance.get());
+
+        if(alliance.get() == DriverStation.Alliance.Red){
             reefCenter = Constants.RED_REEF_POSE;
             rotation += 180;
-            
         }
         rotation = MathUtil.angleModulus(Math.toRadians(rotation)); //now it's in radians
         Pose2d reefPose = new Pose2d(reefCenter, new Rotation2d(rotation));
