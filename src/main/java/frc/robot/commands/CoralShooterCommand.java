@@ -80,7 +80,7 @@ public class CoralShooterCommand extends Command {
         
         //if(speed > 0){ // if intaking
         if(voltage > 0){
-            if(timePassed > 1500){
+            if(timePassed > 5000){//1500){   //-- if no limit switch
                 // coralShooterSubsystem.setSpeed(0);
                 coralShooterSubsystem.setMotorVoltage(0);
                 System.out.println ("Finished intaking");
@@ -92,11 +92,12 @@ public class CoralShooterCommand extends Command {
             //     //coralShooterSubsystem.setSpeed(0);
             //     coralShooterSubsystem.setMotorVoltage(0);
             //     return true;
-            // } else if (coralShooterSubsystem.getLimitSwitch()){
-            //     System.out.println("limit switch triggered -- ending intaking");
-            //     coralShooterSubsystem.setMotorVoltage(0);
-            //     return true;
-            // }
+           // } 
+            else if (coralShooterSubsystem.getLimitSwitch()){
+                System.out.println("limit switch triggered -- ending intaking");
+                coralShooterSubsystem.setMotorVoltage(0);
+                return true;
+            }
             // else if(intakeCurrentPeaked && coralShooterSubsystem.getTopMotorLeftStatorCurrent() < Constants.CORAL_INTAKE_MIN_CURRENT){ // if the coral has left the shooter
             //     coralShooterSubsystem.setMotorVoltage(0); // stop because we have finished outtaking
             //     shootingCurrentPeaked = false;
@@ -109,15 +110,15 @@ public class CoralShooterCommand extends Command {
             // System.out.println("SPEED: 0, STOPPING");
             return true;
         //if moving up after intaking
-        } else if (voltage == Constants.CORAL_PREINTAKE_SHOOTING_VOLTAGE){
-            if(timePassed > 80){
-                // coralShooterSubsystem.setSpeed(0);
-                coralShooterSubsystem.setMotorVoltage(0);
-                System.out.println("pre intake move up done");
-                return true;
-            }
+        // } else if (voltage == Constants.CORAL_PREINTAKE_SHOOTING_VOLTAGE){
+        //     if(timePassed > 80){
+        //         // coralShooterSubsystem.setSpeed(0);
+        //         coralShooterSubsystem.setMotorVoltage(0);
+        //         System.out.println("pre intake move up done");
+        //         return true;
+        //     }
      //} else if(speed < 0){ // if shooting and not just moving up
-        } else if(voltage < -1.0){
+        } else if(voltage < 0){//-1.0){
             if(timePassed > 1500){
                 // coralShooterSubsystem.setSpeed(0);
                 coralShooterSubsystem.setMotorVoltage(0);

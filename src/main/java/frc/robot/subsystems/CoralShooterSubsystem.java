@@ -19,7 +19,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
     private static double voltageTune = 0.0;
     private double voltagE; //anaika is anti this. so this was the solution.... the typo is in fact intentional :/
-  //  private final DigitalInput limitSwitch;
+   private final DigitalInput limitSwitch;
     
     public CoralShooterSubsystem(){
         topMotorLeft = new TalonFX(Constants.SHOOTER_MOTOR_TOP_LEFT_CAN_ID, Constants.CANIVORE_BUS_NAME);
@@ -33,7 +33,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
         // bottomMotor.getConfigurator().apply(new TalonFXConfiguration()
         //     .withMotorOutput(new MotorOutputConfigs()
         //         .withInverted(InvertedValue.Clockwise_Positive)));
-      //  limitSwitch = new DigitalInput(9);
+       limitSwitch = new DigitalInput(9);
         //lim = 
     }
 
@@ -42,7 +42,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
         // SmartDashboard.putNumber("bottom motor current",  getBottomMotorStatorCurrent());
         SmartDashboard.putNumber("top motor left current", getTopMotorLeftStatorCurrent());
         SmartDashboard.putNumber("shooting voltage", voltagE);
-      //  SmartDashboard.putBoolean("shooter limit switch", getLimitSwitch());
+       SmartDashboard.putBoolean("shooter limit switch", getLimitSwitch());
         // if (getLimitSwitch() == true){
         //     lim = false;
         // }
@@ -91,9 +91,9 @@ public class CoralShooterSubsystem extends SubsystemBase{
     //     return bottomMotor.getVelocity().getValueAsDouble();
     // }
 
-    // public boolean getLimitSwitch(){
-    //     return limitSwitch.get();
-    // }
+    public boolean getLimitSwitch(){
+        return limitSwitch.get();
+    }
 
     public void increaseVoltageTune(){
         voltageTune += 0.05;

@@ -222,7 +222,8 @@ public class RobotContainer {
 
         // intake (added move up)
         intake
-            .onTrue(MoveUpAndIntake(m_coralShooterSub)); //Constants.CORAL_INTAKING_SPEED));       
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_VOLTAGE));
+           // .onTrue(MoveUpAndIntake(m_coralShooterSub)); //Constants.CORAL_INTAKING_SPEED));       
         
         boolean isCompetition = true;
         autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
