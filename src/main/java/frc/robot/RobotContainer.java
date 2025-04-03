@@ -315,8 +315,8 @@ public class RobotContainer {
     //new move up and then intake
     public static Command MoveUpAndIntake(CoralShooterSubsystem coralShooterSubsystem){
         System.out.println("INTAKING");
-        return new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_PREINTAKE_SHOOTING_VOLTAGE) 
-        .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_INTAKING_VOLTAGE)); 
+        return new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_INTAKING_VOLTAGE) //intake
+        .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_PREINTAKE_SHOOTING_VOLTAGE)); //move up
     }
 
     // mech stop command
