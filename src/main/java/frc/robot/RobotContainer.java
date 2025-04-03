@@ -220,10 +220,9 @@ public class RobotContainer {
         scoreL4
             .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune())); //Constants.CORAL_L4_SHOOTING_SPEED));
 
-        // intake
+        // intake (added move up)
         intake
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_VOLTAGE)); //Constants.CORAL_INTAKING_SPEED));   
-    
+            .onTrue(MoveUpAndIntake(m_coralShooterSub)); //Constants.CORAL_INTAKING_SPEED));       
         
         boolean isCompetition = true;
         autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
@@ -311,6 +310,13 @@ public class RobotContainer {
         return new CoralShooterCommand(coralShooterSubsystem, 0)
         .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_VOMIT_VOLTAGE)) //Constants.CORAL_VOMIT_SPEED))
         .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_INTAKING_VOLTAGE)); //Constants.CORAL_INTAKING_SPEED));
+    }
+
+    //new move up and then intake
+    public static Command MoveUpAndIntake(CoralShooterSubsystem coralShooterSubsystem){
+        System.out.println("INTAKING");
+        return new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_PREINTAKE_SHOOTING_VOLTAGE) 
+        .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_INTAKING_VOLTAGE)); 
     }
 
     // mech stop command
