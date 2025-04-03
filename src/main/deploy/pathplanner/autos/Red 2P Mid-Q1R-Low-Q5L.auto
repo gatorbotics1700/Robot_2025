@@ -68,6 +68,18 @@
                 "data": {
                   "name": "Intake"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SHAKE 1 Red Low Coral Station to Q5"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SHAKE 2 Red Low Coral Station to Q5"
+                }
               }
             ]
           }

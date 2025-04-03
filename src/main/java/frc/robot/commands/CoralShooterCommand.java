@@ -80,22 +80,23 @@ public class CoralShooterCommand extends Command {
         
         //if(speed > 0){ // if intaking
         if(voltage > 0){
-            if(timePassed > 5000){
+            if(timePassed > 1500){
                 // coralShooterSubsystem.setSpeed(0);
                 coralShooterSubsystem.setMotorVoltage(0);
                 System.out.println ("Finished intaking");
                 return true;
+            }
             // } else if(coralShooterSubsystem.getTopMotorLeftStatorCurrent() < Constants.CORAL_INTAKING_CURRENT_LIMIT && timePassed > 1000){ 
             //     // intakeCurrentPeaked = true; // notifies us that the coral in the shooter, still outtaking
             //     System.out.println("INTAKING CURRENT PEAKED: " + coralShooterSubsystem.getTopMotorLeftStatorCurrent());
             //     //coralShooterSubsystem.setSpeed(0);
             //     coralShooterSubsystem.setMotorVoltage(0);
             //     return true;
-            } else if (coralShooterSubsystem.getLimitSwitch()){
-                System.out.println("limit switch triggered -- ending intaking");
-                coralShooterSubsystem.setMotorVoltage(0);
-                return true;
-            }
+            // } else if (coralShooterSubsystem.getLimitSwitch()){
+            //     System.out.println("limit switch triggered -- ending intaking");
+            //     coralShooterSubsystem.setMotorVoltage(0);
+            //     return true;
+            // }
             // else if(intakeCurrentPeaked && coralShooterSubsystem.getTopMotorLeftStatorCurrent() < Constants.CORAL_INTAKE_MIN_CURRENT){ // if the coral has left the shooter
             //     coralShooterSubsystem.setMotorVoltage(0); // stop because we have finished outtaking
             //     shootingCurrentPeaked = false;
