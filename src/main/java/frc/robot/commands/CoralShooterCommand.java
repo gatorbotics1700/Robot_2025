@@ -107,9 +107,9 @@ public class CoralShooterCommand extends Command {
             coralShooterSubsystem.setMotorVoltage(0);
             // System.out.println("SPEED: 0, STOPPING");
             return true;
-        //if moving up before intaking
+        //if moving up after intaking
         } else if (voltage == Constants.CORAL_PREINTAKE_SHOOTING_VOLTAGE){
-            if(timePassed > 500){
+            if(timePassed > 80){
                 // coralShooterSubsystem.setSpeed(0);
                 coralShooterSubsystem.setMotorVoltage(0);
                 System.out.println("pre intake move up done");
