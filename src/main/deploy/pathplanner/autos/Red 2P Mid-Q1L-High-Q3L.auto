@@ -35,13 +35,26 @@
           }
         },
         {
-          "type": "race",
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 2.0
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Red High Coral Station to Q3"
                 }
               },
               {
@@ -60,7 +73,26 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Red High Coral Station to Q3"
+                  "pathName": "SHAKE 1 Red High Coral Station to Q3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SHAKE 2 Red High Coral Station to Q3"
                 }
               },
               {

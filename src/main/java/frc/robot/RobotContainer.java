@@ -118,14 +118,15 @@ public class RobotContainer {
 
         new Trigger(controller::getLeftBumperButtonPressed)
             .onTrue(new InstantCommand(drivetrainSubsystem::toggleRobotRelativeDrive));
-        // new Trigger(controller::getXButtonPressed)
-        //     .onTrue(new InstantCommand(m_coralShooterSub::decreaseVoltageTune));
 
-        // new Trigger(controller::getBButtonPressed)
-        //     .onTrue(new InstantCommand(()->drivetrainSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(0,0,1.2, drivetrainSubsystem.getRotation()))));
+        new Trigger(controller::getXButtonPressed)
+            .onTrue(new InstantCommand(m_coralShooterSub::decreaseVoltageTune));
 
-        new Trigger(controller::getYButton)
-            .onTrue(new PointToReefCommand(drivetrainSubsystem, controller));
+        new Trigger(controller::getBButtonPressed)
+            .onTrue(new InstantCommand(m_coralShooterSub::increaseVoltageTune));
+
+        // new Trigger(controller::getYButton)
+        //     .onTrue(new PointToReefCommand(drivetrainSubsystem, controller));
 
  /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
 
@@ -228,9 +229,9 @@ public class RobotContainer {
         boolean isCompetition = true;
         autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
         (stream) -> isCompetition
-            ? stream.filter(auto -> (auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
+            // ? stream.filter(auto -> (auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
             //TODO: consider using the option below instead for filtering to minimize autos on the selector
-            // ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") || auto.getName().startsWith("Blue 2P") || auto.getName().startsWith("Red 2P")))
+            ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") || auto.getName().startsWith("Blue 2P") || auto.getName().startsWith("Red 2P")))
             : stream
     );
 

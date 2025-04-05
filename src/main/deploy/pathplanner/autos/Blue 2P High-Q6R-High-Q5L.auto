@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue Mid to Q1"
+            "pathName": "Blue High to Q6"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Q1 Right Lineup"
+            "name": "Q6 Right Lineup"
           }
         },
         {
@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue Q1 to High Coral Station"
+            "pathName": "Blue Q6 to High Coral Station"
           }
         },
         {

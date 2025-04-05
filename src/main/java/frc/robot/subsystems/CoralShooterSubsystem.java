@@ -18,7 +18,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
     // public final TalonFX bottomMotor;
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
     private static double voltageTune = 0.0;
-    private double voltagE; //anaika is anti this. so this was the solution.... the typo is in fact intentional :/
+    private static double voltagE; //anaika is anti this. so this was the solution.... the typo is in fact intentional :/
     private final DigitalInput limitSwitch;
     
     public CoralShooterSubsystem(){
@@ -34,6 +34,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
         //     .withMotorOutput(new MotorOutputConfigs()
         //         .withInverted(InvertedValue.Clockwise_Positive)));
        limitSwitch = new DigitalInput(9);
+       voltagE = Constants.CORAL_L4_SHOOTING_VOLTAGE;
     }
 
     @Override
@@ -58,10 +59,17 @@ public class CoralShooterSubsystem extends SubsystemBase{
     // }
 
     public void setMotorVoltage(double voltage){
-        topMotorLeft.setVoltage(voltage);
-        topMotorRight.setVoltage(voltage);
+        if(voltage<-8){
+            voltagE = voltage - voltageTune;
+        }else{
+            voltagE = voltage;
+        }
+        
+        System.out.println("voltage we are setting the motor to: "+voltagE);
+        topMotorLeft.setVoltage(voltagE);
+        topMotorRight.setVoltage(voltagE);
         // bottomMotor.setVoltage(voltage);
-        voltagE = voltage;
+        //voltagE = voltage;
     }
 
     public void setBottomMotorSpeed(double speed){
@@ -93,13 +101,12 @@ public class CoralShooterSubsystem extends SubsystemBase{
     }
 
     public void increaseVoltageTune(){
-        voltageTune += 0.05;
-        
+        voltageTune += 0.1;
         System.out.print("New Voltage= " + (voltagE + voltageTune));
     }
 
     public void decreaseVoltageTune(){
-        voltageTune -= 0.05;
+        voltageTune -= 0.1;
         System.out.print("New Voltage= " + (voltagE + voltageTune));
     }
 

@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue Mid to Q1"
+            "pathName": "Red High to Q2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Q1 Right Lineup"
+            "name": "Q2 Left Lineup"
           }
         },
         {
@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue Q1 to High Coral Station"
+            "pathName": "Red Q2 to High Coral Station"
           }
         },
         {
@@ -54,7 +54,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blue High Coral Station to Q5"
+                  "pathName": "Red High Coral Station to Q3"
                 }
               },
               {
@@ -73,7 +73,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SHAKE 1 Blue High Coral Station to Q5"
+                  "pathName": "SHAKE 1 Red High Coral Station to Q3"
                 }
               },
               {
@@ -92,7 +92,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "SHAKE 2 Blue High Coral Station to Q5"
+                  "pathName": "SHAKE 2 Red High Coral Station to Q3"
                 }
               },
               {
@@ -107,7 +107,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Q5 Left Lineup"
+            "name": "Q3 Left Lineup"
           }
         },
         {
@@ -126,6 +126,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Blue 2 Piece L4 Autos",
+  "folder": "Red 2 Piece L4 Autos",
   "choreoAuto": false
 }
