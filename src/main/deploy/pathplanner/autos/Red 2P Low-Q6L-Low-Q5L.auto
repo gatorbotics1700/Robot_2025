@@ -71,28 +71,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "SHAKE 1 Red Low Coral Station to Q5"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "SHAKE 2 Red Low Coral Station to Q5"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "SHAKE 1 Red Low Coral Station to Q5"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "SHAKE 2 Red Low Coral Station to Q5"
+                      }
+                    }
+                  ]
                 }
               },
               {
