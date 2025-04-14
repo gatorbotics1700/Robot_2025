@@ -488,4 +488,25 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void toggleRobotRelativeDrive(){
         robotRelativeDrive = !robotRelativeDrive;
     }
+
+    public void driveADirection(double direction, double angle){
+        Pose2d currentPose = odometry.getEstimatedPosition();
+        double rotationError = angle - currentPose.getRotation().getDegrees();
+        rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
+
+        if (Math.abs(rotationError) < ROTATION_DEADBAND) {
+            rotationError = 0.0;
+             System.out.println("AT ROTATION DEADBAND");
+        }
+
+        double xSpeed = Math.cos(Math.toRadians(direction))*0.5;
+        double ySpeed = Math.sin(Math.toRadians(direction))*0.5;
+        double rotationSpeed = Math.max(Math.abs(rotationError * ROTATION_kP), ROTATION_MIN_SPEED) * Math.signum(rotationError);
+        
+        if(rotationSpeed >= 1.8){
+            rotationSpeed = 1.8;
+        }
+    
+        drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, currentPose.getRotation()));
+    }
 }

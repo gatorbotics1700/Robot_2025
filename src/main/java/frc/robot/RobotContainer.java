@@ -12,6 +12,7 @@ import frc.robot.subsystems.CoralShooterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.commands.PointToTagCommand;
+import frc.robot.commands.DriveBackwardsCommand;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -125,8 +126,8 @@ public class RobotContainer {
         new Trigger(controller::getBButtonPressed)
             .onTrue(new InstantCommand(m_coralShooterSub::increaseVoltageTune));
 
-        // new Trigger(controller::getYButton)
-        //     .onTrue(new PointToReefCommand(drivetrainSubsystem, controller));
+        new Trigger(controller::getYButton)
+            .onTrue(new DriveBackwardsCommand(drivetrainSubsystem, controller));
 
  /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
 
