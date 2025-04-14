@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -28,7 +29,7 @@ public class DriveBackwardsCommand extends Command {
 
     @Override
     public void execute() {
-        drivetrain.driveADirection(180, 90);
+        drivetrain.driveADirection(180); //I am assuming that 180 is always pointing towards the driver. Need to double check with Phoenix
     }
 
     @Override

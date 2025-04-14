@@ -489,24 +489,39 @@ public class DrivetrainSubsystem extends SubsystemBase {
         robotRelativeDrive = !robotRelativeDrive;
     }
 
-    public void driveADirection(double direction, double angle){
-        Pose2d currentPose = odometry.getEstimatedPosition();
-        double rotationError = angle - currentPose.getRotation().getDegrees();
-        rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
+    // public void driveADirection(double direction, double angle){ //THIS WILL ONLY WORK IF DIRECTION IS FIELD RELATIVE
+       
+    //     Pose2d currentPose = odometry.getEstimatedPosition();
+    //     double fieldRelativeDirection = direction+currentPose.getRotation().getDegrees();
+    //     fieldRelativeDirection = direction;
+    //     double rotationError = angle - currentPose.getRotation().getDegrees();
+    //     rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
 
-        if (Math.abs(rotationError) < ROTATION_DEADBAND) {
-            rotationError = 0.0;
-             System.out.println("AT ROTATION DEADBAND");
-        }
+    //     if (Math.abs(rotationError) < ROTATION_DEADBAND) {
+    //         rotationError = 0.0;
+    //          System.out.println("AT ROTATION DEADBAND");
+    //     }
 
-        double xSpeed = Math.cos(Math.toRadians(direction))*0.5;
-        double ySpeed = Math.sin(Math.toRadians(direction))*0.5;
-        double rotationSpeed = Math.max(Math.abs(rotationError * ROTATION_kP), ROTATION_MIN_SPEED) * Math.signum(rotationError);
+    //     double xSpeed = Math.cos(Math.toRadians(fieldRelativeDirection))*0.5;
+    //     double ySpeed = Math.sin(Math.toRadians(fieldRelativeDirection))*0.5;
+    //     double rotationSpeed = Math.max(Math.abs(rotationError * ROTATION_kP), ROTATION_MIN_SPEED) * Math.signum(rotationError);
         
-        if(rotationSpeed >= 1.8){
-            rotationSpeed = 1.8;
-        }
+    //     if(rotationSpeed >= 1.8){
+    //         rotationSpeed = 1.8;
+    //     }
     
+    //     drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, currentPose.getRotation()));
+    // }
+
+    public void driveADirection(double direction){ //direction should be robot relative
+        Pose2d currentPose = odometry.getEstimatedPosition();
+        double fieldRelativeDirection = direction+currentPose.getRotation().getDegrees();
+        fieldRelativeDirection = MathUtil.inputModulus(fieldRelativeDirection, -180, 180);
+
+        double xSpeed = Math.cos(Math.toRadians(fieldRelativeDirection))*0.9;
+        double ySpeed = Math.sin(Math.toRadians(fieldRelativeDirection))*0.9;
+        double rotationSpeed = 0;
+        
         drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, currentPose.getRotation()));
     }
 }
