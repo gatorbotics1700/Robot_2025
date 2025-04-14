@@ -513,14 +513,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //     drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, currentPose.getRotation()));
     // }
 
-    public void driveADirection(double direction){ //direction should be robot relative
+    public void driveADirection(double direction){ 
+        //direction should be robot relative and in degrees. for clarity direction means angle at which we are driving, it does not refer to the robot heading
+        //for anyone that knows polar coordinates you can think of direction as theta and in this case our r would be infinite because we just keep driving
         Pose2d currentPose = odometry.getEstimatedPosition();
+        //the robot drives field relative so we need to find the field relative direction we want to drive in by adding the current heading to the desired robot relative drive direction
         double fieldRelativeDirection = direction+currentPose.getRotation().getDegrees();
         fieldRelativeDirection = MathUtil.inputModulus(fieldRelativeDirection, -180, 180);
 
+        //think unit circle and the math will make sense (basically scaling x and y speed to get us to drive in at a specific angle)
         double xSpeed = Math.cos(Math.toRadians(fieldRelativeDirection))*0.9;
         double ySpeed = Math.sin(Math.toRadians(fieldRelativeDirection))*0.9;
-        double rotationSpeed = 0;
+        double rotationSpeed = 0; //because we aren't altering heading
         
         drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, currentPose.getRotation()));
     }
