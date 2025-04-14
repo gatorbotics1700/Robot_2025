@@ -29,7 +29,7 @@ public class DriveBackwardsCommand extends Command {
 
     @Override
     public void execute() {
-        drivetrain.driveADirection(180); //I am assuming that 180 is always pointing towards the driver. Need to double check with Phoenix
+        drivetrain.driveADirection(180);
     }
 
     @Override
