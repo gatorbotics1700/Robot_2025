@@ -35,7 +35,7 @@ public class Constants {
     // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(204.256);
     // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     // public static final String CANIVORE_BUS_NAME = "";
-    // public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.172, 0.325, 0.197, new Rotation3d(Math.toRadians(10.0), Math.toRadians(-23.0), Math.toRadians(-46.0)));
+    // // public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.172, 0.325, 0.197, new Rotation3d(Math.toRadians(10.0), Math.toRadians(-23.0), Math.toRadians(-46.0)));
     // public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.138, 0.346075, 0.2651125, new Rotation3d(Math.toRadians(2), Math.toRadians(0), Math.toRadians(0)));
     // public static final double CENTER_TO_BUMPER_OFFSET = 0.3937;
 
@@ -64,7 +64,7 @@ public class Constants {
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     public static final String CANIVORE_BUS_NAME = "TRex";
     public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.3394, 0.039, 0.196, new Rotation3d(Math.toRadians(1), Math.toRadians(-19.5), Math.toRadians(-3.0)));
-    public static final double CENTER_TO_BUMPER_OFFSET = 0.45164;
+   public static final double CENTER_TO_BUMPER_OFFSET = 0.45164;
     public static final Pose2d FRONT_CENTER_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
     public static final Pose2d INTAKE_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET - 0.3, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
     public static final Pose2d SHOOTING_L4_LEFT_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET + 0.06, -CENTER_TO_POST +0.02 /*-0.161925*/, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag

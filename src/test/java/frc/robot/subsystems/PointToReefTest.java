@@ -117,7 +117,6 @@ public class PointToReefTest {
        System.out.println("red 4: " + PointToTagCommand.getTagCoords("red", 4));
        System.out.println("red 5: " + PointToTagCommand.getTagCoords("red", 5));
        System.out.println("red 6: " + PointToTagCommand.getTagCoords("red", 6));
-       
     }
 
 
