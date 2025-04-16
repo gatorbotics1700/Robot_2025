@@ -1,11 +1,10 @@
 package frc.robot;
 
-import frc.robot.commands.TestDriveCommand;
+import frc.robot.commands.AutoDriveCommand;
 import frc.robot.commands.ClimbingCommand;
 import frc.robot.commands.CoralShooterCommand;
 import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.PointToReefCommand;
-import frc.robot.commands.ScoreCommands;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CoralShooterSubsystem;
@@ -50,7 +49,6 @@ public class RobotContainer {
     private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
 
     private final SendableChooser<Command> autoChooser;
-    private static final ScoreCommands m_scoreCommands = new ScoreCommands();
 
     private final Trigger Q1LeftLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(1));
     private final Trigger Q1RightLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(2));
@@ -231,8 +229,10 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
         (stream) -> isCompetition
             // ? stream.filter(auto -> (auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
-            //TODO: consider using the option below instead for filtering to minimize autos on the selector
             ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") || auto.getName().startsWith("Blue 2P") || auto.getName().startsWith("Red 2P")))
+            //TODO: use if we want any one piece autos that start at low or high (or copy elements from this if we only want some of them)
+            // ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") || auto.getName().startsWith("Blue 2P") || auto.getName().startsWith("Red 2P") 
+            // || auto.getName().startsWith("Red 1 Piece High to Q2") || auto.getName().startsWith("Red 1 Piece Low to Q6") || auto.getName().startsWith("Blue 1 Piece High to Q6") || auto.getName().startsWith("Blue 1 Piece Low to Q2")))
             : stream
     );
 
@@ -248,7 +248,7 @@ public class RobotContainer {
         } catch (Exception e) {
             System.err.println("Failed to load auto path: " + e.getMessage());
             e.printStackTrace();
-            return new TestDriveCommand(drivetrainSubsystem);
+            return new AutoDriveCommand(drivetrainSubsystem);
         }
     }
 

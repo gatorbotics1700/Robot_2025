@@ -5,10 +5,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class TestDriveCommand extends Command {
+public class AutoDriveCommand extends Command {
     private final DrivetrainSubsystem drivetrain;
     
-    public TestDriveCommand(DrivetrainSubsystem drivetrain) {
+    public AutoDriveCommand(DrivetrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
         addRequirements(drivetrain);
     }
