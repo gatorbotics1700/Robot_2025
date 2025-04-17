@@ -13,15 +13,17 @@ public class LimelightControlCommand extends Command {
     private final LimelightSubsystem limelightSubsystem;
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final XboxController controller;
+    private final int[] ids;
     private final int pipeline;
     private Pose2d desiredPose;
     private Pose2d lineUpOffset;
     private Rotation2d pointingToTagAngle; //field relative angle to point the robot at the apriltag
     private boolean dontStart = false;
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem,
-            int pipeline, XboxController controller, Pose2d lineUpOffset) {
+            int[] ids, int pipeline, XboxController controller, Pose2d lineUpOffset) {
         this.limelightSubsystem = limelightSubsystem;
         this.drivetrainSubsystem = drivetrainSubsystem;
+        this.ids = ids;
         this.pipeline = pipeline;
         this.controller = controller;
         this.lineUpOffset = lineUpOffset;
@@ -32,9 +34,8 @@ public class LimelightControlCommand extends Command {
     @Override
     public void initialize() {
         limelightSubsystem.setPipeline(pipeline);
-        System.out.println(limelightSubsystem.getLimelightName());
         drivetrainSubsystem.setNotAtDesiredPose();
-        if (limelightSubsystem.hasValidTarget() && targetMatchesPipeline()) { 
+        if (limelightSubsystem.hasValidTarget() && seesRightID()) { 
             dontStart = false;
         } else if (DriverStation.isAutonomousEnabled()){
             System.out.println("initialization of limelight control command in auto with no valid target");
@@ -47,7 +48,7 @@ public class LimelightControlCommand extends Command {
     @Override
     public void execute() {
         // makes sure we are looking at the correct id
-        if (limelightSubsystem.hasValidTarget() && targetMatchesPipeline()) { 
+        if (limelightSubsystem.hasValidTarget() && seesRightID()) { 
             updateDesiredPose();
         } else {
             System.out.println("\tNo valid target detected.");
@@ -90,27 +91,33 @@ public class LimelightControlCommand extends Command {
         pointingToTagAngle = drivetrainSubsystem.getPose().getRotation().minus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle()));
     }
 
-    private boolean targetMatchesPipeline() {
-        if (pipeline == 1) {
-            return limelightSubsystem.getTargetID() == 6 || limelightSubsystem.getTargetID() == 19;
-        } else if (pipeline == 2) {
-            return limelightSubsystem.getTargetID() == 7 || limelightSubsystem.getTargetID() == 10 ||limelightSubsystem.getTargetID() == 18 || limelightSubsystem.getTargetID() == 21; 
-        } else if (pipeline == 3){
-            return limelightSubsystem.getTargetID() == 8 || limelightSubsystem.getTargetID() == 17; 
-        } else if (pipeline == 4){ 
-            return limelightSubsystem.getTargetID() == 9 || limelightSubsystem.getTargetID() == 22;
-        } else if (pipeline == 5){ 
-            return limelightSubsystem.getTargetID() == 11 || limelightSubsystem.getTargetID() == 20;
-        } else if (pipeline == 6){ 
-            return limelightSubsystem.getTargetID() == 3 || limelightSubsystem.getTargetID() == 16;
-        } else if (pipeline == 7){ 
-            return limelightSubsystem.getTargetID() == 1 || limelightSubsystem.getTargetID() == 2 || limelightSubsystem.getTargetID() == 12 || limelightSubsystem.getTargetID() == 13;
-        }  else if (pipeline == 8){ 
-            return limelightSubsystem.getTargetID() == 4 || limelightSubsystem.getTargetID() == 14 || limelightSubsystem.getTargetID() == 5 || limelightSubsystem.getTargetID() == 15;
-        } else if (pipeline == 9){ 
-            return limelightSubsystem.getTargetID() == 5 || limelightSubsystem.getTargetID() == 15;
-        } else{
-            return false;
+    private boolean seesRightID() {
+        for(int id:ids){
+            if(limelightSubsystem.getTargetID() == id){
+                return true;
+            }
         }
+        return false;
+        // if (pipeline == 1) {
+        //     return limelightSubsystem.getTargetID() == 6 || limelightSubsystem.getTargetID() == 19;
+        // } else if (pipeline == 2) {
+        //     return limelightSubsystem.getTargetID() == 7 || limelightSubsystem.getTargetID() == 10 ||limelightSubsystem.getTargetID() == 18 || limelightSubsystem.getTargetID() == 21; 
+        // } else if (pipeline == 3){
+        //     return limelightSubsystem.getTargetID() == 8 || limelightSubsystem.getTargetID() == 17; 
+        // } else if (pipeline == 4){ 
+        //     return limelightSubsystem.getTargetID() == 9 || limelightSubsystem.getTargetID() == 22;
+        // } else if (pipeline == 5){ 
+        //     return limelightSubsystem.getTargetID() == 11 || limelightSubsystem.getTargetID() == 20;
+        // } else if (pipeline == 6){ 
+        //     return limelightSubsystem.getTargetID() == 3 || limelightSubsystem.getTargetID() == 16;
+        // } else if (pipeline == 7){ 
+        //     return limelightSubsystem.getTargetID() == 1 || limelightSubsystem.getTargetID() == 2 || limelightSubsystem.getTargetID() == 12 || limelightSubsystem.getTargetID() == 13;
+        // }  else if (pipeline == 8){ 
+        //     return limelightSubsystem.getTargetID() == 4 || limelightSubsystem.getTargetID() == 14 || limelightSubsystem.getTargetID() == 5 || limelightSubsystem.getTargetID() == 15;
+        // } else if (pipeline == 9){ 
+        //     return limelightSubsystem.getTargetID() == 5 || limelightSubsystem.getTargetID() == 15;
+        // } else{
+        //     return false;
+        // }
     }
 }
