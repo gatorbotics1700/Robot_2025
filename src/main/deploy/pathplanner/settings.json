@@ -3,9 +3,11 @@
   "robotLength": 0.89,
   "holonomicMode": true,
   "pathFolders": [
+    "Blue Coral Station to Reef",
+    "Blue Leave",
     "Blue Reef to Coral Station",
     "Blue Start to Reef",
-    "Blue Coral Station to Reef",
+    "Red Leave",
     "Red Coral Station to Reef",
     "Red Reef to Coral Station",
     "Red Start to Reef"
@@ -13,8 +15,10 @@
   "autoFolders": [
     "Blue 1 Piece L4 Autos",
     "Blue 2 Piece L4 Autos",
+    "Blue Leave",
     "Red 1 Piece L4 Autos",
-    "Red 2 Piece L4 Autos"
+    "Red 2 Piece L4 Autos",
+    "Red Leave"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

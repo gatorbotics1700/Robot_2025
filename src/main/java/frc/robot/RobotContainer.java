@@ -214,11 +214,13 @@ public class RobotContainer {
 
         // score trough
         scoreTrough
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune())); //Constants.CORAL_TROUGH_SHOOTING_SPEED));
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune()));
+            // .andThen(new DriveBackwardsCommand(drivetrainSubsystem, controller))); //Constants.CORAL_TROUGH_SHOOTING_SPEED));
 
         // score L4
         scoreL4
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune())); //Constants.CORAL_L4_SHOOTING_SPEED));
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune()));
+            // .andThen(new DriveBackwardsCommand(drivetrainSubsystem, controller))); //Constants.CORAL_L4_SHOOTING_SPEED));
 
         // intake (added move up)
         intake
@@ -229,8 +231,11 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
         (stream) -> isCompetition
             // ? stream.filter(auto -> (auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
-            ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") || auto.getName().startsWith("Blue 2P") || auto.getName().startsWith("Red 2P")))
-            //TODO: use if we want any one piece autos that start at low or high (or copy elements from this if we only want some of them)
+            //WITHOUT LEAVE AUTOS
+            // ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") || auto.getName().startsWith("Blue 2P") || auto.getName().startsWith("Red 2P")))
+            //WITH LEAVE AUTOS
+            ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") || auto.getName().startsWith("Blue 2P") || auto.getName().startsWith("Red 2P") || auto.getName().startsWith("Red Leave") || auto.getName().startsWith("Blue Leave")))
+            //TODO: use if we want any one piece autos that start at low or high (or copy elements from this if we only want some of them) (no leave autos)
             // ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") || auto.getName().startsWith("Blue 2P") || auto.getName().startsWith("Red 2P") 
             // || auto.getName().startsWith("Red 1 Piece High to Q2") || auto.getName().startsWith("Red 1 Piece Low to Q6") || auto.getName().startsWith("Blue 1 Piece High to Q6") || auto.getName().startsWith("Blue 1 Piece Low to Q2")))
             : stream
