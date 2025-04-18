@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 public class RobotContainer {
     private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
     
+    private static double visionAlignOffset = 0.0;
     private final XboxController controller = new XboxController(0);
     
     private final GenericHID buttonBoard1A = new GenericHID(1);
