@@ -234,10 +234,19 @@ public class RobotContainer {
             //WITHOUT LEAVE AUTOS
             // ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") || auto.getName().startsWith("Blue 2P") || auto.getName().startsWith("Red 2P")))
             //WITH LEAVE AUTOS
-            ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") || auto.getName().startsWith("Blue 2P") || auto.getName().startsWith("Red 2P") || auto.getName().startsWith("Red Leave") || auto.getName().startsWith("Blue Leave")))
-            //TODO: use if we want any one piece autos that start at low or high (or copy elements from this if we only want some of them) (no leave autos)
-            // ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") || auto.getName().startsWith("Blue 2P") || auto.getName().startsWith("Red 2P") 
-            // || auto.getName().startsWith("Red 1 Piece High to Q2") || auto.getName().startsWith("Red 1 Piece Low to Q6") || auto.getName().startsWith("Blue 1 Piece High to Q6") || auto.getName().startsWith("Blue 1 Piece Low to Q2")))
+            ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") 
+                            || auto.getName().startsWith("Blue 2P Mid") || auto.getName().startsWith("Blue 2P Left") || auto.getName().startsWith("Blue 2P Right") 
+                            || auto.getName().startsWith("Red 2P Mid") || auto.getName().startsWith("Red 2P Left") || auto.getName().startsWith("Red 2P Right") 
+                            || auto.getName().startsWith("Red Leave Left") || auto.getName().startsWith("Red Leave Right") 
+                            || auto.getName().startsWith("Blue Leave Left") || auto.getName().startsWith("Blue Leave Right")))
+            //WITH LEAVE AND SIDE 1 PIECE AUTOS
+            // ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") 
+            //                 || auto.getName().startsWith("Blue 2P Mid") || auto.getName().startsWith("Blue 2P Left") || auto.getName().startsWith("Blue 2P Right") 
+            //                 || auto.getName().startsWith("Red 2P Mid") || auto.getName().startsWith("Red 2P Left") || auto.getName().startsWith("Red 2P Right") 
+            //                 || auto.getName().startsWith("Red Leave Left") || auto.getName().startsWith("Red Leave Right") 
+            //                 || auto.getName().startsWith("Blue Leave Left") || auto.getName().startsWith("Blue Leave Right")
+            //                 || auto.getName().startsWith("Red 1 Piece Right to Q2") || auto.getName().startsWith("Red 1 Piece Left to Q6")
+            //                 || auto.getName().startsWith("Blue 1 Piece Right to Q2") || auto.getName().startsWith("Blue 1 Piece Left to Q6")))
             : stream
     );
 
