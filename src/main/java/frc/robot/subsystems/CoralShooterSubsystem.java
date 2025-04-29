@@ -6,6 +6,7 @@ import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +25,8 @@ public class CoralShooterSubsystem extends SubsystemBase{
     public CoralShooterSubsystem(){
         topMotorLeft = new TalonFX(Constants.SHOOTER_MOTOR_TOP_LEFT_CAN_ID, Constants.CANIVORE_BUS_NAME);
         topMotorRight = new TalonFX(Constants.SHOOTER_MOTOR_TOP_RIGHT_CAN_ID, Constants.CANIVORE_BUS_NAME);
+        // topMotorLeft.setNeutralMode(NeutralModeValue.Brake);
+        // topMotorRight.setNeutralMode(NeutralModeValue.Brake);
         // bottomMotor = new TalonFX(Constants.SHOOTER_MOTOR_BOTTOM_ID, Constants.CANIVORE_BUS_NAME);
 
         // topMotorRight.setInverted(true);

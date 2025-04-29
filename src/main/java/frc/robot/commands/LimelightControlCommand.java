@@ -32,7 +32,7 @@ public class LimelightControlCommand extends Command {
     @Override
     public void initialize() {
         limelightSubsystem.setPipeline(pipeline);
-        System.out.println(limelightSubsystem.getLimelightName());
+        System.out.println("LINEUP X-OFFSET: " + lineUpOffset.getX());
         drivetrainSubsystem.setNotAtDesiredPose();
         if (limelightSubsystem.hasValidTarget() && targetMatchesPipeline()) { 
             dontStart = false;

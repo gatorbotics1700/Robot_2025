@@ -69,9 +69,9 @@ public class Constants {
     
     public static final Pose2d FRONT_CENTER_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
     public static final Pose2d INTAKE_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET - 0.3, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
-    public static final Pose2d SHOOTING_L4_LEFT_OFFSET = new Pose2d(CENTER_TO_CHASSIS_OFFSET + 0.0809625 + 0.0254, -CENTER_TO_POST - 0.03175/*-0.161925*/, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
-    public static final Pose2d SHOOTING_L4_RIGHT_OFFSET = new Pose2d(CENTER_TO_CHASSIS_OFFSET + 0.0809625 + 0.0254, CENTER_TO_POST - 0.03175/*0.161925*/, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
-    // //the line up offsets are the point (in robot relative coordinates) that needs to align with the apriltag in order for us to score left/right post 
+    public static final Pose2d SHOOTING_L4_LEFT_OFFSET = new Pose2d(CENTER_TO_CHASSIS_OFFSET + 0.073025, -CENTER_TO_POST/* - 0.03175 *//*-0.161925*/, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
+    public static final Pose2d SHOOTING_L4_RIGHT_OFFSET = new Pose2d(CENTER_TO_CHASSIS_OFFSET + 0.073025, CENTER_TO_POST /*- 0.031758*//*0.161925*/, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
+    // //the line up offsets are the point (in r    obot relative coordinates) that needs to align with the apriltag in order for us to score left/right post 
     // //(we flip the values in our offset method so that we can find the pose the center of the robot needs to be at, but they should not be flipped here!)
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
@@ -108,7 +108,7 @@ public class Constants {
     public static final double CORAL_SHOOTING_MIN_CURRENT = 2.5;
     public static final double CORAL_INTAKING_VOLTAGE = 4.5;//5.0;//5.4; // switched from 4.0
     public static final double CORAL_PREINTAKE_SHOOTING_VOLTAGE = -1.0; 
-    public static final double CORAL_L4_SHOOTING_VOLTAGE = -12.6; //-11.2; //-10.2;//-11;//-8.0;//-8.1;//-7.8;
+    public static final double CORAL_L4_SHOOTING_VOLTAGE = -8.2; //-10.2;//-11;//-8.0;//-8.1;//-7.8;
     public static final double CORAL_TROUGH_SHOOTING_VOLTAGE = -5.5; // switched from -4.0
     public static final double CORAL_VOMIT_VOLTAGE = -0.3;
 

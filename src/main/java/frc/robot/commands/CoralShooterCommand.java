@@ -85,7 +85,7 @@ public class CoralShooterCommand extends Command {
         // System.out.println("MOTOR2 CURRENT: " + coralShooterSubsystem.getBottomMotorStatorCurrent());
         
         //if(speed > 0){ // if intaking
-        if(voltage > 0){
+        if(voltage > 0){ // if intaking
             if(timePassed > 5000){      //1500 - if no limit switch - 5000 - if lim switch
                 // coralShooterSubsystem.setSpeed(0);
                 coralShooterSubsystem.setMotorVoltage(0);
@@ -99,7 +99,7 @@ public class CoralShooterCommand extends Command {
             //     coralShooterSubsystem.setMotorVoltage(0);
             //     return true;
 
-            else if (coralShooterSubsystem.getLimitSwitch()){//lim == false){
+            else if (coralShooterSubsystem.getLimitSwitch()){ // if limit switch is pressed
                 System.out.println("limit switch triggered -- ending intaking");
                 coralShooterSubsystem.setMotorVoltage(0);
                 return true;
@@ -119,7 +119,7 @@ public class CoralShooterCommand extends Command {
             return true;
         //if moving up after intaking
         } else if (voltage == Constants.CORAL_PREINTAKE_SHOOTING_VOLTAGE){
-            if(timePassed > 60){//90){
+            if(timePassed > 10){//60){//90){//!coralShooterSubsystem.getLimitSwitch()){
                 // coralShooterSubsystem.setSpeed(0);
                 coralShooterSubsystem.setMotorVoltage(0);
                 System.out.println("pre intake move up done");
