@@ -1,5 +1,7 @@
 package frc.robot;
 
+import org.littletonrobotics.junction.LoggedRobot;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
