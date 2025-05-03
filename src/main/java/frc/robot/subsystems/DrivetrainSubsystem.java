@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.AutoLogOutput;
+
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -48,14 +50,22 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public static final double MAX_ACCELERATION = 11.0;
 
+    @AutoLogOutput
     private static Pigeon2 pigeon;
 
+    @AutoLogOutput
     private final SwerveDriveKinematics kinematics;
 
+    @AutoLogOutput
+    private Pose2d currentPose;
+
+    @AutoLogOutput
     private final SwerveDrivePoseEstimator odometry;
 
+    @AutoLogOutput
     private SwerveModuleState[] states;
 
+    @AutoLogOutput
     private ChassisSpeeds chassisSpeeds;
 
     private ShuffleboardTab shuffleboardTab;
@@ -354,14 +364,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 odometry.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
             }
         }
-        
+        currentPose = odometry.getEstimatedPosition();
+
         SmartDashboard.putNumber("Gyroscope Angle", getRotation().getDegrees());
         SmartDashboard.putNumber("Pose X", odometry.getEstimatedPosition().getX());
         SmartDashboard.putNumber("Pose Y", odometry.getEstimatedPosition().getY());
     }
 
     public void driveToPose(Pose2d desiredPose) {
-        Pose2d currentPose = odometry.getEstimatedPosition();
         double xError = desiredPose.getX() - currentPose.getX();
         double yError = desiredPose.getY() - currentPose.getY();
         double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
@@ -410,7 +420,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void turnToAngle(Rotation2d desiredAngle){
         //driveToPose(new Pose2d(odometry.getEstimatedPosition().getTranslation(), desiredAngle));
-        Pose2d currentPose = odometry.getEstimatedPosition();
         double rotationError = desiredAngle.getDegrees() - currentPose.getRotation().getDegrees();
         rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
         
@@ -439,7 +448,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     //starts out pointing at apriltag, then turns to be parallel with the tag once it's close enough
     public void driveToPoseWithInitialAngle(Pose2d desiredPose, Rotation2d pointingToTagAngle) { 
-        Pose2d currentPose = odometry.getEstimatedPosition();
         double xError = desiredPose.getX() - currentPose.getX();
         double yError = desiredPose.getY() - currentPose.getY();
         if (Math.abs(xError) > 0.6 && Math.abs(yError) > 0.6) {
@@ -462,7 +470,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void facePoint(Translation2d target){
-        Pose2d currentPose = odometry.getEstimatedPosition();
         double deltaX = target.getX() - currentPose.getX();
         double deltaY = target.getY() - currentPose.getY();
         Rotation2d targetRotation = angleToPoint(deltaX, deltaY);

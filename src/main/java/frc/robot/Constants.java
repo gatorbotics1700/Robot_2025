@@ -5,10 +5,26 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.RobotBase;
 import frc.com.swervedrivespecialties.swervelib.MechanicalConfiguration;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
 public class Constants {
+
+    public static final Mode simMode = Mode.SIM;
+    public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
+  
+    public static enum Mode {
+      /** Running on a real robot. */
+      REAL,
+  
+      /** Running a physics simulator. */
+      SIM,
+  
+      /** Replaying from a log file. */
+      REPLAY
+    }
+
     //for a 25x25 dirvetrain
     // public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.508;
     // public static final double DRIVETRAIN_WHEELBASE_METERS = 0.508;
