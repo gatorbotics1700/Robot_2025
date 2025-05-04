@@ -10,17 +10,18 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.SwerveDriveInterface;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import java.util.function.DoubleSupplier;
 
 public class PointToTagCommand extends Command {
-    private final DrivetrainSubsystem drivetrain;
+    private final SwerveDriveInterface drivetrain;
     private final XboxController controller;
     private final int quadrant;
    
 
-    public PointToTagCommand(DrivetrainSubsystem drivetrain, XboxController controller, int quadrant) {
+    public PointToTagCommand(SwerveDriveInterface drivetrain, XboxController controller, int quadrant) {
         this.drivetrain = drivetrain;
         this.controller = controller;
         this.quadrant = quadrant;

@@ -5,15 +5,16 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.SwerveDriveInterface;
 
 import java.util.function.DoubleSupplier;
 
 public class TestCommand extends Command {
-    private final DrivetrainSubsystem drivetrain;
+    private final SwerveDriveInterface drivetrain;
     private final Pose2d desiredPose;
    
 
-    public TestCommand(DrivetrainSubsystem drivetrain,
+    public TestCommand(SwerveDriveInterface drivetrain,
             Pose2d desiredPose) {
         this.drivetrain = drivetrain;
         this.desiredPose = desiredPose;

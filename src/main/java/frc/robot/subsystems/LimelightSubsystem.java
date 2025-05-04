@@ -13,8 +13,9 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Constants;
+import frc.robot.subsystems.vision.VisionInterface;
 
-public class LimelightSubsystem extends SubsystemBase {
+public class LimelightSubsystem extends SubsystemBase implements VisionInterface {
 
     private final NetworkTable limelightTable;
     private final Pose3d limelightOffsets;
@@ -180,5 +181,10 @@ public class LimelightSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
 
+    }
+
+    @Override
+    public Pose2d getTargetPoseInFieldSpace(Pose2d robotPoseInFieldSpace, Pose2d lineUpOffset) {
+        return aprilTagPoseInFieldSpace(robotPoseInFieldSpace, lineUpOffset);
     }
 }

@@ -35,33 +35,6 @@ public class Robot extends LoggedRobot {
     private ShuffleboardTab visionTesting;
 
     public Robot() {
-
-    Logger.recordMetadata("ProjectName", "MyProject"); // Set a metadata value
-
-    switch (Constants.currentMode) {
-        case REAL:
-          // Running on a real robot, log to a USB stick ("/U/logs")
-          Logger.addDataReceiver(new WPILOGWriter());
-          Logger.addDataReceiver(new NT4Publisher());
-          break;
-  
-        case SIM:
-            System.out.println("Starting in SIM mode");
-          // Running a physics simulator, log to NT
-          Logger.addDataReceiver(new NT4Publisher());
-          Logger.addDataReceiver(new WPILOGWriter());
-          break;
-  
-        case REPLAY:
-          // Replaying a log, set up replay source
-          setUseTiming(false); // Run as fast as possible
-          String logPath = LogFileUtil.findReplayLog();
-          Logger.setReplaySource(new WPILOGReader(logPath));
-          Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
-          break;
-      }
-
-        Logger.start();
        CameraServer.startAutomaticCapture();
        CvSink cvSink = CameraServer.getVideo();
        CvSource outputStream = new CvSource("Blur", PixelFormat.kMJPEG, 640, 480, 70);
@@ -69,6 +42,31 @@ public class Robot extends LoggedRobot {
 
     @Override
     public void robotInit() {
+        Logger.recordMetadata("ProjectName", "MyProject"); // Set a metadata value
+
+        switch (Constants.currentMode) {
+            case REAL:
+                // Running on a real robot, log to a USB stick ("/U/logs")
+                Logger.addDataReceiver(new WPILOGWriter());
+                Logger.addDataReceiver(new NT4Publisher());
+                break;
+
+            case SIM:
+                System.out.println("Starting in SIM mode");
+                // Running a physics simulator, log to NT
+                Logger.addDataReceiver(new NT4Publisher());
+                break;
+
+            case REPLAY:
+                // Replaying a log, set up replay source
+                setUseTiming(false); // Run as fast as possible
+                String logPath = LogFileUtil.findReplayLog();
+                Logger.setReplaySource(new WPILOGReader(logPath));
+                Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
+                break;
+        }
+
+        Logger.start();
         container = new RobotContainer();
         SmartDashboard.putData(CommandScheduler.getInstance());
         visionTesting = Shuffleboard.getTab("Vision Testing");
@@ -89,6 +87,10 @@ public class Robot extends LoggedRobot {
     }
 
     @Override
+    public void disabledInit() {
+        container.resetSimulationField();
+    }
+
     public void autonomousInit() {
         m_autonomousCommand = container.getAutonomousCommand();
 
@@ -125,5 +127,10 @@ public class Robot extends LoggedRobot {
     @Override
     public void testPeriodic(){
 
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        container.updateSimulation();
     }
 }

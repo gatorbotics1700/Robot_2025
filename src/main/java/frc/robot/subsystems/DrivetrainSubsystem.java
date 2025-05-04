@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import org.littletonrobotics.junction.AutoLogOutput;
-
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -9,6 +7,7 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import org.littletonrobotics.junction.AutoLogOutput;
 
 import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
@@ -34,7 +33,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DrivetrainSubsystem extends SubsystemBase {
+public class DrivetrainSubsystem extends SubsystemBase implements SwerveDriveInterface {
     private static final double MAX_VOLTAGE = 12.0;
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380 / 60
             * SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter()
@@ -48,6 +47,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule backRightModule;
     private static boolean atDesiredPose = false;
 
+    @AutoLogOutput
     public static final double MAX_ACCELERATION = 11.0;
 
     @AutoLogOutput
@@ -364,14 +364,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 odometry.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
             }
         }
-        currentPose = odometry.getEstimatedPosition();
-
+        
         SmartDashboard.putNumber("Gyroscope Angle", getRotation().getDegrees());
         SmartDashboard.putNumber("Pose X", odometry.getEstimatedPosition().getX());
         SmartDashboard.putNumber("Pose Y", odometry.getEstimatedPosition().getY());
     }
 
     public void driveToPose(Pose2d desiredPose) {
+        Pose2d currentPose = odometry.getEstimatedPosition();
         double xError = desiredPose.getX() - currentPose.getX();
         double yError = desiredPose.getY() - currentPose.getY();
         double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
@@ -420,6 +420,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void turnToAngle(Rotation2d desiredAngle){
         //driveToPose(new Pose2d(odometry.getEstimatedPosition().getTranslation(), desiredAngle));
+        Pose2d currentPose = odometry.getEstimatedPosition();
         double rotationError = desiredAngle.getDegrees() - currentPose.getRotation().getDegrees();
         rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
         
@@ -448,6 +449,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     //starts out pointing at apriltag, then turns to be parallel with the tag once it's close enough
     public void driveToPoseWithInitialAngle(Pose2d desiredPose, Rotation2d pointingToTagAngle) { 
+        Pose2d currentPose = odometry.getEstimatedPosition();
         double xError = desiredPose.getX() - currentPose.getX();
         double yError = desiredPose.getY() - currentPose.getY();
         if (Math.abs(xError) > 0.6 && Math.abs(yError) > 0.6) {
@@ -470,6 +472,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void facePoint(Translation2d target){
+        Pose2d currentPose = odometry.getEstimatedPosition();
         double deltaX = target.getX() - currentPose.getX();
         double deltaY = target.getY() - currentPose.getY();
         Rotation2d targetRotation = angleToPoint(deltaX, deltaY);
@@ -534,5 +537,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         double rotationSpeed = 0; //because we aren't altering heading
         
         drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, currentPose.getRotation()));
+    }
+
+    @Override
+    public void stop() {
+        drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     }
 }

@@ -3,17 +3,18 @@ package frc.robot.commands;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.SwerveDriveInterface;
 
 import java.util.function.DoubleSupplier;
 
 public class TeleopDriveCommand extends Command {
-    private final DrivetrainSubsystem drivetrain;
+    private final SwerveDriveInterface drivetrain;
     private final DoubleSupplier translationXSupplier;
     private final DoubleSupplier translationYSupplier;
     private final DoubleSupplier rotationSupplier;
     // private static final double DEADBAND = 0.1;
 
-    public TeleopDriveCommand(DrivetrainSubsystem drivetrain,
+    public TeleopDriveCommand(SwerveDriveInterface drivetrain,
             DoubleSupplier translationXSupplier,
             DoubleSupplier translationYSupplier,
             DoubleSupplier rotationSupplier) {
