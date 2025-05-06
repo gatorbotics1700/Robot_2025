@@ -97,19 +97,10 @@ public class Constants {
     // CORAL SHOOTER MECHANISM
     public static final int SHOOTER_MOTOR_TOP_LEFT_CAN_ID = 30;
     public static final int SHOOTER_MOTOR_TOP_RIGHT_CAN_ID = 32; 
-    public static final int SHOOTER_MOTOR_BOTTOM_ID = 34; 
-    // public static final double CORAL_INTAKING_SPEED = 0.5;
-    public static final double CORAL_L4_SHOOTING_SPEED = -0.67; 
-    // public static final double CORAL_TROUGH_SHOOTING_SPEED = -0.45;
-    // public static final double CORAL_VOMIT_SPEED = -0.4; // slow outtake for when coral gets stuck
-    public static final double CORAL_INTAKING_CURRENT_LIMIT = 45;
-    public static final double CORAL_INTAKE_MIN_CURRENT = 3;
-    public static final double CORAL_SHOOTING_MAX_CURRENT = -10;
-    public static final double CORAL_SHOOTING_MIN_CURRENT = 2.5;
-    public static final double CORAL_INTAKING_VOLTAGE = 4.5;//5.0;//5.4; // switched from 4.0
+    public static final double CORAL_INTAKING_VOLTAGE = 4.5;
     public static final double CORAL_PREINTAKE_SHOOTING_VOLTAGE = -1.0; 
-    public static final double CORAL_L4_SHOOTING_VOLTAGE = -7.8; //-10.2;//-11;//-8.0;//-8.1;//-7.8;
-    public static final double CORAL_TROUGH_SHOOTING_VOLTAGE = -5.5; // switched from -4.0
+    public static final double CORAL_L4_SHOOTING_VOLTAGE = -7.8;
+    public static final double CORAL_TROUGH_SHOOTING_VOLTAGE = -5.5;
     public static final double CORAL_VOMIT_VOLTAGE = -0.3;
 
     // CLIMBING MECHANISM

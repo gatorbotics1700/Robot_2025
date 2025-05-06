@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.util.PixelFormat;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -28,9 +29,10 @@ public class Robot extends TimedRobot {
     private ShuffleboardTab visionTesting;
 
     public Robot() {
-       CameraServer.startAutomaticCapture();
-       CvSink cvSink = CameraServer.getVideo();
-       CvSource outputStream = new CvSource("Blur", PixelFormat.kMJPEG, 640, 480, 70);
+        CameraServer.startAutomaticCapture();
+        CvSink cvSink = CameraServer.getVideo();
+        CvSource outputStream = new CvSource("Blur", PixelFormat.kMJPEG, 640, 480, 70);
+        DataLogManager.start();
     }
 
     @Override

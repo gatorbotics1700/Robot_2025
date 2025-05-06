@@ -44,8 +44,6 @@ public class ClimbingCommand extends Command {
         double timePassed = System.currentTimeMillis() - startTime;
         System.out.println("Milliseconds passed: " +  timePassed);  
         
-        // TODO did not change these inequalities - not sure why they match with our changes already  
-
         if(speed > 0){ // if detatching / reverse climbing
             if(System.currentTimeMillis() - startTime > Constants.UNWINCH_TIME){
                 climbingSubsystem.setSpeed(0);
@@ -62,11 +60,6 @@ public class ClimbingCommand extends Command {
                 return true;
             } 
         }
-        // if(climbingSubsystem.isAnyLimitSwitchPressed()){
-        //     climbingSubsystem.setSpeed(0);
-        //     System.out.println("LIMIT SWITCH TRIGGERED");
-        //     return true;
-        // }
         return false;
     }
 }
