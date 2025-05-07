@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class LimelightControlCommand extends Command {
-    private final VisionInterface visionSubsystem;
+    private final VisionInterface limelightLubsystem;
     private final SwerveDriveInterface drivetrainSubsystem;
     private final XboxController controller;
     private final int pipeline;
@@ -22,7 +22,7 @@ public class LimelightControlCommand extends Command {
     private boolean dontStart = false;
     public LimelightControlCommand(VisionInterface visionSubsystem, SwerveDriveInterface drivetrainSubsystem,
             int pipeline, XboxController controller, Pose2d lineUpOffset) {
-        this.visionSubsystem = visionSubsystem;
+        this.limelightLubsystem = visionSubsystem;
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.pipeline = pipeline;
         this.controller = controller;
@@ -33,10 +33,10 @@ public class LimelightControlCommand extends Command {
 
     @Override
     public void initialize() {
-        visionSubsystem.setPipeline(pipeline);
+        limelightLubsystem.setPipeline(pipeline);
         System.out.println("LINEUP X-OFFSET: " + lineUpOffset.getX());
         drivetrainSubsystem.setNotAtDesiredPose();
-        if (visionSubsystem.hasValidTarget() && targetMatchesPipeline()) { 
+        if (limelightLubsystem.hasValidTarget() && targetMatchesPipeline()) { 
             dontStart = false;
         } else if (DriverStation.isAutonomousEnabled()){
             System.out.println("initialization of limelight control command in auto with no valid target");
@@ -49,7 +49,7 @@ public class LimelightControlCommand extends Command {
     @Override
     public void execute() {
         // makes sure we are looking at the correct id
-        if (visionSubsystem.hasValidTarget() && targetMatchesPipeline()) { 
+        if (limelightLubsystem.hasValidTarget() && targetMatchesPipeline()) { 
             updateDesiredPose();
         } else {
             System.out.println("\tNo valid target detected.");
@@ -87,30 +87,30 @@ public class LimelightControlCommand extends Command {
     }
 
     private void updateDesiredPose() { 
-        desiredPose = visionSubsystem.getTargetPoseInFieldSpace(drivetrainSubsystem.getPose(), lineUpOffset);
+        desiredPose = limelightLubsystem.getTargetPoseInFieldSpace(drivetrainSubsystem.getPose(), lineUpOffset);
         //the angle we need to be at to be pointing directly at the apriltag, rather than parallel to it
-        pointingToTagAngle = drivetrainSubsystem.getPose().getRotation().minus(Rotation2d.fromDegrees(visionSubsystem.getHorizontalOffsetAngle()));
+        pointingToTagAngle = drivetrainSubsystem.getPose().getRotation().minus(Rotation2d.fromDegrees(limelightLubsystem.getHorizontalOffsetAngle()));
     }
 
     private boolean targetMatchesPipeline() {
         if (pipeline == 1) {
-            return visionSubsystem.getTargetID() == 6 || visionSubsystem.getTargetID() == 19;
+            return limelightLubsystem.getTargetID() == 6 || limelightLubsystem.getTargetID() == 19;
         } else if (pipeline == 2) {
-            return visionSubsystem.getTargetID() == 7 || visionSubsystem.getTargetID() == 10 ||visionSubsystem.getTargetID() == 18 || visionSubsystem.getTargetID() == 21; 
+            return limelightLubsystem.getTargetID() == 7 || limelightLubsystem.getTargetID() == 10 ||limelightLubsystem.getTargetID() == 18 || limelightLubsystem.getTargetID() == 21; 
         } else if (pipeline == 3){
-            return visionSubsystem.getTargetID() == 8 || visionSubsystem.getTargetID() == 17; 
+            return limelightLubsystem.getTargetID() == 8 || limelightLubsystem.getTargetID() == 17; 
         } else if (pipeline == 4){ 
-            return visionSubsystem.getTargetID() == 9 || visionSubsystem.getTargetID() == 22;
+            return limelightLubsystem.getTargetID() == 9 || limelightLubsystem.getTargetID() == 22;
         } else if (pipeline == 5){ 
-            return visionSubsystem.getTargetID() == 11 || visionSubsystem.getTargetID() == 20;
+            return limelightLubsystem.getTargetID() == 11 || limelightLubsystem.getTargetID() == 20;
         } else if (pipeline == 6){ 
-            return visionSubsystem.getTargetID() == 3 || visionSubsystem.getTargetID() == 16;
+            return limelightLubsystem.getTargetID() == 3 || limelightLubsystem.getTargetID() == 16;
         } else if (pipeline == 7){ 
-            return visionSubsystem.getTargetID() == 1 || visionSubsystem.getTargetID() == 2 || visionSubsystem.getTargetID() == 12 || visionSubsystem.getTargetID() == 13;
+            return limelightLubsystem.getTargetID() == 1 || limelightLubsystem.getTargetID() == 2 || limelightLubsystem.getTargetID() == 12 || limelightLubsystem.getTargetID() == 13;
         }  else if (pipeline == 8){ 
-            return visionSubsystem.getTargetID() == 4 || visionSubsystem.getTargetID() == 14 || visionSubsystem.getTargetID() == 5 || visionSubsystem.getTargetID() == 15;
+            return limelightLubsystem.getTargetID() == 4 || limelightLubsystem.getTargetID() == 14 || limelightLubsystem.getTargetID() == 5 || limelightLubsystem.getTargetID() == 15;
         } else if (pipeline == 9){ 
-            return visionSubsystem.getTargetID() == 5 || visionSubsystem.getTargetID() == 15;
+            return limelightLubsystem.getTargetID() == 5 || limelightLubsystem.getTargetID() == 15;
         } else{
             return false;
         }

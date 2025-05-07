@@ -179,3 +179,7 @@ ctre_sim/
 
 # Generated constants for build
 src/main/java/frc/robot/BuildConstants.java
+
+# Simulator GUI
+simgui.json
+simgui-ds.json

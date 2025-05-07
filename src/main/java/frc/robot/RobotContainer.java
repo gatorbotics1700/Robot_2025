@@ -57,7 +57,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 public class RobotContainer {
     private SwerveDriveInterface drivetrainSubsystem;
     private SwerveDriveSimulation driveSimulation;
-    private VisionInterface visionSubsystem;
+    private VisionInterface m_limelightsub;
     private static double visionAlignOffset = 0.0;
     private final XboxController controller = new XboxController(0);
     
@@ -118,7 +118,7 @@ public class RobotContainer {
         switch (Constants.currentMode) {
             case REAL:
                 drivetrainSubsystem = new DrivetrainSubsystem();
-                visionSubsystem = new LimelightSubsystem("limelight", Constants.LIMELIGHT_OFFSETS);
+                m_limelightsub = new LimelightSubsystem("limelight", Constants.LIMELIGHT_OFFSETS);
                 break;
             default:
                 System.out.println("Starting in SIM mode");
@@ -136,7 +136,7 @@ public class RobotContainer {
                                 TunerConstants.BackRight, driveSimulation.getModules()[3]),
                         driveSimulation::setSimulationWorldPose);
                 drivetrainSubsystem = drive;
-                visionSubsystem = new Vision(drive, new VisionIOPhotonVisionSim(
+                m_limelightsub = new Vision(drive, new VisionIOPhotonVisionSim(
                     "camera0", Constants.LIMELIGHT_OFFSETS.minus(new Pose3d()), () -> driveSimulation.getSimulatedDriveTrainPose()));
 
                 break;
@@ -146,16 +146,16 @@ public class RobotContainer {
         NamedCommands.registerCommand("Intake", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_VOLTAGE));
         // NamedCommands.registerCommand("Score Trough", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE)); //Constants.CORAL_TROUGH_SHOOTING_SPEED));
 
-        NamedCommands.registerCommand("Q1 Left Lineup", new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
-        NamedCommands.registerCommand("Q1 Right Lineup", new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
-        NamedCommands.registerCommand("Q2 Left Lineup", new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 4, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
-        NamedCommands.registerCommand("Q2 Right Lineup", new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 4, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
-        NamedCommands.registerCommand("Q3 Left Lineup", new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
-        NamedCommands.registerCommand("Q3 Right Lineup", new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
-        NamedCommands.registerCommand("Q5 Left Lineup", new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
-        NamedCommands.registerCommand("Q5 Right Lineup", new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
-        NamedCommands.registerCommand("Q6 Left Lineup", new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
-        NamedCommands.registerCommand("Q6 Right Lineup", new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+        NamedCommands.registerCommand("Q1 Left Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+        NamedCommands.registerCommand("Q1 Right Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+        NamedCommands.registerCommand("Q2 Left Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+        NamedCommands.registerCommand("Q2 Right Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+        NamedCommands.registerCommand("Q3 Left Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+        NamedCommands.registerCommand("Q3 Right Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+        NamedCommands.registerCommand("Q5 Left Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+        NamedCommands.registerCommand("Q5 Right Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
+        NamedCommands.registerCommand("Q6 Left Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_LEFT_OFFSET));
+        NamedCommands.registerCommand("Q6 Right Lineup", new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, Constants.SHOOTING_L4_RIGHT_OFFSET));
 
         // Print initial joystick values
         System.out.println("RobotContainer initializing");
@@ -168,7 +168,7 @@ public class RobotContainer {
                 .onTrue(new InstantCommand(drivetrainSubsystem::setSlowDrive));
 
         new Trigger(controller::getAButtonPressed)
-            .onTrue(new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
 
         // new Trigger(controller::getLeftBumperButtonPressed)
         //     .onTrue(new RunCommand(()->drivetrainSubsystem.robotRelativeHeading(180)));
@@ -190,40 +190,40 @@ public class RobotContainer {
 
  /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
             Q1LeftLineup
-                .onTrue(new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 2, controller, new Pose2d(Constants.SHOOTING_L4_LEFT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_LEFT_OFFSET.getY(), Constants.SHOOTING_L4_LEFT_OFFSET.getRotation())/*Constants.SHOOTING_L4_LEFT_OFFSET*/));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, new Pose2d(Constants.SHOOTING_L4_LEFT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_LEFT_OFFSET.getY(), Constants.SHOOTING_L4_LEFT_OFFSET.getRotation())/*Constants.SHOOTING_L4_LEFT_OFFSET*/));
     
             Q1RightLineup
-                .onTrue(new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 2, controller, new Pose2d(Constants.SHOOTING_L4_RIGHT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_RIGHT_OFFSET.getY(), Constants.SHOOTING_L4_RIGHT_OFFSET.getRotation())));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, new Pose2d(Constants.SHOOTING_L4_RIGHT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_RIGHT_OFFSET.getY(), Constants.SHOOTING_L4_RIGHT_OFFSET.getRotation())));
     
             Q2LeftLineup
-                .onTrue(new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 4, controller, new Pose2d(Constants.SHOOTING_L4_LEFT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_LEFT_OFFSET.getY(), Constants.SHOOTING_L4_LEFT_OFFSET.getRotation())));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller, new Pose2d(Constants.SHOOTING_L4_LEFT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_LEFT_OFFSET.getY(), Constants.SHOOTING_L4_LEFT_OFFSET.getRotation())));
     
             Q2RightLineup
-                .onTrue(new LimelightControlCommand(visionSubsystem, drivetrainSubsystem,4, controller, new Pose2d(Constants.SHOOTING_L4_RIGHT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_RIGHT_OFFSET.getY(), Constants.SHOOTING_L4_RIGHT_OFFSET.getRotation())));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem,4, controller, new Pose2d(Constants.SHOOTING_L4_RIGHT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_RIGHT_OFFSET.getY(), Constants.SHOOTING_L4_RIGHT_OFFSET.getRotation())));
     
             Q3LeftLineup
-                .onTrue(new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 3, controller, new Pose2d(Constants.SHOOTING_L4_LEFT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_LEFT_OFFSET.getY(), Constants.SHOOTING_L4_LEFT_OFFSET.getRotation())));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, new Pose2d(Constants.SHOOTING_L4_LEFT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_LEFT_OFFSET.getY(), Constants.SHOOTING_L4_LEFT_OFFSET.getRotation())));
     
             Q3RightLineup
-                .onTrue(new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 3, controller, new Pose2d(Constants.SHOOTING_L4_RIGHT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_RIGHT_OFFSET.getY(), Constants.SHOOTING_L4_RIGHT_OFFSET.getRotation())));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller, new Pose2d(Constants.SHOOTING_L4_RIGHT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_RIGHT_OFFSET.getY(), Constants.SHOOTING_L4_RIGHT_OFFSET.getRotation())));
     
             Q4LeftLineup
-                .onTrue(new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 2, controller, new Pose2d(Constants.SHOOTING_L4_LEFT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_LEFT_OFFSET.getY(), Constants.SHOOTING_L4_LEFT_OFFSET.getRotation())));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, new Pose2d(Constants.SHOOTING_L4_LEFT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_LEFT_OFFSET.getY(), Constants.SHOOTING_L4_LEFT_OFFSET.getRotation())));
     
             Q4RightLineup
-                .onTrue(new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 2, controller, new Pose2d(Constants.SHOOTING_L4_RIGHT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_RIGHT_OFFSET.getY(), Constants.SHOOTING_L4_RIGHT_OFFSET.getRotation())));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller, new Pose2d(Constants.SHOOTING_L4_RIGHT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_RIGHT_OFFSET.getY(), Constants.SHOOTING_L4_RIGHT_OFFSET.getRotation())));
     
             Q5LeftLineup
-                .onTrue(new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 1, controller, new Pose2d(Constants.SHOOTING_L4_LEFT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_LEFT_OFFSET.getY(), Constants.SHOOTING_L4_LEFT_OFFSET.getRotation())));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, new Pose2d(Constants.SHOOTING_L4_LEFT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_LEFT_OFFSET.getY(), Constants.SHOOTING_L4_LEFT_OFFSET.getRotation())));
     
             Q5RightLineup
-                .onTrue(new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 1, controller, new Pose2d(Constants.SHOOTING_L4_RIGHT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_RIGHT_OFFSET.getY(), Constants.SHOOTING_L4_RIGHT_OFFSET.getRotation())));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller, new Pose2d(Constants.SHOOTING_L4_RIGHT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_RIGHT_OFFSET.getY(), Constants.SHOOTING_L4_RIGHT_OFFSET.getRotation())));
     
             Q6LeftLineup
-                .onTrue(new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 5, controller, new Pose2d(Constants.SHOOTING_L4_LEFT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_LEFT_OFFSET.getY(), Constants.SHOOTING_L4_LEFT_OFFSET.getRotation())));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, new Pose2d(Constants.SHOOTING_L4_LEFT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_LEFT_OFFSET.getY(), Constants.SHOOTING_L4_LEFT_OFFSET.getRotation())));
     
             Q6RightLineup
-                .onTrue(new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 5, controller, new Pose2d(Constants.SHOOTING_L4_RIGHT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_RIGHT_OFFSET.getY(), Constants.SHOOTING_L4_RIGHT_OFFSET.getRotation())));
+                .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 5, controller, new Pose2d(Constants.SHOOTING_L4_RIGHT_OFFSET.getX() + visionAlignOffset, Constants.SHOOTING_L4_RIGHT_OFFSET.getY(), Constants.SHOOTING_L4_RIGHT_OFFSET.getRotation())));
     
     
     
@@ -242,7 +242,7 @@ public class RobotContainer {
 
         // lining up to intake
         intakeLineup
-            .onTrue(new LimelightControlCommand(visionSubsystem, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
             // .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
 
         // lining up to with reef to score trough
@@ -333,18 +333,18 @@ public class RobotContainer {
             drivetrainSubsystem.setDefaultCommand(
                 new TeleopDriveCommand(
                     drivetrainSubsystem,
-                    () -> modifyAxis(0.9*controller.getLeftY()),    // Changed to raw values
-                    () -> modifyAxis(0.9*controller.getLeftX()),     // Changed to raw values
-                    () -> modifyAxis(0.8*controller.getRightX())    // Changed to raw values
+                    () -> modifyAxis(0.9*controller.getRightY()),    // Changed to raw values
+                    () -> modifyAxis(0.9*controller.getRightX()),     // Changed to raw values
+                    () -> -modifyAxis(0.8*controller.getLeftX())    // Changed to raw values
                 )
             );
         }else if ((alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) || (Constants.currentMode == Mode.SIM)) {
             drivetrainSubsystem.setDefaultCommand(
                 new TeleopDriveCommand(
                     drivetrainSubsystem,
-                    () -> -modifyAxis(0.9*controller.getLeftY()),    // Changed to raw values
-                    () -> -modifyAxis(0.9*controller.getLeftX()),     // Changed to raw values
-                    () -> -modifyAxis(0.8*controller.getRightX())    // Changed to raw values
+                    () -> -modifyAxis(0.9*controller.getRightY()),    // Changed to raw values
+                    () -> -modifyAxis(0.9*controller.getRightX()),     // Changed to raw values
+                    () -> -modifyAxis(0.8*controller.getLeftX())    // Changed to raw values
                 )
             );
         }
