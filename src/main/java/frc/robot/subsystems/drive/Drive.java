@@ -45,6 +45,7 @@ import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
@@ -433,13 +434,15 @@ public class Drive extends SubsystemBase implements Vision.VisionConsumer, Swerv
     @Override
     public void driveToPose(Pose2d desiredPose) {
         // Use PathPlanner's built-in pose following
-        AutoBuilder.pathfindToPose(
+        System.out.println("scheduling drive to pose " + desiredPose);
+        CommandScheduler.getInstance().schedule(AutoBuilder.pathfindToPose(
                 desiredPose,
                 new PathConstraints(
                         TunerConstants.kSpeedAt12Volts.in(MetersPerSecond),
                         TunerConstants.kSpeedAt12Volts.in(MetersPerSecond) / 2.0,
                         getMaxAngularSpeedRadPerSec(),
-                        getMaxAngularSpeedRadPerSec() / 2.0));
+                        getMaxAngularSpeedRadPerSec() / 2.0))
+        );
     }
 
     @Override
@@ -490,17 +493,11 @@ public class Drive extends SubsystemBase implements Vision.VisionConsumer, Swerv
         double deltaX = target.getX() - currentPose.getX();
         double deltaY = target.getY() - currentPose.getY();
         Rotation2d targetRotation = new Rotation2d(Math.atan2(deltaY, deltaX));
-        
         // Create a pose that maintains current position but updates rotation
         Pose2d targetPose = new Pose2d(currentPose.getTranslation(), targetRotation);
+        System.out.println("driving to " + targetPose);
         
         // Use PathPlanner's pose following to rotate to the target angle
-        AutoBuilder.pathfindToPose(
-            targetPose,
-            new PathConstraints(
-                TunerConstants.kSpeedAt12Volts.in(MetersPerSecond),
-                TunerConstants.kSpeedAt12Volts.in(MetersPerSecond) / 2.0,
-                getMaxAngularSpeedRadPerSec(),
-                getMaxAngularSpeedRadPerSec() / 2.0));
+        this.driveToPose(targetPose);
     }
 }

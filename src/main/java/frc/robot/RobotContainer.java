@@ -1,5 +1,6 @@
 package frc.robot;
 
+import frc.robot.Constants.Mode;
 import frc.robot.commands.AutoDriveCommand;
 import frc.robot.commands.ClimbingCommand;
 import frc.robot.commands.CoralShooterCommand;
@@ -22,6 +23,8 @@ import frc.robot.commands.PointToTagCommand;
 import frc.robot.commands.DriveBackwardsCommand;
 import frc.robot.subsystems.vision.VisionInterface;
 
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
 import org.ironmaple.simulation.SimulatedArena;
 import org.ironmaple.simulation.drivesims.SwerveDriveSimulation;
 import org.littletonrobotics.junction.Logger;
@@ -41,10 +44,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -159,7 +164,7 @@ public class RobotContainer {
         new Trigger(controller::getBackButtonPressed)
                 .onTrue(new InstantCommand(drivetrainSubsystem::zeroGyroscope));
 
-        new Trigger(controller::getRightBumperPressed)
+        new Trigger(controller::getRightBumperButtonPressed)
                 .onTrue(new InstantCommand(drivetrainSubsystem::setSlowDrive));
 
         new Trigger(controller::getAButtonPressed)
@@ -179,6 +184,9 @@ public class RobotContainer {
 
         // new Trigger(controller::getYButton)
         //     .onTrue(new DriveBackwardsCommand(drivetrainSubsystem, controller));
+
+        //new Trigger(controller::getYButtonPressed).onTrue(new PointToReefCommand(drivetrainSubsystem));
+        new Trigger(controller::getYButtonPressed).onTrue(new PointToReefCommand(drivetrainSubsystem));
 
  /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
             Q1LeftLineup
@@ -327,16 +335,16 @@ public class RobotContainer {
                     drivetrainSubsystem,
                     () -> modifyAxis(0.9*controller.getLeftY()),    // Changed to raw values
                     () -> modifyAxis(0.9*controller.getLeftX()),     // Changed to raw values
-                    () -> 0.0    // Changed to raw values
+                    () -> modifyAxis(0.8*controller.getRightX())    // Changed to raw values
                 )
             );
-        }else {
+        }else if ((alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) || (Constants.currentMode == Mode.SIM)) {
             drivetrainSubsystem.setDefaultCommand(
                 new TeleopDriveCommand(
                     drivetrainSubsystem,
                     () -> -modifyAxis(0.9*controller.getLeftY()),    // Changed to raw values
                     () -> -modifyAxis(0.9*controller.getLeftX()),     // Changed to raw values
-                    () -> 0.0    // Changed to raw values
+                    () -> -modifyAxis(0.8*controller.getRightX())    // Changed to raw values
                 )
             );
         }

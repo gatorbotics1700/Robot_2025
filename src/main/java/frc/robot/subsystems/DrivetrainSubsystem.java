@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase implements SwerveDriveInterface {
@@ -416,6 +417,7 @@ public class DrivetrainSubsystem extends SubsystemBase implements SwerveDriveInt
         }
        System.out.println("rotationspeed:"+rotationSpeed);
         drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, currentPose.getRotation()));
+        return;
     }
 
     public void turnToAngle(Rotation2d desiredAngle){
@@ -471,28 +473,13 @@ public class DrivetrainSubsystem extends SubsystemBase implements SwerveDriveInt
         return new Rotation2d(Math.atan2(deltaY, deltaX));
     }
 
+    @Override
     public void facePoint(Translation2d target){
         Pose2d currentPose = odometry.getEstimatedPosition();
         double deltaX = target.getX() - currentPose.getX();
         double deltaY = target.getY() - currentPose.getY();
         Rotation2d targetRotation = angleToPoint(deltaX, deltaY);
         turnToAngle(targetRotation);
-    }
-
-    public void faceReef(){
-        var alliance = DriverStation.getAlliance();
-        double reefX = 0;
-        double reefY = 0;
-        if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red){
-            reefX = Constants.RED_REEF_POSE.getX();
-            reefY = Constants.RED_REEF_POSE.getY();
-            
-        } else if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) {
-            reefX = Constants.BLUE_REEF_POSE.getX();
-            reefY = Constants.BLUE_REEF_POSE.getY();
-        }
-        facePoint(new Translation2d(reefX, reefY));
-       
     }
 
     public void toggleRobotRelativeDrive(){
