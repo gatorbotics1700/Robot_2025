@@ -6,8 +6,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-import java.util.function.DoubleSupplier;
-
 public class TestCommand extends Command {
     private final DrivetrainSubsystem drivetrain;
     private final Pose2d desiredPose;
@@ -22,7 +20,6 @@ public class TestCommand extends Command {
 
     @Override
     public void initialize() {
-        // System.out.println("TeleopDriveCommand initialized - stopping drivetrain");
         drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
         drivetrain.resetPose(new Pose2d(0,0,new Rotation2d(0)));
     }
@@ -34,7 +31,6 @@ public class TestCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        // System.out.println("TeleopDriveCommand ended");
         drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     }
 

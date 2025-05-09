@@ -177,7 +177,6 @@ public class RobotContainer {
         // lining up to intake
         intakeLineup
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
-            // .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
 
         // lining up to with reef to score trough
         Q1PointToTag //q1
@@ -209,12 +208,10 @@ public class RobotContainer {
         // score trough
         scoreTrough
             .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune()));
-            // .andThen(new DriveBackwardsCommand(drivetrainSubsystem, controller))); //Constants.CORAL_TROUGH_SHOOTING_SPEED));
 
         // score L4
         scoreL4
             .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune()));
-            // .andThen(new DriveBackwardsCommand(drivetrainSubsystem, controller))); //Constants.CORAL_L4_SHOOTING_SPEED));
 
         // intake (added move up)
         intake
@@ -223,28 +220,15 @@ public class RobotContainer {
         boolean isCompetition = true;
         autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
         (stream) -> isCompetition
-            // ? stream.filter(auto -> (auto.getName().startsWith("Blue") || auto.getName().startsWith("Red")))
-            //WITHOUT LEAVE AUTOS
-            // ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") || auto.getName().startsWith("Blue 2P") || auto.getName().startsWith("Red 2P")))
-            //WITH LEAVE AUTOS
             ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") 
                             || auto.getName().startsWith("Blue 2P Mid") || auto.getName().startsWith("Blue 2P Left") || auto.getName().startsWith("Blue 2P Right") 
                             || auto.getName().startsWith("Red 2P Mid") || auto.getName().startsWith("Red 2P Left") || auto.getName().startsWith("Red 2P Right") 
                             || auto.getName().startsWith("Red Leave Left") || auto.getName().startsWith("Red Leave Right") 
                             || auto.getName().startsWith("Blue Leave Left") || auto.getName().startsWith("Blue Leave Right")))
-            //WITH LEAVE AND SIDE 1 PIECE AUTOS
-            // ? stream.filter(auto -> (auto.getName().startsWith("Blue 1 Piece Mid to Q1") || auto.getName().startsWith("Red 1 Piece Mid to Q1") 
-            //                 || auto.getName().startsWith("Blue 2P Mid") || auto.getName().startsWith("Blue 2P Left") || auto.getName().startsWith("Blue 2P Right") 
-            //                 || auto.getName().startsWith("Red 2P Mid") || auto.getName().startsWith("Red 2P Left") || auto.getName().startsWith("Red 2P Right") 
-            //                 || auto.getName().startsWith("Red Leave Left") || auto.getName().startsWith("Red Leave Right") 
-            //                 || auto.getName().startsWith("Blue Leave Left") || auto.getName().startsWith("Blue Leave Right")
-            //                 || auto.getName().startsWith("Red 1 Piece Right to Q2") || auto.getName().startsWith("Red 1 Piece Left to Q6")
-            //                 || auto.getName().startsWith("Blue 1 Piece Right to Q2") || auto.getName().startsWith("Blue 1 Piece Left to Q6")))
             : stream
     );
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
-        // Shuffleboard.getTab("SmartDashboard").add(autoChooser);
     }
 
     public Command getAutonomousCommand() {

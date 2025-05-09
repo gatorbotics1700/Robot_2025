@@ -9,7 +9,7 @@ import frc.com.swervedrivespecialties.swervelib.MechanicalConfiguration;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
 public class Constants {
-    //for a 25x25 dirvetrain
+    //for a 25x25 drivetrain
     // public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.508;
     // public static final double DRIVETRAIN_WHEELBASE_METERS = 0.508;
 
@@ -21,10 +21,10 @@ public class Constants {
     public static final double CENTER_TO_POST = 0.1778;
 
     // hulk
-    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(118.6253437499); //116.806640625
-    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(283.7109375); //282.919921875
-    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(124.0988159179); //121.640624999
-    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(38.75976562499); //227.548
+    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(118.6253437499);
+    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(283.7109375);
+    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(124.0988159179);
+    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(38.75976562499);
     // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4_L2;
     // public static final String CANIVORE_BUS_NAME = "";
 
@@ -48,13 +48,6 @@ public class Constants {
     // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     // public static final String CANIVORE_BUS_NAME = "";
     // public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.26035, 0.00635, 1.143, new Rotation3d(Math.toRadians(0.0), Math.toRadians(-32.0), Math.toRadians(-4.0)));
-    // public static final double LIMELIGHT_FORWARD_OFFSET = 0.26035;
-    // public static final double LIMELIGHT_SIDE_OFFSET = -0.00635;
-    // public static final double LIMELIGHT_UP_OFFSET = 1.143;
-    // public static final double LIMELIGHT_YAW_OFFSET = -4.0;
-    // public static final double LIMELIGHT_PITCH_OFFSET = -32.0;
-    // public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
-    // public static final double ELEVATOR_INVERT = 1.0; // 1.0 means the elevator is NOT inverted
 
     //comp bot
     public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(268.0664);
@@ -64,14 +57,14 @@ public class Constants {
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     public static final String CANIVORE_BUS_NAME = "TRex";
     public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.3394, 0.039 -0.03, 0.196, new Rotation3d(Math.toRadians(1), Math.toRadians(-19.5), Math.toRadians(-3.0)));
-    public static final double CENTER_TO_BUMPER_OFFSET = 0.4445; //0.45164;
+    public static final double CENTER_TO_BUMPER_OFFSET = 0.4445;
     public static final double CENTER_TO_CHASSIS_OFFSET = 0.381;
     
     public static final Pose2d FRONT_CENTER_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
     public static final Pose2d INTAKE_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET - 0.3, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
-    public static final Pose2d SHOOTING_L4_LEFT_OFFSET = new Pose2d(CENTER_TO_CHASSIS_OFFSET + 0.073025, -CENTER_TO_POST/* - 0.03175 *//*-0.161925*/, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
-    public static final Pose2d SHOOTING_L4_RIGHT_OFFSET = new Pose2d(CENTER_TO_CHASSIS_OFFSET + 0.073025, CENTER_TO_POST /*- 0.031758*//*0.161925*/, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
-    // //the line up offsets are the point (in r    obot relative coordinates) that needs to align with the apriltag in order for us to score left/right post 
+    public static final Pose2d SHOOTING_L4_LEFT_OFFSET = new Pose2d(CENTER_TO_CHASSIS_OFFSET + 0.073025, -CENTER_TO_POST, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
+    public static final Pose2d SHOOTING_L4_RIGHT_OFFSET = new Pose2d(CENTER_TO_CHASSIS_OFFSET + 0.073025, CENTER_TO_POST, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
+    // //the line up offsets are the point (in robot relative coordinates) that needs to align with the apriltag in order for us to score left/right post 
     // //(we flip the values in our offset method so that we can find the pose the center of the robot needs to be at, but they should not be flipped here!)
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
@@ -116,9 +109,6 @@ public class Constants {
     public static final Translation2d RED_REEF_POSE = new Translation2d(12.933, 4.025);
     public static final Translation2d BLUE_REEF_POSE = new Translation2d(4.5567, 4.025);
 
-    public static final double L4_SHOOTING_DISTANCE = 0.110066582;
     public static final double REEF_RADIUS = 0.8232394; //not actually the radius, but distance from center to apriltag
-    public static final double POST_DISTANCE = 0.1778; //distance from center of robot to center of reef to line up with post (in robot y)
-
 }   
 

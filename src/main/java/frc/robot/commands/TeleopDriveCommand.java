@@ -11,7 +11,6 @@ public class TeleopDriveCommand extends Command {
     private final DoubleSupplier translationXSupplier;
     private final DoubleSupplier translationYSupplier;
     private final DoubleSupplier rotationSupplier;
-    // private static final double DEADBAND = 0.1;
 
     public TeleopDriveCommand(DrivetrainSubsystem drivetrain,
             DoubleSupplier translationXSupplier,
@@ -26,7 +25,6 @@ public class TeleopDriveCommand extends Command {
 
     @Override
     public void initialize() {
-        // System.out.println("TeleopDriveCommand initialized - stopping drivetrain");
         drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     }
 
@@ -46,7 +44,6 @@ public class TeleopDriveCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        // System.out.println("TeleopDriveCommand ended");
         drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     }
 

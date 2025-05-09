@@ -6,7 +6,6 @@ import frc.robot.subsystems.CoralShooterSubsystem;
 public class CoralShooterCommand extends Command {
     private CoralShooterSubsystem coralShooterSubsystem;
     private final double voltage;
-    // private final double speed;
     private double startTime;
     
     public CoralShooterCommand(CoralShooterSubsystem coralShooterSubsystem, double voltage){ //double speed){

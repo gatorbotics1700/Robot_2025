@@ -189,7 +189,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void setSlowDrive() {
         slowDrive = !slowDrive;
-        // System.out.println("use of slow drive to not slow drive");
     }
 
     public boolean getSlowDrive() {
@@ -250,7 +249,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
                     Rotation2d.fromDegrees(0.0))
             );
         }
-        
     }
 
     public Pose2d getPose() {
