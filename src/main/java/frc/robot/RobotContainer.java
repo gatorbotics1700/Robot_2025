@@ -4,35 +4,27 @@ import frc.robot.commands.AutoDriveCommand;
 import frc.robot.commands.ClimbingCommand;
 import frc.robot.commands.CoralShooterCommand;
 import frc.robot.commands.LimelightControlCommand;
-import frc.robot.commands.PointToReefCommand;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CoralShooterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.commands.PointToTagCommand;
-import frc.robot.commands.DriveBackwardsCommand;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.GenericHID;
 
 public class RobotContainer {
     private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
@@ -46,7 +38,6 @@ public class RobotContainer {
     private final GenericHID buttonBoard2A = new GenericHID(3);
     private final GenericHID buttonBoard2B = new GenericHID(4);
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem("limelight", Constants.LIMELIGHT_OFFSETS);
-//    private static final LimelightSubsystem m_limelightsub2 = new LimelightSubsystem("limelight-two", Constants.LIMELIGHT_OFFSETS_2);
     private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
     private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
 
@@ -122,9 +113,6 @@ public class RobotContainer {
         new Trigger(controller::getAButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
 
-        // new Trigger(controller::getLeftBumperButtonPressed)
-        //     .onTrue(new RunCommand(()->drivetrainSubsystem.robotRelativeHeading(180)));
-
         new Trigger(controller::getLeftBumperButtonPressed)
             .onTrue(new InstantCommand(drivetrainSubsystem::toggleRobotRelativeDrive));
 
@@ -133,9 +121,6 @@ public class RobotContainer {
 
         new Trigger(controller::getBButtonPressed)
             .onTrue(new InstantCommand(this::incrementVisionAlign)/*new InstantCommand(m_coralShooterSub::increaseVoltageTune)*/);
-
-        // new Trigger(controller::getYButton)
-        //     .onTrue(new DriveBackwardsCommand(drivetrainSubsystem, controller));
 
  /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
             Q1LeftLineup
@@ -233,7 +218,6 @@ public class RobotContainer {
 
         // intake (added move up)
         intake
-            // .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_VOLTAGE));
            .onTrue(MoveUpAndIntake(m_coralShooterSub)); //Constants.CORAL_INTAKING_SPEED));       
         
         boolean isCompetition = true;

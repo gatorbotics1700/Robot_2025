@@ -12,8 +12,6 @@ import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.DriverStation;
 
-import java.util.function.DoubleSupplier;
-
 public class PointToTagCommand extends Command {
     private final DrivetrainSubsystem drivetrain;
     private final XboxController controller;
@@ -29,7 +27,6 @@ public class PointToTagCommand extends Command {
 
     @Override
     public void initialize() {
-        // System.out.println("TeleopDriveCommand initialized - stopping drivetrain");
         drivetrain.setNotAtDesiredPose();
         drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     }
@@ -41,7 +38,6 @@ public class PointToTagCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        // System.out.println("TeleopDriveCommand ended");
         drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     }
 

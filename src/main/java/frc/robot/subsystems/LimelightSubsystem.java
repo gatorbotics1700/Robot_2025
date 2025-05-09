@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -144,14 +143,6 @@ public class LimelightSubsystem extends SubsystemBase {
 
         return robotSpacePose;
     }
-        
-//     public Pose2d convertCameraSpaceToRobotSpace(Pose2d poseInCameraSpace){ 
-//         //TODO: explain the order of this and why the camera pose from robot center is being transformed by the pose in camera space
-//         Transform2d transform = new Transform2d(poseInCameraSpace.getTranslation(), poseInCameraSpace.getRotation());
-//         Pose2d cameraPoseFromRobotCenter = new Pose2d(Constants.LIMELIGHT_FORWARD_OFFSET, -Constants.LIMELIGHT_SIDE_OFFSET, new Rotation2d(Math.toRadians(Constants.LIMELIGHT_YAW_OFFSET)));
-//         Pose2d robotSpacePose = cameraPoseFromRobotCenter.transformBy(transform);
-//         return robotSpacePose;
-//     }
 
     
     Pose2d convertToFieldSpace(Pose2d targetPoseInRobotSpace, Pose2d robotPoseInFieldSpace) {

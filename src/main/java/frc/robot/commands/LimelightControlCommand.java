@@ -1,12 +1,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class LimelightControlCommand extends Command {
@@ -16,7 +13,6 @@ public class LimelightControlCommand extends Command {
     private final int pipeline;
     private Pose2d desiredPose;
     private Pose2d lineUpOffset;
-    private Rotation2d pointingToTagAngle; //field relative angle to point the robot at the apriltag
     private boolean dontStart = false;
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem,
             int pipeline, XboxController controller, Pose2d lineUpOffset) {
@@ -32,12 +28,9 @@ public class LimelightControlCommand extends Command {
     @Override
     public void initialize() {
         limelightSubsystem.setPipeline(pipeline);
-        System.out.println("LINEUP X-OFFSET: " + lineUpOffset.getX());
         drivetrainSubsystem.setNotAtDesiredPose();
         if (limelightSubsystem.hasValidTarget() && targetMatchesPipeline()) { 
             dontStart = false;
-        } else if (DriverStation.isAutonomousEnabled()){
-            System.out.println("initialization of limelight control command in auto with no valid target");
         } else {
             dontStart = true;
             System.out.println("\tNo valid target detected.");
@@ -54,7 +47,6 @@ public class LimelightControlCommand extends Command {
         }
 
         if (desiredPose != null) {
-            //drivetrainSubsystem.driveToPoseWithInitialAngle(desiredPose, pointingToTagAngle);
             drivetrainSubsystem.driveToPose(desiredPose);
         }
     }
@@ -81,13 +73,10 @@ public class LimelightControlCommand extends Command {
         }
 
         return false;
-        // TODO: allow mech commands to end this as well
     }
 
     private void updateDesiredPose() { 
         desiredPose = limelightSubsystem.aprilTagPoseInFieldSpace(drivetrainSubsystem.getPose(), lineUpOffset);
-        //the angle we need to be at to be pointing directly at the apriltag, rather than parallel to it
-        pointingToTagAngle = drivetrainSubsystem.getPose().getRotation().minus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle()));
     }
 
     private boolean targetMatchesPipeline() {
