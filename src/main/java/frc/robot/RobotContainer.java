@@ -35,8 +35,8 @@ public class RobotContainer {
     private final GenericHID buttonBoard1A = new GenericHID(1);
     private final GenericHID buttonBoard1B = new GenericHID(2);
 
-    private final GenericHID buttonBoard2A = new GenericHID(3);
-    private final GenericHID buttonBoard2B = new GenericHID(4);
+    private final XboxController codriver = new XboxController(3);
+
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem("limelight", Constants.LIMELIGHT_OFFSETS);
     private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
     private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
@@ -45,36 +45,21 @@ public class RobotContainer {
 
     private final Trigger Q1LeftLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(1));
     private final Trigger Q1RightLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(2));
-    private final Trigger Q1PointToTag = new Trigger(()->buttonBoard2B.getRawButtonPressed(3));
 
     private final Trigger Q2LeftLineup = new Trigger(()->buttonBoard1B.getRawButtonPressed(2));
     private final Trigger Q2RightLineup = new Trigger(()->buttonBoard1B.getRawButtonPressed(1));
-    private final Trigger Q2PointToTag = new Trigger(()->buttonBoard2B.getRawButtonPressed(4));
 
     private final Trigger Q3LeftLineup = new Trigger(()->buttonBoard1B.getRawButtonPressed(4));
     private final Trigger Q3RightLineup = new Trigger(()->buttonBoard1B.getRawButtonPressed(3));
-    private final Trigger Q3PointToTag = new Trigger(()->buttonBoard2B.getRawButtonPressed(5));
 
     private final Trigger Q4LeftLineup = new Trigger(()->buttonBoard1B.getRawButtonPressed(6));
     private final Trigger Q4RightLineup = new Trigger(()->buttonBoard1B.getRawButtonPressed(5));
-    private final Trigger Q4PointToTag = new Trigger(()->buttonBoard2B.getRawButtonPressed(6));
 
     private final Trigger Q5LeftLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(5));
     private final Trigger Q5RightLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(6));
-    private final Trigger Q5PointToTag = new Trigger(()->buttonBoard2A.getRawButtonPressed(3));
 
     private final Trigger Q6LeftLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(3));
     private final Trigger Q6RightLineup = new Trigger(()->buttonBoard1A.getRawButtonPressed(4));
-    private final Trigger Q6PointToTag = new Trigger(()->buttonBoard2A.getRawButtonPressed(2));
-
-    private final Trigger climb = new Trigger(()->buttonBoard2A.getRawButtonPressed(1));
-    private final Trigger detach = new Trigger(()->buttonBoard2B.getRawButtonPressed(2));
-    private final Trigger intakeLineup = new Trigger(()->buttonBoard2B.getRawButtonPressed(1));
-    private final Trigger vomit = new Trigger(()->buttonBoard2B.getRawButtonPressed(7));
-    private final Trigger mechStop = new Trigger(()->buttonBoard2A.getRawButtonPressed(8));
-    private final Trigger scoreTrough = new Trigger(()->buttonBoard2B.getRawButtonPressed(8));
-    private final Trigger scoreL4 = new Trigger(()->buttonBoard2A.getRawButtonPressed(4));
-    private final Trigger intake = new Trigger(()->buttonBoard2A.getRawButtonPressed(5));
 
     private void incrementVisionAlign(){
         visionAlignOffset += 0.01;
@@ -167,54 +152,27 @@ public class RobotContainer {
     /* CO-DRIVER BUTTON BOARD 2 BUTTONS */
 
         // climb
-        climb
+        new Trigger(codriver::getRightBumperButtonPressed)
             .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: FYI the sign has been changed
             
         // detach or unwinch
-        detach
+        new Trigger(codriver::getLeftBumperButtonPressed)
            .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
 
-        // lining up to intake
-        intakeLineup
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 7, controller, Constants.INTAKE_ALIGN_OFFSET));
-
-        // lining up to with reef to score trough
-        Q1PointToTag //q1
-            .onTrue(new PointToTagCommand(drivetrainSubsystem, controller, 1));
-        
-        Q2PointToTag //q2
-            .onTrue(new PointToTagCommand(drivetrainSubsystem, controller, 2));
-
-        Q3PointToTag //q3
-            .onTrue(new PointToTagCommand(drivetrainSubsystem, controller, 3));
-
-        Q4PointToTag //q4
-            .onTrue(new PointToTagCommand(drivetrainSubsystem, controller, 4));
-
-        Q5PointToTag //q5
-            .onTrue(new PointToTagCommand(drivetrainSubsystem, controller, 5));
-
-        Q6PointToTag //q6
-            .onTrue(new PointToTagCommand(drivetrainSubsystem, controller, 6));
-
-        // vomit
-        vomit
+        // vomit (y)
+        new Trigger(codriver::getYButtonPressed)
             .onTrue(VomitAndIntake(m_coralShooterSub)); 
 
-        // stop
-        mechStop
+        // stop (x)
+        new Trigger(codriver::getXButtonPressed)
             .onTrue(MechStop());
 
-        // score trough
-        scoreTrough
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune()));
-
-        // score L4
-        scoreL4
+        // score L4 (a)
+        new Trigger(codriver::getAButtonPressed)
             .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_VOLTAGE + m_coralShooterSub.getVoltageTune()));
 
-        // intake (added move up)
-        intake
+        // intake (added move up) (b)
+        new Trigger(codriver::getBButtonPressed)
            .onTrue(MoveUpAndIntake(m_coralShooterSub)); //Constants.CORAL_INTAKING_SPEED));       
         
         boolean isCompetition = true;
