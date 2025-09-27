@@ -89,8 +89,8 @@ public class RobotContainer {
         System.out.println("RobotContainer initializing");
 
         // Zero gyroscope button binding
-        new Trigger(controller::getBackButtonPressed)
-                .onTrue(new InstantCommand(drivetrainSubsystem::zeroGyroscope));
+        // new Trigger(controller::getBackButtonPressed)
+        //         .onTrue(new InstantCommand(drivetrainSubsystem::zeroGyroscope));
 
         new Trigger(controller::getRightBumperPressed)
                 .onTrue(new InstantCommand(drivetrainSubsystem::setSlowDrive));
@@ -101,11 +101,13 @@ public class RobotContainer {
         new Trigger(controller::getLeftBumperButtonPressed)
             .onTrue(new InstantCommand(drivetrainSubsystem::toggleRobotRelativeDrive));
 
-        new Trigger(controller::getXButtonPressed)
-            .onTrue(new InstantCommand(this::decrementVisionAlign)/*new InstantCommand(m_coralShooterSub::decreaseVoltageTune)*/);
-
         new Trigger(controller::getBButtonPressed)
-            .onTrue(new InstantCommand(this::incrementVisionAlign)/*new InstantCommand(m_coralShooterSub::increaseVoltageTune)*/);
+            .onTrue(new InstantCommand(drivetrainSubsystem::zeroGyroscope));
+        // new Trigger(controller::getXButtonPressed)
+        //     .onTrue(new InstantCommand(this::decrementVisionAlign)/*new InstantCommand(m_coralShooterSub::decreaseVoltageTune)*/);
+
+        // new Trigger(controller::getBButtonPressed)
+        //     .onTrue(new InstantCommand(this::incrementVisionAlign)/*new InstantCommand(m_coralShooterSub::increaseVoltageTune)*/);
 
  /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
             Q1LeftLineup
