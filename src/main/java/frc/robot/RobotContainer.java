@@ -208,18 +208,18 @@ public class RobotContainer {
             drivetrainSubsystem.setDefaultCommand(
                 new TeleopDriveCommand(
                     drivetrainSubsystem,
-                    () -> modifyAxis(0.9*controller.getRightY()),    // Changed to raw values
-                    () -> modifyAxis(0.9*controller.getRightX()),     // Changed to raw values
-                    () -> -modifyAxis(0.8*controller.getLeftX())    // Changed to raw values
+                    () -> modifyAxis(0.9*controller.getLeftY()),    // Changed to raw values
+                    () -> modifyAxis(0.9*controller.getLeftX()),     // Changed to raw values
+                    () -> -modifyAxis(0.8*controller.getRightX())    // Changed to raw values
                 )
             );
         }else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue){
             drivetrainSubsystem.setDefaultCommand(
                 new TeleopDriveCommand(
                     drivetrainSubsystem,
-                    () -> -modifyAxis(0.9*controller.getRightY()),    // Changed to raw values
-                    () -> -modifyAxis(0.9*controller.getRightX()),     // Changed to raw values
-                    () -> -modifyAxis(0.8*controller.getLeftX())    // Changed to raw values
+                    () -> -modifyAxis(0.9*controller.getLeftY()),    // Changed to raw values
+                    () -> -modifyAxis(0.9*controller.getLeftX()),     // Changed to raw values
+                    () -> -modifyAxis(0.8*controller.getRightX())    // Changed to raw values
                 )
             );
         }
